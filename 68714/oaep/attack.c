@@ -167,13 +167,13 @@ void attack() {
         sendString = "0";
         sendString = malloc(strlen(str)+1+1);
         strcat(sendString, str);
-        printf("odd %s\n", sendString);
+        printf("odd %s\n%s\n", sendString, str);
     }
     else{
         sendString[0] = '\0';
         sendString = malloc(strlen(str)+1);
         strcpy(sendString, str);
-        printf("even %s\n", sendString);
+        printf("even %s\n%s\n", sendString, str);
     }
     interact(&r, lString,sendString);
     gmp_printf("Loop 1 Result Code: %d %Zd\n", r, f1);
