@@ -48,10 +48,10 @@ void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
       mpz_sub_ui(y2, y2, 1); //y2 --
       mpz_div_ui(y2, y2, 2); //y2 = y2/2
     }
-    printf("test %Zd exp\n", r);
+    gmp_printf("test %Zd exp\n", r);
   }
   mpz_mul(r, r, n);
-  printf("test end %Zd exp\n", r);
+  gmp_printf("test end %Zd exp\n", r);
 
   mpz_clear(n);
   mpz_clear(modTmp);
