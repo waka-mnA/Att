@@ -155,10 +155,14 @@ void attack() {
     //send f1^e || c mod N
 
     //mpz_powm(send, f1, e, N);
-    exp_mpz(send, f1, e);
-      printf("1.1 exp\n");
-    mpz_mul(send, send, c);
+    //exp_mpz(send, f1, e);
+    mpz_powm(send, f1 ,e, N);
+    mpz_mod(tmp, c, N);
+    mpz_mul(send, send, tmp);
     mpz_mod(send, send, N);
+    //printf("1.1 exp\n");
+    //mpz_mul(send, send, c);
+    //mpz_mod(send, send, N);
     sendString = NULL;
       printf("1.1 get str bfr\n");
     sendString = mpz_get_str(sendString, 16, send);
@@ -182,9 +186,13 @@ void attack() {
   //Loop2
     //send f2^e || c mod N
     //mpz_powm(send, f2, e, N);
-    exp_mpz(send, f2, e);
-    mpz_mul(send, send, c);
+    //exp_mpz(send, f2, e);
+    mpz_powm(send, f2 ,e, N);
+    mpz_mod(tmp, c, N);
+    mpz_mul(send, send, tmp);
     mpz_mod(send, send, N);
+    //mpz_mul(send, send, c);
+    //mpz_mod(send, send, N);
     sendString = NULL;
     sendString = mpz_get_str(sendString, 16, send);
     interact(&r, lString,sendString);
@@ -216,8 +224,12 @@ while(mpz_cmp(mmin, mmax)!= 0){
   mpz_cdiv_q(f3, in, mmin);
   //send f3^e c mod N
   //mpz_powm(send, f3, e, N);
-  exp_mpz(send, f3, e);
-  mpz_mul(send, send, c);
+//  exp_mpz(send, f3, e);
+//  mpz_mul(send, send, c);
+//  mpz_mod(send, send, N);
+  mpz_powm(send, f3 ,e, N);
+  mpz_mod(tmp, c, N);
+  mpz_mul(send, send, tmp);
   mpz_mod(send, send, N);
   sendString = NULL;
   sendString = mpz_get_str(sendString, 16, send);
