@@ -163,6 +163,7 @@ void attack() {
 
     str = NULL;
     str = mpz_get_str(str, 16, send);
+
     if ((mpz_sizeinbase(send, 16) % 2) != 0) {
         sendString = "0";
         sendString = malloc(strlen(str)+1+1);
@@ -200,8 +201,19 @@ void attack() {
     mpz_mod(send, send, N);
     //mpz_mul(send, send, c);
     //mpz_mod(send, send, N);
-    sendString = NULL;
-    sendString = mpz_get_str(sendString, 16, send);
+    str = NULL;
+    str = mpz_get_str(str, 16, send);
+
+    if ((mpz_sizeinbase(send, 16) % 2) != 0) {
+        sendString = "0";
+        sendString = malloc(strlen(str)+1+1);
+        strcat(sendString, str);
+    }
+    else{
+        sendString=NULL;
+        sendString = malloc(strlen(str)+1);
+        strcpy(sendString, str);
+    }
     interact(&r, lString,sendString);
     gmp_printf("Loop 2 Result Code: %d\n", r);
     //if error == 1 let f2 = f2 + f1/2
@@ -238,8 +250,19 @@ while(mpz_cmp(mmin, mmax)!= 0){
   mpz_mod(tmp, c, N);
   mpz_mul(send, send, tmp);
   mpz_mod(send, send, N);
-  sendString = NULL;
-  sendString = mpz_get_str(sendString, 16, send);
+  str = NULL;
+  str = mpz_get_str(str, 16, send);
+
+  if ((mpz_sizeinbase(send, 16) % 2) != 0) {
+      sendString = "0";
+      sendString = malloc(strlen(str)+1+1);
+      strcat(sendString, str);
+  }
+  else{
+      sendString=NULL;
+      sendString = malloc(strlen(str)+1);
+      strcpy(sendString, str);
+  }
   interact(&r, lString,sendString);
   gmp_printf("Loop 3 Result Code: %d\n", r);
   //if error == 1 then set mmin = ceil((in+B)/f3)
