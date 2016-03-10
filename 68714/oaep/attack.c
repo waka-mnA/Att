@@ -169,7 +169,7 @@ void attack() {
         printf("odd %s\n", sendString);
     }
     else{
-        sendString = NULL;
+        sendString[0] = '\0';
         strcat(sendString, str);
         printf("even %s\n", sendString);
     }
