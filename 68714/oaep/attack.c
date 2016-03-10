@@ -35,9 +35,7 @@ void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
     mpz_set_ui(r, 1);
     return;
   }
-  printf("test 1 exp\n");
   while(mpz_cmp_ui(y2, 1)>0){
-  printf("test loop exp\n");
     mpz_mod_ui(modTmp, y2, 2);
     if (mpz_cmp_ui(modTmp, 0)==0){//y = even
       mpz_mul(r, r, r); //r = r*r
@@ -48,7 +46,7 @@ void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
       mpz_sub_ui(y2, y2, 1); //y2 --
       mpz_div_ui(y2, y2, 2); //y2 = y2/2
     }
-    gmp_printf("test %Zd exp\n", r);
+    gmp_printf("test %Zd exp\n", y2);
   }
   mpz_mul(r, r, n);
   gmp_printf("test end %Zd exp\n", r);
