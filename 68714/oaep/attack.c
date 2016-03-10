@@ -154,9 +154,13 @@ void attack() {
     //mpz_powm(send, f1, e, N);
     //exp_mpz(send, f1, e);
     mpz_powm(send, f1 ,e, N);
+    gmp_printf("%Zd\n", send);
     mpz_mod(tmp, c, N);
+    gmp_printf("%Zd\n", tmp);
     mpz_mul(send, send, tmp);
+    gmp_printf("%Zd\n", send);
     mpz_mod(send, send, N);
+    gmp_printf("%Zd\n", send);
     //printf("1.1 exp\n");
     //mpz_mul(send, send, c);
     //mpz_mod(send, send, N);
@@ -181,6 +185,9 @@ void attack() {
     //if error == 1 then break
     if (r != 1) mpz_mul_ui(f1, f1, 2);
     free(sendString);
+
+
+    break;
   }
 
   //let f2 = floor((n+B)/B) * f1/2
