@@ -164,7 +164,8 @@ void attack() {
     str = NULL;
     str = mpz_get_str(str, 16, send);
     printf("before %s\n", str);
-    if (mpz_sizeinbase(send, 16)%2 != 0) {
+    int test = mpz_sizeinbase(send, 16);
+    if (test != 0) {
         sendString = "0";
         printf("test1 %s\n", str);
         sendString = malloc(strlen(str)+1+1);
