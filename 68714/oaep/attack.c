@@ -146,13 +146,16 @@ void attack() {
   printf("1.1 Loop\n");
   while(r != 1){
   //Loop 1
+    printf("1.1 Loop IN\n");
     //send f1^e || c mod N
 
     //mpz_powm(send, f1, e, N);
     exp_mpz(send, f1, e);
+      printf("1.1 exp\n");
     mpz_mul(send, send, c);
     mpz_mod(send, send, N);
     sendString = NULL;
+      printf("1.1 get str bfr\n");
     sendString = mpz_get_str(sendString, 16, send);
 
     printf("1.1 interact\n");
