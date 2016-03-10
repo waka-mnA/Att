@@ -156,7 +156,7 @@ void attack() {
     mpz_powm(send, f1 ,e, N);
     gmp_printf("%Zd\n", send);
     mpz_mod(tmp, c, N);
-    gmp_printf("%Zd\n", tmp);
+    gmp_printf("%Zd %Zd\n", tmp, c);
     mpz_mul(send, send, tmp);
     gmp_printf("%Zd\n", send);
     mpz_mod(send, send, N);
