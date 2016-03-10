@@ -1,0 +1,13 @@
+Q.1 The vendor of the attack target is concerned that news of this attack
+    could scare off potential customers; they will make any alteration
+    necessary (in software or hardware) to prevent the attack.  Explain the
+    options they have, and which one you would recommend.
+Q.2 Let n denote the number of simulated clock cycles required to execute a
+    Montgomery multiplication on the attack target.  Estimate the value of
+    n (as accurately as you can) and explain how you did so.
+Q.4 Given that you selected one particular statistical test within your
+    implementation of this attack, explain what other options you had.
+    What advantages and disadvantages does the option selected have?
+Q.6 You were provided with a replica of the attack target.  If you used it,
+    explain how; if not, explain why, and how you could do so given more
+    time.
