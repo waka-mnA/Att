@@ -165,12 +165,14 @@ void attack() {
     str = mpz_get_str(str, 16, send);
     if (mpz_sizeinbase(send, 16)%2 != 0) {
         sendString = "0";
+        sendString = malloc(strlen(str)+1+1);
         strcat(sendString, str);
         printf("odd %s\n", sendString);
     }
     else{
         sendString[0] = '\0';
-        strcat(sendString, str);
+        sendString = malloc(strlen(str)+1);
+        strcpy(sendString, str);
         printf("even %s\n", sendString);
     }
     interact(&r, lString,sendString);
@@ -178,6 +180,7 @@ void attack() {
     //if error != 1 then let f1 = 2*f1
     //if error == 1 then break
     if (r != 1) mpz_mul_ui(f1, f1, 2);
+    free(sendString);
   }
 
   //let f2 = floor((n+B)/B) * f1/2
