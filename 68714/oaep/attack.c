@@ -163,34 +163,23 @@ void attack() {
 
     str = NULL;
     str = mpz_get_str(str, 16, send);
-    int size = mpz_sizeinbase(send, 16) % 2;
-        printf("mod %d\n", size);
-    if (size != 0) {
-        printf("mod worked\n");
+    if ((mpz_sizeinbase(send, 16) % 2) != 0) {
         sendString = "0";
-        printf("test1 %d %s\n", size, str);
         sendString = malloc(strlen(str)+1+1);
-        printf("test2 %s\n", str);
         strcat(sendString, str);
-        printf("ODD %s\nODD %s\n", sendString, str);
     }
     else{
         sendString=NULL;
-        printf("e test1 %s\n", str);
         sendString = malloc(strlen(str)+1);
-        printf("e test2 %s\n", str);
         strcpy(sendString, str);
-        printf("even %s\n%s\n", sendString, str);
     }
     interact(&r, lString,sendString);
-    gmp_printf("Loop 1 Result Code: %d %Zd\n", r, f1);
+    gmp_printf("Loop 1 Result Code: %d f1: %Zd\n", r, f1);
     //if error != 1 then let f1 = 2*f1
     //if error == 1 then break
     if (r != 1) mpz_mul_ui(f1, f1, 2);
     free(sendString);
 
-
-    break;
   }
 
   //let f2 = floor((n+B)/B) * f1/2
