@@ -136,7 +136,7 @@ void attack() {
       */
   fclose(data_in);
   //Convert string to mpz_t
-
+  mpz_set_str(c, cString, 16);
   //let B = 2^(8(k-1))
   int k = mpz_sizeinbase(N, 2);
   k = k/8;
