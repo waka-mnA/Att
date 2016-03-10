@@ -120,6 +120,7 @@ void attack() {
       abort();
   }
 
+    printf("test2 interact\n");
       /*
 
         if (gmp_fscanf(data_in, "%ZX", l) == 0) {
