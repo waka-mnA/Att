@@ -22,6 +22,7 @@ char e2[256];
 char lString[256];
 char cString[256];
 char* sendString;
+char* str;
 
 void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
   mpz_t n; mpz_init(n);
@@ -159,8 +160,19 @@ void attack() {
     //printf("1.1 exp\n");
     //mpz_mul(send, send, c);
     //mpz_mod(send, send, N);
-    sendString = NULL;
-    sendString = mpz_get_str(sendString, 16, send);
+
+    str = NULL;
+    str = mpz_get_str(str, 16, send);
+    if (mpz_sizeinbase(send, 16)%2 != 0) {
+        sendString = "0";
+        strcat(sendString, str);
+        printf("odd %s\n", sendString);
+    }
+    else{
+        sendString = NULL;
+        strcpy(sendString, str);
+        printf("even %s\n", sendString);
+    }
     interact(&r, lString,sendString);
     gmp_printf("Loop 1 Result Code: %d %Zd\n", r, f1);
     //if error != 1 then let f1 = 2*f1
