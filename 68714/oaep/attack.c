@@ -120,7 +120,6 @@ void attack() {
       abort();
   }
 
-    printf("test2 interact\n");
       /*
 
         if (gmp_fscanf(data_in, "%ZX", l) == 0) {
@@ -137,11 +136,14 @@ void attack() {
   int k = mpz_sizeinbase(N, 2);
   k = k/8;
 
+  printf("1.1\n");
   mpz_set_ui(B, 2);
   mpz_pow_ui(B, B, 8*(k-1));
   //let f1 = 2
 
   mpz_set_ui(f1, 2);
+
+  printf("1.1 Loop\n");
   while(r != 1){
   //Loop 1
     //send f1^e || c mod N
@@ -152,6 +154,8 @@ void attack() {
     mpz_mod(send, send, N);
     sendString = NULL;
     sendString = mpz_get_str(sendString, 16, send);
+
+    printf("1.1 interact\n");
     interact(&r, lString,sendString);
     gmp_printf("Result Code: %d\n", r);
     //if error != 1 then let f1 = 2*f1
