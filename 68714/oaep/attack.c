@@ -46,10 +46,8 @@ void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
       mpz_sub_ui(y2, y2, 1); //y2 --
       mpz_div_ui(y2, y2, 2); //y2 = y2/2
     }
-    gmp_printf("test %Zd exp\n", y2);
   }
   mpz_mul(r, r, n);
-  gmp_printf("test end %Zd exp\n", r);
 
   mpz_clear(n);
   mpz_clear(modTmp);
@@ -105,7 +103,6 @@ void attack() {
 
   int r = 0;
 
-  printf("test1 interact\n");
 
   /*if( 1 != fscanf( data_in, "%s", N2 ) ) {
       abort();
@@ -143,7 +140,6 @@ void attack() {
   int k = mpz_sizeinbase(N, 2);
   k = k/8;
 
-  printf("1.1\n");
   mpz_set_ui(B, 2);
   mpz_pow_ui(B, B, 8*(k-1));
   //let f1 = 2
@@ -164,12 +160,9 @@ void attack() {
     //mpz_mul(send, send, c);
     //mpz_mod(send, send, N);
     sendString = NULL;
-      printf("1.1 get str bfr\n");
     sendString = mpz_get_str(sendString, 16, send);
-
-    printf("1.1 interact\n");
     interact(&r, lString,sendString);
-    gmp_printf("Result Code: %d\n", r);
+    gmp_printf("Loop 1 Result Code: %d %Zd\n", r, f1);
     //if error != 1 then let f1 = 2*f1
     //if error == 1 then break
     if (r != 1) mpz_mul_ui(f1, f1, 2);
@@ -196,7 +189,7 @@ void attack() {
     sendString = NULL;
     sendString = mpz_get_str(sendString, 16, send);
     interact(&r, lString,sendString);
-    gmp_printf("Result Code: %d\n", r);
+    gmp_printf("Loop 2 Result Code: %d\n", r);
     //if error == 1 let f2 = f2 + f1/2
     //if error != 0 break
     if (r == 1) mpz_add(f2, f2, tmp2);
@@ -234,8 +227,8 @@ while(mpz_cmp(mmin, mmax)!= 0){
   sendString = NULL;
   sendString = mpz_get_str(sendString, 16, send);
   interact(&r, lString,sendString);
-  gmp_printf("Result Code: %d\n", r);
-  //if error == 1 then set mmin = ceil((in + B)/f3)
+  gmp_printf("Loop 3 Result Code: %d\n", r);
+  //if error == 1 then set mmin = ceil((in+B)/f3)
   //if error != 1 then set mmax = floor((in+B)/f3)
     mpz_add(tmp, in, B);
   if (r == 1) {
@@ -248,14 +241,24 @@ while(mpz_cmp(mmin, mmax)!= 0){
   gmp_printf("%ZX\n", mmax);
 }
 printf("Loop End\n");
-/*
-  interact( &r, l2, c2 );
-  interaction++;
-  printf("interact end\n");
 
-  printf("%d\n", r);
-  printf("%d\n", interaction);
-*/
+
+mpz_clear(N);
+mpz_clear(e);
+mpz_clear(l);
+mpz_clear(c);
+mpz_clear(B);
+mpz_clear(f1);
+mpz_clear(f2);
+mpz_clear(in);
+mpz_clear(f3);
+mpz_clear(mmin);
+mpz_clear(mmax);
+mpz_clear(ftmp);
+
+mpz_clear(send);
+mpz_clear(tmp);
+mpz_clear(tmp2);
 }
 void cleanup( int s ){
   // Close the   buffered communication handles.
