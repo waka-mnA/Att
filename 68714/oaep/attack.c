@@ -154,19 +154,16 @@ void attack() {
     //mpz_powm(send, f1, e, N);
     //exp_mpz(send, f1, e);
     mpz_powm(send, f1 ,e, N);
-    gmp_printf("%Zd\n", send);
     mpz_mod(tmp, c, N);
-    gmp_printf("%Zd %Zd\n", tmp, c);
     mpz_mul(send, send, tmp);
-    gmp_printf("%Zd\n", send);
     mpz_mod(send, send, N);
-    gmp_printf("%Zd\n", send);
     //printf("1.1 exp\n");
     //mpz_mul(send, send, c);
     //mpz_mod(send, send, N);
 
     str = NULL;
     str = mpz_get_str(str, 16, send);
+    printf("before %s\n", str);
     if (mpz_sizeinbase(send, 16)%2 != 0) {
         sendString = "0";
         sendString = malloc(strlen(str)+1+1);
