@@ -170,7 +170,7 @@ void attack() {
     }
     else{
         sendString = NULL;
-        strcpy(sendString, str);
+        strcat(sendString, str);
         printf("even %s\n", sendString);
     }
     interact(&r, lString,sendString);
