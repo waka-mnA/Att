@@ -143,7 +143,7 @@ void attack() {
 
   mpz_set_ui(f1, 2);
 
-  printf("1.1 Loop\n");
+  printf("1.1 Loop %d\n", r);
   while(r != 1){
   //Loop 1
     printf("1.1 Loop IN\n");
