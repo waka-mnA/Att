@@ -164,6 +164,7 @@ void attack() {
     str = NULL;
     str = mpz_get_str(str, 16, send);
     int size = mpz_sizeinbase(send, 16) % 2;
+        printf("mod %d\n", size);
     if (size!= 0) {
         printf("mod worked\n");
         sendString = "0";
