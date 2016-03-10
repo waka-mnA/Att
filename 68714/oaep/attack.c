@@ -166,13 +166,17 @@ void attack() {
     printf("before %s\n", str);
     if (mpz_sizeinbase(send, 16)%2 != 0) {
         sendString = "0";
+        printf("test1 %s\n", str);
         sendString = malloc(strlen(str)+1+1);
+        printf("test2 %s\n", str);
         strcat(sendString, str);
         printf("odd %s\n%s\n", sendString, str);
     }
     else{
         sendString[0] = '\0';
+        printf("e test1 %s\n", str);
         sendString = malloc(strlen(str)+1);
+        printf("e test2 %s\n", str);
         strcpy(sendString, str);
         printf("even %s\n%s\n", sendString, str);
     }
