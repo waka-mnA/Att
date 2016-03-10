@@ -29,21 +29,27 @@ void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
   mpz_t y2; mpz_init(y2);
 
   mpz_set(y2, y);
+  mpz_set_ui(n, 1);
   mpz_set(r, x);
+  if (mpz_cmp_ui(y, 0) == 0) {
+    mpz_set_ui(r, 1);
+    return;
+  }
 
   while(mpz_cmp_ui(y2, 1)>0){
     mpz_mod_ui(modTmp, y2, 2);
-    if (mpz_cmp_ui(modTmp, 0)==0){
-      mpz_mul(r, r, r);
-      mpz_div_ui(y2, y2, 2);
+    if (mpz_cmp_ui(modTmp, 0)==0){//y = even
+      mpz_mul(r, r, r); //r = r*r
+      mpz_div_ui(y2, y2, 2); //y2 = y2/2
     }else{
-      mpz_mul(n, n, r);
-      mpz_mul(r, r, r);
-      mpz_sub_ui(y2, y2, 1);
-      mpz_div_ui(y2, y2, 2);
+      mpz_mul(n, n, r); //n = n*r
+      mpz_mul(r, r, r); //r = r*r
+      mpz_sub_ui(y2, y2, 1); //y2 --
+      mpz_div_ui(y2, y2, 2); //y2 = y2/2
     }
   }
   mpz_mul(r, r, n);
+
   mpz_clear(n);
   mpz_clear(modTmp);
   mpz_clear(y2);
@@ -143,10 +149,8 @@ void attack() {
 
   mpz_set_ui(f1, 2);
 
-  printf("1.1 Loop %d\n", r);
   while(r != 1){
   //Loop 1
-    printf("1.1 Loop IN\n");
     //send f1^e || c mod N
 
     //mpz_powm(send, f1, e, N);
