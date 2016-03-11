@@ -64,16 +64,18 @@ void int2oct(char* string, const mpz_t i){
   mpz_t tmp;mpz_init(tmp);
   char* tmpStr = NULL;
   tmpStr = mpz_get_str(tmpStr, 16, i);
+  
+  string[0] =tmpStr[size-2];
+  string[1] =tmpStr[size-1];
 
-  printf("tmpStr %s\n", tmpStr);
-  for (int k = 0;k<size;k = k+2){
+  printf("tmpStr %S\n", tmpStr);
+  for (int k = 2;k<size;k = k+2){
 
     octet[0] = tmpStr[size-k-2];
     octet[1] = tmpStr[size-k-1];
-    printf("octet %s\n", octet);
-    if (k < 2) strcpy(string, octet);
-    else strcat(string, octet);
-    printf("string %s\n", string);
+    printf("octet %S\n", octet);
+    strcat(string, octet);
+    printf("string %S\n", string);
   }
 }
 //Convert octet string to integer
