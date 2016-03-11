@@ -66,8 +66,8 @@ void int2oct(char* string, const mpz_t i){
 
   printf("tmpStr %s\n", tmpStr);
   for (int k = 0;k<size;k = k+2){
-    octet[0] = tmpStr[size-k];
-    octet[1] = tmpStr[size-k+1];
+    octet[0] = tmpStr[size-k-1];
+    octet[1] = tmpStr[size-k];
     printf("octet %s\n", octet);
     strcat(string, octet);
     printf("string %s\n", string);
