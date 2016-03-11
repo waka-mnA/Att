@@ -75,6 +75,7 @@ void oct2int(mpz_t i, const char* string){
   mpz_t tmp2;mpz_init(tmp2);
   mpz_t two;mpz_init(two);mpz_set_ui(two, 2);
   char octet[2];
+  octet = NULL;
   for (int k = 0;k<size;k = k+2){
     octet[0] = string[k];
     octet[1] = string[k+1];
