@@ -64,13 +64,12 @@ void int2oct(char* string, const mpz_t i){
   mpz_t tmp;mpz_init(tmp);
   char* tmpStr = NULL;
   tmpStr = mpz_get_str(tmpStr, 16, i);
-
+  size = strlen(tmpStr);
   string[0] =tmpStr[size-2];
   string[1] =tmpStr[size-1];
 
   printf("tmpStr %s\n", tmpStr);
   for (int k = 2;k<size;k = k+2){
-
     octet[0] = tmpStr[size-k-2];
     octet[1] = tmpStr[size-k-1];
     printf("octet %s\n", octet);
