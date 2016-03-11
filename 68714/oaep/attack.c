@@ -21,8 +21,7 @@ char N2[256];
 char e2[256];
 char lString[256];
 char cString[256];
-char* sendString;
-char* str;
+
 
 void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
   mpz_t n; mpz_init(n);
@@ -56,6 +55,39 @@ void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
 
 }
 
+//Convert integer to octet string
+void int2oct(char* string, const mpz_t i){
+  int size = mpz_sizeinbase(i, 16);
+  string = malloc(size+1);
+  char octet[2] = NULL;
+  mpz_t tmp;mpz_init(tmp);
+
+  for (int k = 0;k<size;k = k+2){
+
+    octet = mpz_get_str(octet, 16, tmp);
+  }
+}
+//Convert octet string to integer
+void oct2int(mpz_t i, const char* string){
+  int size = strlen(string);
+  mpz_set_ui(i, 0);
+  mpz_t tmp;mpz_init(tmp);
+  mpz_t tmp2;mpz_init(tmp2);
+  mpz_t two;mpz_init(two);mpz_set_ui(two, 2);
+  char octet[2];
+  d = sum( [ b[ i ] * 2 ** ( 8 * i ) for i in range( len( b ) ) ] )
+  for (int k = 0;k<size;k = k+2){
+    octet[0] = string[k];
+    octet[1] = string[k+1];
+    mpz_set_str(tmp, octet, 16);
+    mpz_exp_ui(tmp2, two, 8*k);
+    mpz_mul(tmp, tmp, tmp2);
+    mpz_add(i, i, tmp);
+  }
+  mpz_clear(tmp);
+  mpz_clear(tmp2);
+  mpz_clear(two);
+}
 void interact( int* r, const char* l, const char* c){//const mpz_t l, const mpz_t c ) {
     // Send      G      to   attack target.
     //fprintf( target_in, "%s\n", G );  fflush( target_in );
@@ -100,8 +132,8 @@ void attack() {
   mpz_t tmp;mpz_init(tmp);
   mpz_t tmp2;mpz_init(tmp2);
 
-
-
+  char* sendString;
+  char* str;
   int r = 0;
 
 
@@ -136,7 +168,10 @@ void attack() {
       */
   fclose(data_in);
   //Convert string to mpz_t
-  mpz_set_str(c, cString, 16);
+  //mpz_set_str(c, cString, 16);
+  oct2int(c, cString);
+  printf("%s\n", cString);
+  gmp_printf("%ZX\n", c);
   //let B = 2^(8(k-1))
   int k = mpz_sizeinbase(N, 2);
   k = k/8;
