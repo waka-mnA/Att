@@ -61,7 +61,8 @@ void int2oct(char* string, const mpz_t i){
   string = malloc(size+1);
   char octet[3] = {'\0'};
   mpz_t tmp;mpz_init(tmp);
-  char* tmpStr = mpz_get_str(tmpStr, 16, i);
+  char* tmpStr = NULL;
+  tmpStr = mpz_get_str(tmpStr, 16, i);
 
   printf("%s\n", tmpStr);
   for (int k = 0;k<size;k = k+2){
@@ -168,7 +169,7 @@ void attack() {
   mpz_t test;mpz_init(test);mpz_set(test, c);
   char* testStr = NULL;
   int2oct(testStr, test);
-  printf("testStr %s\n", testStr)
+  printf("testStr %s\n", testStr);
 
 
   //let B = 2^(8(k-1))
