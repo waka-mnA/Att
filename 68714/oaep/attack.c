@@ -59,12 +59,12 @@ void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
 void int2oct(char* string, const mpz_t i){
   int size = mpz_sizeinbase(i, 16);
   string = malloc(size+1);
-  char octet[2] = NULL;
+  char octet[2];
   mpz_t tmp;mpz_init(tmp);
 
   for (int k = 0;k<size;k = k+2){
-
-    octet = mpz_get_str(octet, 16, tmp);
+    //octet = NULL;
+    //octet = mpz_get_str(octet, 16, tmp);
   }
 }
 //Convert octet string to integer
@@ -75,7 +75,6 @@ void oct2int(mpz_t i, const char* string){
   mpz_t tmp2;mpz_init(tmp2);
   mpz_t two;mpz_init(two);mpz_set_ui(two, 2);
   char octet[2];
-  d = sum( [ b[ i ] * 2 ** ( 8 * i ) for i in range( len( b ) ) ] )
   for (int k = 0;k<size;k = k+2){
     octet[0] = string[k];
     octet[1] = string[k+1];
