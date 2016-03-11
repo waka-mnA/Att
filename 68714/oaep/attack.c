@@ -59,6 +59,7 @@ void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
 void int2oct(char* string, const mpz_t i){
   int size = mpz_sizeinbase(i, 16);
   string = malloc(size+1);
+  string = "";
   char octet[3] = {'\0'};
   mpz_t tmp;mpz_init(tmp);
   char* tmpStr = NULL;
