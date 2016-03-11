@@ -58,25 +58,23 @@ void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
 //Convert integer to octet string
 void int2oct(char* string, const mpz_t i){
   int size = mpz_sizeinbase(i, 16);
-  char* str = NULL;
-  str = malloc(size+1);
+  string= NULL;
+  string = malloc(size+1);
   char octet[3] = {'\0'};
   mpz_t tmp;mpz_init(tmp);
   char* tmpStr = NULL;
   tmpStr = mpz_get_str(tmpStr, 16, i);
 
-  str[0] =tmpStr[size-2];
-  str[1] =tmpStr[size-1];
-  str[2] = '\0';
+  string[0] =tmpStr[size-2];
+  string[1] =tmpStr[size-1];
+  string[2] = '\0';
 
   for (int k = 2;k<size;k = k+2){
     octet[0] = tmpStr[size-k-2];
     octet[1] = tmpStr[size-k-1];
-    strcat(str, octet);
-    printf("string %s\n", str);
+    strcat(string, octet);
+    printf("string %s\n", string);
   }
-  strcpy(string, str);
-  free(str);
 }
 //Convert octet string to integer
 void oct2int(mpz_t i, const char* string){
