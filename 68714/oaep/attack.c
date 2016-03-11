@@ -56,7 +56,7 @@ void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
 }
 
 //Convert integer to octet string
-void int2oct(char* string, const mpz_t i){
+void int2oct(char* string[], const mpz_t i){
   int l = mpz_sizeinbase(i, 16);
   int size;
   if (l % 2 != 0) size = l+1;
