@@ -80,10 +80,10 @@ void oct2int(mpz_t i, const char* string){
     octet[1] = string[k+1];
     printf("%s\n", octet);
     mpz_set_str(tmp, octet, 16);
-    gmp_printf("%ZX\n", tmp);
     mpz_pow_ui(tmp2, two, 8*k);
     mpz_mul(tmp, tmp, tmp2);
     mpz_add(i, i, tmp);
+    gmp_printf("%ZX\n", i);
   }
   mpz_clear(tmp);
   mpz_clear(tmp2);
