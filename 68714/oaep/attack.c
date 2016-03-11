@@ -69,7 +69,7 @@ void int2oct(char* string, const mpz_t i){
   size = strlen(tmpStr);
   string[0] =tmpStr[size-2];
   string[1] =tmpStr[size-1];
-
+  string[2] = '\0';
   printf("tmpStr %d %s\n", size , tmpStr);
   for (int k = 2;k<size;k = k+2){
     octet[0] = tmpStr[size-k-2];
