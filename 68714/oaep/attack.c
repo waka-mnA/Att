@@ -77,9 +77,12 @@ void oct2int(mpz_t i, const char* string){
   char octet[2];
   for (int k = 0;k<size;k = k+2){
     octet[0] = string[k];
+    printf("%s\n", octet[0]);
     octet[1] = string[k+1];
+    printf("%s\n", octet[1]);
     mpz_set_str(tmp, octet, 16);
-    mpz_exp_ui(tmp2, two, 8*k);
+    gmp_printf("%ZX\n", tmp);
+    mpz_pow_ui(tmp2, two, 8*k);
     mpz_mul(tmp, tmp, tmp2);
     mpz_add(i, i, tmp);
   }
