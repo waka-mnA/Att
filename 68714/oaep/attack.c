@@ -171,7 +171,7 @@ void attack() {
 
   mpz_t test;mpz_init(test);mpz_set(test, c);
   char* testStr = NULL;
-  int2oct(testStr, test);
+  int2oct(&testStr, test);
   printf("testStr %s\n", testStr);
 
 
