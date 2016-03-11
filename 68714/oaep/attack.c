@@ -59,12 +59,17 @@ void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
 void int2oct(char* string, const mpz_t i){
   int size = mpz_sizeinbase(i, 16);
   string = malloc(size+1);
-  char octet[2];
+  char octet[3] = {'\0'};
   mpz_t tmp;mpz_init(tmp);
+  char* tmpStr = mpz_get_str(tmpStr, 16, i);
 
+  printf("%s\n", tmpStr);
   for (int k = 0;k<size;k = k+2){
-    //octet = NULL;
-    //octet = mpz_get_str(octet, 16, tmp);
+    octet[0] = tmpStr[size-k+1];
+    octet[1] = tmpStr[size-k+2];
+    printf("%s\n", octet);
+    strcat(string, octet);
+    printf("%s\n", string);
   }
 }
 //Convert octet string to integer
@@ -78,12 +83,10 @@ void oct2int(mpz_t i, const char* string){
   for (int k = 0;k<size;k = k+2){
     octet[0] = string[k];
     octet[1] = string[k+1];
-    printf("%s\n", octet);
     mpz_set_str(tmp, octet, 16);
     mpz_pow_ui(tmp2, two, 4*k);
     mpz_mul(tmp, tmp, tmp2);
     mpz_add(i, i, tmp);
-    gmp_printf("%ZX\n", i);
   }
   mpz_clear(tmp);
   mpz_clear(tmp2);
@@ -158,21 +161,16 @@ void attack() {
       abort();
   }
 
-      /*
-
-        if (gmp_fscanf(data_in, "%ZX", l) == 0) {
-          abort();
-        }
-        if (gmp_fscanf(data_in, "%ZX", c) == 0) {
-          abort();
-        }
-      */
   fclose(data_in);
   //Convert string to mpz_t
-  //mpz_set_str(c, cString, 16);
   oct2int(c, cString);
-  printf("%s\n", cString);
-  gmp_printf("%ZX\n", c);
+
+  mpz_t test;mpz_init(test);mpz_set(test, c);
+  char* testStr = NULL;
+  int2oct(testStr, test);
+  printf("testStr %s\n", testStr)
+
+
   //let B = 2^(8(k-1))
   int k = mpz_sizeinbase(N, 2);
   k = k/8;
@@ -186,16 +184,10 @@ void attack() {
   while(r != 1){
   //Loop 1
     //send f1^e || c mod N
-
-    //mpz_powm(send, f1, e, N);
-    //exp_mpz(send, f1, e);
     mpz_powm(send, f1 ,e, N);
     mpz_mod(tmp, c, N);
     mpz_mul(send, send, tmp);
     mpz_mod(send, send, N);
-    //printf("1.1 exp\n");
-    //mpz_mul(send, send, c);
-    //mpz_mod(send, send, N);
 
     str = NULL;
     str = mpz_get_str(str, 16, send);
