@@ -65,9 +65,9 @@ void int2oct(char* string, const mpz_t i){
   char* tmpStr = NULL;
   tmpStr = mpz_get_str(tmpStr, 16, i);
 
-  string[0] =tmpStr[size-2];
-  string[1] =tmpStr[size-1];
-  string[2] = '\0';
+  str[0] =tmpStr[size-2];
+  str[1] =tmpStr[size-1];
+  str[2] = '\0';
 
   for (int k = 2;k<size;k = k+2){
     octet[0] = tmpStr[size-k-2];
