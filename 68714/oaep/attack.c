@@ -81,7 +81,7 @@ void int2oct(char* string, const mpz_t i){
     printf("string %c\n", *string);
   }
   string[size] = '\0';
-  printf("string %c\n", *string);
+  printf("string %s\n", string);
 }
 //Convert octet string to integer
 void oct2int(mpz_t i, const char* string){
