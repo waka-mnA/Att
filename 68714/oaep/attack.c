@@ -62,8 +62,8 @@ void int2oct(char* string, const mpz_t i){
   if (l % 2 != 0) size = l+1;
   else size = l;
 
-  string= NULL;
-  string = malloc(size+1);
+//  string= NULL;
+  string = malloc(sizeof(char) *(size+1));
 
   char* tmpStr = NULL;
   tmpStr = mpz_get_str(tmpStr, 16, i);
@@ -177,7 +177,7 @@ void attack() {
   oct2int(c, cString);
 
   mpz_t test;mpz_init(test);mpz_set(test, c);
-  char* testStr = "0123";
+  char[] testStr = "0123";
   int2oct(testStr, test);
   printf("testStr %s\n", testStr);
 
