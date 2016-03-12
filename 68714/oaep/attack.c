@@ -56,7 +56,7 @@ void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
 }
 
 //Convert integer to octet string
-void int2oct(char** string, const mpz_t i){
+void int2oct(char* string, const mpz_t i){
   int l = mpz_sizeinbase(i, 16);
   int size;
   if (l % 2 != 0) size = l+1;
@@ -68,16 +68,19 @@ void int2oct(char** string, const mpz_t i){
   char* tmpStr = NULL;
   tmpStr = mpz_get_str(tmpStr, 16, i);
 
-  *string[0] =tmpStr[size-2];
-  *string[1] =tmpStr[size-1];
-  *string[2] = '\0';
+  string[0] =tmpStr[size-2];
+  string[1] =tmpStr[size-1];
+  string[2] = '\0';
 
+    printf("test1\n");
   for (int k = 2;k<size;k = k+2){
+    printf("test2\n");
     octet[0] = tmpStr[size-k-2];
     if ((size != l)&& (k == (size-2))) octet[1] = '0';
     else octet[1] = tmpStr[size-k-1];
-    strcat(*string, octet);
-    printf("string %s\n", *string);
+      printf("test3\n");
+    strcat(string, octet);
+    printf("string %s\n", string);
   }
   mpz_clear(tmp);
 }
@@ -176,7 +179,7 @@ void attack() {
 
   mpz_t test;mpz_init(test);mpz_set(test, c);
   char* testStr;
-  int2oct(&testStr, test);
+  int2oct(testStr, test);
   printf("testStr %s\n", testStr);
 
 
