@@ -56,14 +56,14 @@ void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
 }
 
 //Convert integer to octet string
-void int2oct(char* string, const mpz_t i){
+void int2oct(char string[], const mpz_t i){
   int l = mpz_sizeinbase(i, 16);
   int size;
   if (l % 2 != 0) size = l+1;
   else size = l;
 
 //  string= NULL;
-  string = malloc(sizeof(char) *(size+1));
+  string = malloc(size+1);
 
   char* tmpStr = NULL;
   tmpStr = mpz_get_str(tmpStr, 16, i);
