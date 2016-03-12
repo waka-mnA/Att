@@ -177,7 +177,7 @@ void attack() {
   oct2int(c, cString);
 
   mpz_t test;mpz_init(test);mpz_set(test, c);
-  char[] testStr = "0123";
+  char testStr[] = "0123";
   int2oct(testStr, test);
   printf("testStr %s\n", testStr);
 
