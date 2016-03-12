@@ -54,34 +54,44 @@ void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
   mpz_clear(y2);
 
 }
+void change_string(char *str)
+{
+  int i;
+
+  /* As an example, make it all upper case. */
+  for(i = 0; str[i]; ++i)
+    str[i] = toupper(str[i]);
+}
 
 //Convert integer to octet string
-void int2oct(char string[], const mpz_t i){
+//void int2oct(char octet[], const mpz_t i){
+char* int2oct(const mpz_t i){
+  char* octet;
+
   int l = mpz_sizeinbase(i, 16);
   int size;
   if (l % 2 != 0) size = l+1;
   else size = l;
 
-//  string= NULL;
-  string = malloc(size+1);
+  octet = malloc(size+1);
 
   char* tmpStr = NULL;
   tmpStr = mpz_get_str(tmpStr, 16, i);
 
-  string[0] =tmpStr[size-2];
-  string[1] =tmpStr[size-1];
-  string[2] = '\0';
+  octet[0] =tmpStr[size-2];
+  octet[1] =tmpStr[size-1];
+  octet[2] = '\0';
 
   //  printf("test1\n");
   for (int k = 2;k<size;k = k+2){
   //  printf("test2\n");
-    string[k] = tmpStr[size-k-2];
-    if ((size != l)&& (k == (size-2))) string[k+1] = '0';
-    else string[k+1] = tmpStr[size-k-1];
-    printf("string %c\n", *string);
+    octet[k] = tmpStr[size-k-2];
+    if ((size != l)&& (k == (size-2))) octet[k+1] = '0';
+    else octet[k+1] = tmpStr[size-k-1];
   }
-  string[size] = '\0';
-  printf("string %s\n", string);
+  octet[size] = '\0';
+  printf("string %s\n", octet);
+  return octet;
 }
 //Convert octet string to integer
 void oct2int(mpz_t i, const char* string){
@@ -177,10 +187,14 @@ void attack() {
   oct2int(c, cString);
 
   mpz_t test;mpz_init(test);mpz_set(test, c);
-  char testStr[] = "0123";
-  int2oct(testStr, test);
+  char testStr[] = "abcde";
+  //int2oct(testStr, test);
+  testStr = int2oct(test);
   printf("testStr %s\n", testStr);
 
+  change_string(testStr);
+
+  printf("testStr %s\n", testStr);
 
   //let B = 2^(8(k-1))
   int k = mpz_sizeinbase(N, 2);
