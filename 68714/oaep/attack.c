@@ -57,7 +57,6 @@ void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
 }
 
 //Convert integer to octet string
-//void int2oct(char octet[], const mpz_t i){
 char* int2oct(const mpz_t i){
   char* octet;
 
@@ -73,11 +72,8 @@ char* int2oct(const mpz_t i){
 
   octet[0] =toupper(tmpStr[size-2]);
   octet[1] =toupper(tmpStr[size-1]);
-  octet[2] = '\0';
 
-  //  printf("test1\n");
   for (int k = 2;k<size;k = k+2){
-  //  printf("test2\n");
     octet[k] = toupper(tmpStr[size-k-2]);
     if ((size != l)&& (k == (size-2))) octet[k+1] = '0';
     else octet[k+1] = toupper(tmpStr[size-k-1]);
@@ -85,6 +81,7 @@ char* int2oct(const mpz_t i){
   octet[size] = '\0';
   return octet;
 }
+
 //Convert octet string to integer
 void oct2int(mpz_t i, const char* string){
   int size = strlen(string);
@@ -105,36 +102,24 @@ void oct2int(mpz_t i, const char* string){
   mpz_clear(tmp2);
   mpz_clear(two);
 }
-void interact( int* r, const char* l, const char* c){//const mpz_t l, const mpz_t c ) {
-    // Send      G      to   attack target.
-    //fprintf( target_in, "%s\n", G );  fflush( target_in );
 
+void interact( int* r, const char* l, const char* c){
   //Send l and c
-  //gmp_fprintf(target_in, "%ZX\n",l);
-  //gmp_fprintf(target_in, "%ZX\n",c); fflush (target_in);
-
   fprintf( target_in, "%s\n", l );  fflush( target_in );
   fprintf( target_in, "%s\n", c );  fflush( target_in );
 
-    // Receive ( t, r ) from attack target.
-    //if( 1 != fscanf( target_out, "%d", t ) ) {
-    //  abort();
-    //}
-    //if( 1 != fscanf( target_out, "%d", r ) ) {
-    //  abort();
-    //}
   //Receive result code from target
   if ( 1 != fscanf(target_out, "%d", r)){
     abort();
   }
 }
+
 //mpz_t N, e, ...
 void attack() {
   mpz_t N;mpz_init(N);
   mpz_t e;mpz_init(e);
   mpz_t l;mpz_init(l);
   mpz_t c;mpz_init(c);
-
 
   mpz_t B; mpz_init(B);
   mpz_t f1; mpz_init(f1);
@@ -149,17 +134,7 @@ void attack() {
   mpz_t tmp;mpz_init(tmp);
   mpz_t tmp2;mpz_init(tmp2);
 
-  char* sendString;
-  char* str;
   int r = 0;
-
-
-  /*if( 1 != fscanf( data_in, "%s", N2 ) ) {
-      abort();
-  }
-  if( 1 != fscanf( data_in, "%s", e2 ) ) {
-      abort();
-  }*/
 
   if (gmp_fscanf(data_in, "%ZX", N) == 0) {
     abort();
@@ -178,20 +153,14 @@ void attack() {
   //Convert string to mpz_t
   oct2int(c, cString);
 
-//  mpz_t test;mpz_init(test);mpz_set(test, c);
-/*  char * testStr;
-  testStr = int2oct(test);
-  printf("testStr %s\n", testStr);
-*/
-
   //let B = 2^(8(k-1))
   int k = mpz_sizeinbase(N, 2);
   k = k/8;
 
   mpz_set_ui(B, 2);
   mpz_pow_ui(B, B, 8*(k-1));
-  //let f1 = 2
 
+  //let f1 = 2
   mpz_set_ui(f1, 2);
 
   while(r != 1){
@@ -212,7 +181,6 @@ void attack() {
   }
 
   //let f2 = floor((n+B)/B) * f1/2
-
   mpz_add(tmp, N, B);//N+B
   mpz_fdiv_q(tmp, tmp, B);
   mpz_div_ui(tmp2, f1, 2);
@@ -220,7 +188,7 @@ void attack() {
 
   while(r != 0){
   //Loop2
-    //send f2^e || c mod N
+    //send f2^e * c mod N
     mpz_powm(send, f2 ,e, N);
     mpz_mod(tmp, c, N);
     mpz_mul(send, send, tmp);
@@ -228,10 +196,11 @@ void attack() {
 
     char* sendStr = int2oct(send);
     interact(&r, lString,sendStr);
-    gmp_printf("Loop 2 Result Code: %d\n", r);
+    gmp_printf("Loop 2 Result Code: %d f2: %Zd\n", r, f2);
     //if error == 1 let f2 = f2 + f1/2
     //if error != 0 break
     if (r == 1) mpz_add(f2, f2, tmp2);
+    else break;
   }
 
   //mmin = ceil(n/f2), mmax = floor((n+B)/f2)
