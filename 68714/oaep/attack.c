@@ -202,7 +202,7 @@ void attack() {
     mpz_mul(send, send, tmp);
     mpz_mod(send, send, N);
 
-    char* semdStr = int2oct(send);
+    char* sendStr = int2oct(send);
 
     /*if ((mpz_sizeinbase(send, 16) % 2) != 0) {
         sendString = "0";
