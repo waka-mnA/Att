@@ -54,14 +54,6 @@ void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
   mpz_clear(y2);
 
 }
-void change_string(char *str)
-{
-  int i;
-
-  /* As an example, make it all upper case. */
-  for(i = 0; str[i]; ++i)
-    str[i] = toupper(str[i]);
-}
 
 //Convert integer to octet string
 //void int2oct(char octet[], const mpz_t i){
@@ -186,16 +178,11 @@ void attack() {
   //Convert string to mpz_t
   oct2int(c, cString);
 
-  mpz_t test;mpz_init(test);mpz_set(test, c);
-  //char testStr[] = "abcde";
-  char * testStr;
-  //int2oct(testStr, test);
+//  mpz_t test;mpz_init(test);mpz_set(test, c);
+/*  char * testStr;
   testStr = int2oct(test);
   printf("testStr %s\n", testStr);
-
-  change_string(testStr);
-
-  printf("testStr %s\n", testStr);
+*/
 
   //let B = 2^(8(k-1))
   int k = mpz_sizeinbase(N, 2);
@@ -215,10 +202,9 @@ void attack() {
     mpz_mul(send, send, tmp);
     mpz_mod(send, send, N);
 
-    str = NULL;
-    str = mpz_get_str(str, 16, send);
+    char* semdStr = int2oct(send);
 
-    if ((mpz_sizeinbase(send, 16) % 2) != 0) {
+    /*if ((mpz_sizeinbase(send, 16) % 2) != 0) {
         sendString = "0";
         sendString = malloc(strlen(str)+1+1);
         strcat(sendString, str);
@@ -227,14 +213,14 @@ void attack() {
         sendString=NULL;
         sendString = malloc(strlen(str)+1);
         strcpy(sendString, str);
-    }
-    interact(&r, lString,sendString);
+    }*/
+    printf("Loop 1 %s\n", sendStr);
+    interact(&r, lString,sendStr);
     gmp_printf("Loop 1 Result Code: %d f1: %Zd\n", r, f1);
     //if error != 1 then let f1 = 2*f1
     //if error == 1 then break
     if (r != 1) mpz_mul_ui(f1, f1, 2);
-    free(sendString);
-
+    free(sendStr);
   }
 
   //let f2 = floor((n+B)/B) * f1/2
