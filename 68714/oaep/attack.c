@@ -61,8 +61,8 @@ void int2oct(char* string, const mpz_t i){
   int size;
   if (l % 2 != 0) size = l+1;
   else size = l;
-  *string= NULL;
-  *string = malloc(size+1);
+  string= NULL;
+  string = malloc(size+1);
   char octet[3];
   mpz_t tmp;mpz_init(tmp);
   char* tmpStr = NULL;
