@@ -70,19 +70,18 @@ char* int2oct(const mpz_t i){
   char* tmpStr = NULL;
   tmpStr = mpz_get_str(tmpStr, 16, i);
 
-  octet[0] =tmpStr[size-2];
-  octet[1] =tmpStr[size-1];
+  octet[0] =toupper(tmpStr[size-2]);
+  octet[1] =toupper(tmpStr[size-1]);
   octet[2] = '\0';
 
   //  printf("test1\n");
   for (int k = 2;k<size;k = k+2){
   //  printf("test2\n");
-    octet[k] = tmpStr[size-k-2];
+    octet[k] = toupper(tmpStr[size-k-2]);
     if ((size != l)&& (k == (size-2))) octet[k+1] = '0';
-    else octet[k+1] = tmpStr[size-k-1];
+    else octet[k+1] = toupper(tmpStr[size-k-1]);
   }
   octet[size] = '\0';
-  printf("string %s\n", octet);
   return octet;
 }
 //Convert octet string to integer
@@ -203,18 +202,6 @@ void attack() {
     mpz_mod(send, send, N);
 
     char* sendStr = int2oct(send);
-
-    /*if ((mpz_sizeinbase(send, 16) % 2) != 0) {
-        sendString = "0";
-        sendString = malloc(strlen(str)+1+1);
-        strcat(sendString, str);
-    }
-    else{
-        sendString=NULL;
-        sendString = malloc(strlen(str)+1);
-        strcpy(sendString, str);
-    }*/
-    printf("Loop 1 %s\n", sendStr);
     interact(&r, lString,sendStr);
     gmp_printf("Loop 1 Result Code: %d f1: %Zd\n", r, f1);
     //if error != 1 then let f1 = 2*f1
@@ -233,28 +220,13 @@ void attack() {
   while(r != 0){
   //Loop2
     //send f2^e || c mod N
-    //mpz_powm(send, f2, e, N);
-    //exp_mpz(send, f2, e);
     mpz_powm(send, f2 ,e, N);
     mpz_mod(tmp, c, N);
     mpz_mul(send, send, tmp);
     mpz_mod(send, send, N);
-    //mpz_mul(send, send, c);
-    //mpz_mod(send, send, N);
-    str = NULL;
-    str = mpz_get_str(str, 16, send);
 
-    if ((mpz_sizeinbase(send, 16) % 2) != 0) {
-        sendString = "0";
-        sendString = malloc(strlen(str)+1+1);
-        strcat(sendString, str);
-    }
-    else{
-        sendString=NULL;
-        sendString = malloc(strlen(str)+1);
-        strcpy(sendString, str);
-    }
-    interact(&r, lString,sendString);
+    char* sendStr = int2oct(send);
+    interact(&r, lString,sendStr);
     gmp_printf("Loop 2 Result Code: %d\n", r);
     //if error == 1 let f2 = f2 + f1/2
     //if error != 0 break
@@ -282,28 +254,13 @@ while(mpz_cmp(mmin, mmax)!= 0){
   //let f3 = ceil(in/mmin)
   mpz_cdiv_q(f3, in, mmin);
   //send f3^e c mod N
-  //mpz_powm(send, f3, e, N);
-//  exp_mpz(send, f3, e);
-//  mpz_mul(send, send, c);
-//  mpz_mod(send, send, N);
   mpz_powm(send, f3 ,e, N);
   mpz_mod(tmp, c, N);
   mpz_mul(send, send, tmp);
   mpz_mod(send, send, N);
-  str = NULL;
-  str = mpz_get_str(str, 16, send);
 
-  if ((mpz_sizeinbase(send, 16) % 2) != 0) {
-      sendString = "0";
-      sendString = malloc(strlen(str)+1+1);
-      strcat(sendString, str);
-  }
-  else{
-      sendString=NULL;
-      sendString = malloc(strlen(str)+1);
-      strcpy(sendString, str);
-  }
-  interact(&r, lString,sendString);
+  char* sendStr = int2oct(send);
+  interact(&r, lString,sendStr);
   gmp_printf("Loop 3 Result Code: %d\n", r);
   //if error == 1 then set mmin = ceil((in+B)/f3)
   //if error != 1 then set mmax = floor((in+B)/f3)
