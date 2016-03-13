@@ -212,8 +212,7 @@ void attack() {
 
 
 while(mpz_cmp(mmin, mmax)!= 0){
-  gmp_printf("%ZX\n", mmin);
-  gmp_printf("%ZX\n", mmax);
+
   //chose ftmp where ftmp*m width is 2B
   //ftmp = floor(2B/(mmax - mmin))
   mpz_sub(tmp, mmax, mmin);
@@ -247,7 +246,8 @@ while(mpz_cmp(mmin, mmax)!= 0){
 
 }
 printf("Loop End\n");
-
+gmp_printf("End %ZX\n", mmin);
+gmp_printf("End %ZX\n", mmax);
 
 mpz_clear(N);
 mpz_clear(e);
