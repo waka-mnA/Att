@@ -220,9 +220,10 @@ while(mpz_cmp(mmin, mmax)!= 0){
   mpz_mul_ui(tmp2, B, 2);
   mpz_fdiv_q(ftmp, tmp2, tmp);
   //select boundar point in+B, near the range of ftmp * m
-  //in = floor((ftmp * mmin)/n)
+  //i = floor((ftmp * mmin)/n)
   mpz_mul(tmp, ftmp, mmin);
   mpz_fdiv_q(in, tmp, N);
+  mpz_mul(in, in, N);
   //let f3 = ceil(in/mmin)
   mpz_cdiv_q(f3, in, mmin);
   //send f3^e c mod N
