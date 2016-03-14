@@ -71,10 +71,10 @@ void oct2int(mpz_t i, const char* string){
   mpz_clear(two);
 }
 
-void interact( int* t, mpz_t m, const char* c){
+void interact( int* t, mpz_t m, const mpz_t c){
   //Send c
-  fprintf( target_in, "%s\n", c );  fflush( target_in );
-
+  //fprintf( target_in, "%s\n", c );  fflush( target_in );
+  gmp_fprintf(target_in, "%ZX\n", c);fflush(target_in);
   //Receive execution time and plaintext from target
   if ( 1 != fscanf(target_out, "%d", t)){
     abort();
