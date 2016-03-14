@@ -76,7 +76,7 @@ void interact( int* t, mpz_t m, const char* c){
   fprintf( target_in, "%s\n", c );  fflush( target_in );
 
   //Receive execution time and plaintext from target
-  if ( 1 != fscanf(target_out, "%d", r)){
+  if ( 1 != fscanf(target_out, "%d", t)){
     abort();
   }
   if (gmp_fscanf(target_out, "%ZX", m) == 0) {
