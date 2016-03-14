@@ -115,7 +115,7 @@ void attack() {
   }
 
   fclose(data_in);
-
+  mpz_set_ui(c, 12312901293102931);
   interact(&r, m, c);
   interaction++;
 gmp_printf("Time : %d\n", r);
