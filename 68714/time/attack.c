@@ -24,38 +24,6 @@ char lString[256];
 char cString[256];
 
 
-void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
-  mpz_t n; mpz_init(n);
-  mpz_t modTmp; mpz_init(modTmp);
-  mpz_t y2; mpz_init(y2);
-
-  mpz_set(y2, y);
-  mpz_set_ui(n, 1);
-  mpz_set(r, x);
-  if (mpz_cmp_ui(y, 0) == 0) {
-    mpz_set_ui(r, 1);
-    return;
-  }
-  while(mpz_cmp_ui(y2, 1)>0){
-    mpz_mod_ui(modTmp, y2, 2);
-    if (mpz_cmp_ui(modTmp, 0)==0){//y = even
-      mpz_mul(r, r, r); //r = r*r
-      mpz_div_ui(y2, y2, 2); //y2 = y2/2
-    }else{
-      mpz_mul(n, n, r); //n = n*r
-      mpz_mul(r, r, r); //r = r*r
-      mpz_sub_ui(y2, y2, 1); //y2 --
-      mpz_div_ui(y2, y2, 2); //y2 = y2/2
-    }
-  }
-  mpz_mul(r, r, n);
-
-  mpz_clear(n);
-  mpz_clear(modTmp);
-  mpz_clear(y2);
-
-}
-
 //Convert integer to octet string
 char* int2oct(const mpz_t i){
   char* octet;
@@ -103,13 +71,15 @@ void oct2int(mpz_t i, const char* string){
   mpz_clear(two);
 }
 
-void interact( int* r, const char* l, const char* c){
-  //Send l and c
-  fprintf( target_in, "%s\n", l );  fflush( target_in );
+void interact( int* t, mpz_t m, const char* c){
+  //Send c
   fprintf( target_in, "%s\n", c );  fflush( target_in );
 
-  //Receive result code from target
+  //Receive execution time and plaintext from target
   if ( 1 != fscanf(target_out, "%d", r)){
+    abort();
+  }
+  if (gmp_fscanf(target_out, "%ZX", m) == 0) {
     abort();
   }
 }
@@ -118,7 +88,7 @@ void interact( int* r, const char* l, const char* c){
 void attack() {
   mpz_t N;mpz_init(N);
   mpz_t e;mpz_init(e);
-  mpz_t l;mpz_init(l);
+  mpz_t m;mpz_init(m);
   mpz_t c;mpz_init(c);
 
   mpz_t B; mpz_init(B);
@@ -142,119 +112,18 @@ void attack() {
   if (gmp_fscanf(data_in, "%ZX", e) == 0) {
     abort();
   }
-  if( 1 != fscanf( data_in, "%s", lString ) ) {
-      abort();
-  }
-  if( 1 != fscanf( data_in, "%s", cString ) ) {
-      abort();
-  }
 
   fclose(data_in);
-  //Convert string to mpz_t
-  oct2int(c, cString);
 
-  //let B = 2^(8(k-1))
-  int k = mpz_sizeinbase(N, 2);
-  k = k/8;
-
-  mpz_set_ui(B, 2);
-  mpz_pow_ui(B, B, 8*(k-1));
-
-  //let f1 = 2
-  mpz_set_ui(f1, 2);
-
-  while(r != 1){
-  //Loop 1
-    //send f1^e || c mod N
-    mpz_powm(send, f1 ,e, N);
-    mpz_mod(tmp, c, N);
-    mpz_mul(send, send, tmp);
-    mpz_mod(send, send, N);
-
-    char* sendStr = int2oct(send);
-    interact(&r, lString,sendStr);
-    interaction++;
-    gmp_printf("Loop 1 Result Code: %d f1: %Zd interaction: %d\n", r, f1, interaction);
-
-    //if error != 1 then let f1 = 2*f1
-    //if error == 1 then break
-    if (r != 1) mpz_mul_ui(f1, f1, 2);
-    free(sendStr);
-  }
-
-  //let f2 = floor((n+B)/B) * f1/2
-  mpz_add(tmp, N, B);//N+B
-  mpz_fdiv_q(tmp, tmp, B);
-  mpz_div_ui(tmp2, f1, 2);
-  mpz_mul(f2, tmp, tmp2);
-
-  while(r != 0){
-  //Loop2
-    //send f2^e * c mod N
-    mpz_powm(send, f2 ,e, N);
-    mpz_mod(tmp, c, N);
-    mpz_mul(send, send, tmp);
-    mpz_mod(send, send, N);
-
-    char* sendStr = int2oct(send);
-    interact(&r, lString,sendStr);
-    interaction++;
-    gmp_printf("Loop 2 Result Code: %d f2: %Zd interaction: %d\n", r, f2, interaction);
-    //if error == 1 let f2 = f2 + f1/2
-    //if error != 0 break
-    if (r == 1) mpz_add(f2, f2, tmp2);
-    else break;
-  }
-
-  //mmin = ceil(n/f2), mmax = floor((n+B)/f2)
-  mpz_cdiv_q(mmin, N, f2);
-  mpz_add(tmp, N, B);//N+B
-  mpz_fdiv_q(mmax, tmp, f2);
-
-//Loop3
-
-
-while(mpz_cmp(mmin, mmax)!= 0){
-
-  //chose ftmp where ftmp*m width is 2B
-  //ftmp = floor(2B/(mmax - mmin))
-  mpz_sub(tmp, mmax, mmin);
-  mpz_mul_ui(tmp2, B, 2);
-  mpz_fdiv_q(ftmp, tmp2, tmp);
-  //select boundar point in+B, near the range of ftmp * m
-  //i = floor((ftmp * mmin)/n)
-  mpz_mul(tmp, ftmp, mmin);
-  mpz_fdiv_q(in, tmp, N);
-  mpz_mul(in, in, N);
-  //let f3 = ceil(in/mmin)
-  mpz_cdiv_q(f3, in, mmin);
-  //send f3^e c mod N
-  mpz_powm(send, f3 ,e, N);
-  mpz_mod(tmp, c, N);
-  mpz_mul(send, send, tmp);
-  mpz_mod(send, send, N);
-
-  char* sendStr = int2oct(send);
-  interact(&r, lString,sendStr);
+  interact(&r, m, c);
   interaction++;
-  gmp_printf("Loop 3 Result Code: %d interaction: %d\n", r, interaction);
-  //if error == 1 then set mmin = ceil((in+B)/f3)
-  //if error != 1 then set mmax = floor((in+B)/f3)
-    mpz_add(tmp, in, B);
-  if (r == 1) {
-    mpz_cdiv_q(mmin, tmp, f3);
-  }
-  else{
-    mpz_fdiv_q(mmax, tmp, f3);
-  }
-
-}
-gmp_printf("Target Material : %ZX\n", mmin);
+gmp_printf("Time : %d\n", r);
+gmp_printf("Target Material : %ZX\n", m);
 gmp_printf("Total Number of Interaction: %d\n", interaction);
 
 mpz_clear(N);
 mpz_clear(e);
-mpz_clear(l);
+mpz_clear(m);
 mpz_clear(c);
 mpz_clear(B);
 mpz_clear(f1);
