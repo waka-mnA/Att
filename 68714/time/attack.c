@@ -11,8 +11,16 @@ pid_t pid        = 0;    // process ID (of either parent or child) from fork
 int   target_raw[ 2 ];   // unbuffered communication: attacker -> attack target
 int   attack_raw[ 2 ];   // unbuffered communication: attack target -> attacker
 
+int   target_R_raw[ 2 ];   // unbuffered communication: attacker -> R
+int   attack_R_raw[ 2 ];   // unbuffered communication: R -> attacker
+
+
 FILE* target_out = NULL; // buffered attack target input  stream
 FILE* target_in  = NULL; // buffered attack target output stream
+
+FILE* R_out = NULL; // buffered attack R input  stream
+FILE* R_in  = NULL; // buffered attack R output stream
+
 
 FILE* data_in  = NULL; //
 
@@ -82,7 +90,21 @@ void interact( int* t, mpz_t m, const mpz_t c){
   if (gmp_fscanf(target_out, "%ZX", m) == 0) {
     abort();
   }
-  gmp_printf("%ZX\n", m);
+}
+
+void interact_R( int* t, mpz_t m, const mpz_t c, const mpz_t N, const mpz_t d){
+  //Send c
+  //fprintf( target_in, "%s\n", c );  fflush( target_in );
+  gmp_fprintf(R_in, "%ZX\n", c); fflush(target_in);
+  gmp_fprintf(R_in, "%ZX\n", N); fflush(target_in);
+  gmp_fprintf(R_in, "%ZX\n", d); fflush(target_in);
+  //Receive execution time and plaintext from target
+  if ( 1 != fscanf(R_out, "%d", t)){
+    abort();
+  }
+  if (gmp_fscanf(R_out, "%ZX", m) == 0) {
+    abort();
+  }
 }
 
 //mpz_t N, e, ...
@@ -119,6 +141,11 @@ void attack() {
   interact(&r, m, c);
   interaction++;
 gmp_printf("Time : %d\n", r);
+gmp_printf("Ciphertext : %ZX\n", c);
+gmp_printf("Plaintext : %ZX\n", m);
+
+
+
 gmp_printf("Target Material : %ZX\n", m);
 gmp_printf("Total Number of Interaction: %d\n", interaction);
 
@@ -144,11 +171,19 @@ void cleanup( int s ){
   fclose( target_in  );
   fclose( target_out );
 
+  fclose( R_in  );
+  fclose( R_out );
   // Close the unbuffered communication handles.
   close( target_raw[ 0 ] );
   close( target_raw[ 1 ] );
   close( attack_raw[ 0 ] );
   close( attack_raw[ 1 ] );
+
+  close( target_R_raw[ 0 ] );
+  close( target_R_raw[ 1 ] );
+  close( attack_R_raw[ 0 ] );
+  close( attack_R_raw[ 1 ] );
+
 
   // Forcibly terminate the attack target process.
   if( pid > 0 ) {
@@ -174,6 +209,12 @@ int main( int argc, char* argv[] ) {
     if( pipe( attack_raw ) == -1 ) {
       abort();
     }
+    if( pipe( target_R_raw ) == -1 ) {
+      abort();
+    }
+    if( pipe( attack_R_raw ) == -1 ) {
+      abort();
+    }
 
     switch( pid = fork() ) {
       case -1 : {
@@ -191,9 +232,17 @@ int main( int argc, char* argv[] ) {
         if( dup2( target_raw[ 0 ],  STDIN_FILENO ) == -1 ) {
           abort();
         }
-
+        close( STDOUT_FILENO );
+        if( dup2( attack_R_raw[ 1 ], STDOUT_FILENO ) == -1 ) {
+          abort();
+        }
+        close(  STDIN_FILENO );
+        if( dup2( target_R_raw[ 0 ],  STDIN_FILENO ) == -1 ) {
+          abort();
+        }
         // Produce a sub-process representing the attack target.
         execl( argv[ 1 ], argv[ 0 ], NULL );
+        execl( "68714.R", argv[ 0 ], NULL );
 
         // Break and clean-up once finished.
         break;
@@ -207,7 +256,12 @@ int main( int argc, char* argv[] ) {
         if( ( target_in  = fdopen( target_raw[ 1 ], "w" ) ) == NULL ) {
           abort();
         }
-
+        if( ( R_out = fdopen( attack_R_raw[ 0 ], "r" ) ) == NULL ) {
+          abort();
+        }
+        if( ( R_in  = fdopen( target_R_raw[ 1 ], "w" ) ) == NULL ) {
+          abort();
+        }
         if ((data_in = fopen(argv[2], "r"))== NULL){
           abort();
         }
