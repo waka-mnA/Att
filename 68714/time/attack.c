@@ -82,7 +82,7 @@ void interact( int* t, mpz_t m, const mpz_t c){
   if (gmp_fscanf(target_out, "%ZX", m) == 0) {
     abort();
   }
-  gmp_printf("%ZX\n", m)
+  gmp_printf("%ZX\n", m);
 }
 
 //mpz_t N, e, ...
