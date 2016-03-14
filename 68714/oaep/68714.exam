@@ -1,10 +1,34 @@
 Q.1 Consider an example where N = 551, e = 5, d = 101 and c = 243.  Using
     your own words, briefly explain and illustrate the working principle of
     this attack (i.e., how and why it works).
+
+A.1
+
+
 Q.2 To prevent the attack, the vendor suggests altering the software: the
     idea is that no matter what error occurs, the same error code will be
     produced.  Explain whether (and why, or why not) this change alone is
     sufficient.
+
+A.2 This change will disable the manger's attack.  The attack depends on
+    the error message from oracle to know whether the f*m decrypted is
+    bigger than a certain value, which can be checked by error code 1 in
+    the original oracle. If we cannot distinguish what kind of error
+    occurred, this attack will not be able to find the target.
+
 Q.5 Explain how the concept of plaintext awareness relates to this attack.
+
+A.5 A cryptosystem is plaintext aware if it is difficult to create a
+    ciphertext without the knowledge of corresponding plaintext. This system
+    is plaintext aware because it induced the integrity check and the octet
+    string structure. However, the check of the most significant digit in octet
+    string structure reveals the important information that this attack relies on.
+
 Q.6 RSA has a homomorphic property: explain what this means, and how it
     relates to this attack.
+
+A.6 Homomorphic property in cryptosystem is where the computations
+    carried out on cipertext/plaintext will end up to the matched
+    plaintext/ciphertext when it is decrypted/encrypted. In this attack,
+    we used this property as sending f^e * c mod N to oracle and receive error
+    code based on decrypted result f * m.
