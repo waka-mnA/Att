@@ -376,14 +376,12 @@ int main( int argc, char* argv[] ) {
           // Break and clean-up once finished.
           break;
         }
-
-
-
         // Execute a function representing the attacker.
         attack();
 
         // Break and clean-up once finished.
         break;
+      }
       }
     }
 
