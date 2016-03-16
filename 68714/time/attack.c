@@ -7,6 +7,7 @@
 #define BUFFER_SIZE ( 80 )
 
 pid_t pid        = 0;    // process ID (of either parent or child) from fork
+pid_t pid_R        = 0;    // process ID (of either parent or child) from fork
 
 int   target_raw[ 2 ];   // unbuffered communication: attacker -> attack target
 int   attack_raw[ 2 ];   // unbuffered communication: attack target -> attacker
@@ -229,14 +230,33 @@ void cleanup( int s ){
   fclose( target_in  );
   fclose( target_out );
 
-  fclose( R_in  );
-  fclose( R_out );
+//  fclose( R_in  );
+//  fclose( R_out );
   // Close the unbuffered communication handles.
   close( target_raw[ 0 ] );
   close( target_raw[ 1 ] );
   close( attack_raw[ 0 ] );
   close( attack_raw[ 1 ] );
 
+/*  close( target_R_raw[ 1 ] );
+  close( attack_R_raw[ 0 ] );
+  close( attack_R_raw[ 1 ] );
+*/
+
+  // Forcibly terminate the attack target process.
+  if( pid > 0 ) {
+    kill( pid, SIGKILL );
+  }
+
+  // Forcibly terminate the attacker      process.
+  exit( 1 );
+}
+
+void cleanupR( int s ){
+  // Close the   buffered communication handles.
+  fclose( R_in  );
+  fclose( R_out );
+  // Close the unbuffered communication handles.
   close( target_R_raw[ 0 ] );
   close( target_R_raw[ 1 ] );
   close( attack_R_raw[ 0 ] );
@@ -244,8 +264,8 @@ void cleanup( int s ){
 
 
   // Forcibly terminate the attack target process.
-  if( pid > 0 ) {
-    kill( pid, SIGKILL );
+  if( pid_R > 0 ) {
+    kill( pid_R, SIGKILL );
   }
 
   // Forcibly terminate the attacker      process.
@@ -258,6 +278,7 @@ The main function
 int main( int argc, char* argv[] ) {
   // Ensure we clean-up correctly if Control-C (or similar) is signalled.
     signal( SIGINT, &cleanup );
+    signal( SIGINT, &cleanupR );
 
     // Create pipes to/from attack target; if it fails the reason is stored
     // in errno, but we'll just abort.
@@ -290,7 +311,7 @@ int main( int argc, char* argv[] ) {
         if( dup2( target_raw[ 0 ],  STDIN_FILENO ) == -1 ) {
           abort();
         }
-        close( STDOUT_FILENO );
+/*        close( STDOUT_FILENO );
         if( dup2( attack_R_raw[ 1 ], STDOUT_FILENO ) == -1 ) {
           abort();
         }
@@ -298,31 +319,64 @@ int main( int argc, char* argv[] ) {
         if( dup2( target_R_raw[ 0 ],  STDIN_FILENO ) == -1 ) {
           abort();
         }
+        */
         // Produce a sub-process representing the attack target.
         execl( argv[ 1 ], argv[ 0 ], NULL );
-        execl( "68714.R", argv[ 0 ], NULL );
+        //execl( "68714.R", argv[ 0 ], NULL );
 
         // Break and clean-up once finished.
         break;
       }
 
       default : {
-        // Construct handles to attack target standard input and output.
-        if( ( target_out = fdopen( attack_raw[ 0 ], "r" ) ) == NULL ) {
-          abort();
+        switch(pid_R = fork()){
+          case -1 : {
+            // The fork failed; reason is stored in errno, but we'll just abort.
+            abort();
+          }
+
+          case +0 : {
+            // (Re)connect standard input and output to pipes.
+            close( STDOUT_FILENO );
+            if( dup2( attack_R_raw[ 1 ], STDOUT_FILENO ) == -1 ) {
+              abort();
+            }
+            close(  STDIN_FILENO );
+            if( dup2( target_R_raw[ 0 ],  STDIN_FILENO ) == -1 ) {
+              abort();
+            }
+
+            // Produce a sub-process representing the attack target.
+            execl( "68714.R", argv[ 0 ], NULL );
+
+            // Break and clean-up once finished.
+            break;
+          }
+
+        default : {
+          // Construct handles to attack target standard input and output.
+          if( ( target_out = fdopen( attack_raw[ 0 ], "r" ) ) == NULL ) {
+            abort();
+          }
+          if( ( target_in  = fdopen( target_raw[ 1 ], "w" ) ) == NULL ) {
+            abort();
+          }
+          if( ( R_out = fdopen( attack_R_raw[ 0 ], "r" ) ) == NULL ) {
+            abort();
+          }
+          if( ( R_in  = fdopen( target_R_raw[ 1 ], "w" ) ) == NULL ) {
+            abort();
+          }
+          if ((data_in = fopen(argv[2], "r"))== NULL){
+            abort();
+          }
+          // Execute a function representing the attacker.
+          attack();
+
+          // Break and clean-up once finished.
+          break;
         }
-        if( ( target_in  = fdopen( target_raw[ 1 ], "w" ) ) == NULL ) {
-          abort();
-        }
-        if( ( R_out = fdopen( attack_R_raw[ 0 ], "r" ) ) == NULL ) {
-          abort();
-        }
-        if( ( R_in  = fdopen( target_R_raw[ 1 ], "w" ) ) == NULL ) {
-          abort();
-        }
-        if ((data_in = fopen(argv[2], "r"))== NULL){
-          abort();
-        }
+
 
 
         // Execute a function representing the attacker.
@@ -335,6 +389,6 @@ int main( int argc, char* argv[] ) {
 
     // Clean up any resources we've hung on to.
     cleanup( SIGINT );
-
+    cleanupR( SIGINT );
     return 0;
 }
