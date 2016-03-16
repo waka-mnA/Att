@@ -276,12 +276,10 @@ void cleanupR( int s ){
 The main function
 */
 int main( int argc, char* argv[] ) {
-printf("%s\n", argv[1]);
   // Ensure we clean-up correctly if Control-C (or similar) is signalled.
     signal( SIGINT, &cleanup );
     signal( SIGINT, &cleanupR );
 
-printf("%s\n", argv[1]);
     // Create pipes to/from attack target; if it fails the reason is stored
     // in errno, but we'll just abort.
     if( pipe( target_raw ) == -1 ) {
@@ -297,6 +295,7 @@ printf("%s\n", argv[1]);
       abort();
     }
 
+    printf("test1 %s\n", argv[1]);
     switch( pid = fork() ) {
       case -1 : {
         // The fork failed; reason is stored in errno, but we'll just abort.
@@ -326,11 +325,13 @@ printf("%s\n", argv[1]);
         execl( argv[ 1 ], argv[ 0 ], NULL );
         //execl( "68714.R", argv[ 0 ], NULL );
 
+        printf("test2 %s\n", argv[1]);
         // Break and clean-up once finished.
         break;
       }
 
       default : {
+      printf("test3 %s\n", argv[1]);
         switch(pid_R = fork()){
           case -1 : {
             // The fork failed; reason is stored in errno, but we'll just abort.
@@ -347,6 +348,7 @@ printf("%s\n", argv[1]);
             if( dup2( target_R_raw[ 0 ],  STDIN_FILENO ) == -1 ) {
               abort();
             }
+            printf("test4 %s\n", argv[1]);
 
             // Produce a sub-process representing the attack target.
             execl( "68714.R", argv[ 0 ], NULL );
@@ -356,6 +358,7 @@ printf("%s\n", argv[1]);
           }
 
         default : {
+        printf("test5 %s\n", argv[1]);
           // Construct handles to attack target standard input and output.
           if( ( target_out = fdopen( attack_raw[ 0 ], "r" ) ) == NULL ) {
             abort();
@@ -373,6 +376,7 @@ printf("%s\n", argv[1]);
             abort();
           }
           // Execute a function representing the attacker.
+          printf("test6 %s\n", argv[1]);
           attack();
 
           // Break and clean-up once finished.
