@@ -175,20 +175,19 @@ void attack() {
 
   //INSERT LOOP HERE TO TEST KEY HYPO
   //This should be the last of the loop...?
-  mpz_set_ui(tmp, 1);
+  /*mpz_set_ui(tmp, 1);
   for (int i = index;i>=0;i--){
     mpz_mul_ui(tmp, tmp, 2);
   }
   mpz_set(d_R0, d_R1);
   mpz_add(d_R1, d_R1, tmp);
-
+*/
   //Send c, N and key hypothsis d,
   //Receive time taken and decrypted message
   interact_R(&r_R, m_R, c, N, d_R1);
   gmp_printf("Time : %d\n", r_R);
   gmp_printf("Ciphertext : %ZX\n", c);
   gmp_printf("Key Hypothesis : %ZX\n", d_R1);
-  gmp_printf("Key Hypothesis : %Zb\n", d_R1);
   gmp_printf("Plaintext : %ZX\n", m_R);
 
   //Send c and receive time taken and decrypted message
