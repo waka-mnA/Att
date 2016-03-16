@@ -96,9 +96,9 @@ void interact( int* t, mpz_t m, const mpz_t c){
 void interact_R( int* t, mpz_t m, const mpz_t c, const mpz_t N, const mpz_t d){
   //Send c
   //fprintf( target_in, "%s\n", c );  fflush( target_in );
-  gmp_fprintf(R_in, "%ZX\n", c); fflush(target_in);
-  gmp_fprintf(R_in, "%ZX\n", N); fflush(target_in);
-  gmp_fprintf(R_in, "%ZX\n", d); fflush(target_in);
+  gmp_fprintf(R_in, "%ZX\n", c); fflush(R_in);
+  gmp_fprintf(R_in, "%ZX\n", N); fflush(R_in);
+  gmp_fprintf(R_in, "%ZX\n", d); fflush(R_in);
   //Receive execution time and plaintext from target
   if ( 1 != fscanf(R_out, "%d", t)){
     abort();
