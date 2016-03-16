@@ -114,10 +114,13 @@ void attack() {
   mpz_t m;mpz_init(m);
   mpz_t c;mpz_init(c);
 
-  mpz_t B; mpz_init(B);
-  mpz_t f1; mpz_init(f1);
+  mpz_t d_R1; mpz_init(d_R1);
+  mpz_t d_R0; mpz_init(d_R0);
+  mpz_t d; mpz_init(d);
+  mpz_t m_R;mpz_init(m_R);
+
+
   mpz_t f2; mpz_init(f2);
-  mpz_t in;mpz_init(in);
   mpz_t f3;mpz_init(f3);
   mpz_t mmin;mpz_init(mmin);mpz_set_ui(mmin, 0);
   mpz_t mmax;mpz_init(mmax);mpz_set_ui(mmin, 1);
@@ -128,23 +131,77 @@ void attack() {
   mpz_t tmp2;mpz_init(tmp2);
 
   int r = 0;
+  int r_R = 0;
 
+  //Read N and e from conf file
   if (gmp_fscanf(data_in, "%ZX", N) == 0) {
     abort();
   }
   if (gmp_fscanf(data_in, "%ZX", e) == 0) {
     abort();
   }
-
   fclose(data_in);
+
+  //Choose the set of ciphertexts
   mpz_set_ui(c, 12312901293102931);
+
+  //Guess one bit of the key
+  int size = 1;//size = size of d ???
+  mpz_set_ui(d_R1, 1);
+  r = 0;
+  r_R = -1;
+  while (r>=r_R){
+    interact_R(&r_R, m_R, c, N, d_R1);
+    interact(&r, m, c);
+    printf("%d %d\n", r_R, r);
+    if (r<r_R) break;
+    mpz_mul_ui(d_R1, d_R1, 2);
+    mpz_add_ui(d_R1, d_R1, 1);
+    size++;
+  }
+  int index = size - 1;
+  mpz_set_ui(d_R1, 1);
+  mpz_set_ui(d_R0, 1);
+
+  //Initial key hypothesis
+  for (int i = size-1;i>=0;i--){
+      mpz_mul_ui(d_R1, d_R1, 2);
+      mpz_mul_ui(d_R0, d_R0, 2);
+    //1 * 2^i
+    if (i == size - 1) {
+      mpz_add_ui(d_R1, d_R1, 1);
+    }
+  }
+
+  //INSERT LOOP HERE TO TEST KEY HYPO
+  //This should be the last of the loop...?
+  mpz_set_ui(tmp, 1);
+  for (int i = index;i>=0;i--){
+    mpz_mul_ui(tmp, tmp, 2);
+  }
+  mpz_set(d_R0, d_R1);
+  mpz_add(d_R1, d_R1, tmp);
+
+  //Send c, N and key hypothsis d,
+  //Receive time taken and decrypted message
+  interact_R(&r_R, m_R, c, N, d_R1);
+  gmp_printf("Time : %d\n", r_R);
+  gmp_printf("Ciphertext : %ZX\n", c);
+  gmp_printf("Key Hypothesis : %ZX\n", d_R1);
+  gmp_printf("Plaintext : %ZX\n", m_R);
+
+  //Send c and receive time taken and decrypted message
   interact(&r, m, c);
   interaction++;
-gmp_printf("Time : %d\n", r);
-gmp_printf("Ciphertext : %ZX\n", c);
-gmp_printf("Plaintext : %ZX\n", m);
+  gmp_printf("Time : %d\n", r);
+  gmp_printf("Ciphertext : %ZX\n", c);
+  gmp_printf("Plaintext : %ZX\n", m);
 
 
+  //Analysis
+
+//if index bit hypothesis is right...
+index--;
 
 gmp_printf("Target Material : %ZX\n", m);
 gmp_printf("Total Number of Interaction: %d\n", interaction);

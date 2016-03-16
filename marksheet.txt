@@ -23,9 +23,9 @@ effort : [...] hours
 3. Citation
 
 Clearly it might have an influence on your mark, but the use of third-party
-resources *is* allowed *if* correctly cited (unless explicitly prohibited 
-by the assignment description of course).  Let us know what third-party 
-source code or resources you used (if any) so it's clear what's your work 
+resources *is* allowed *if* correctly cited (unless explicitly prohibited
+by the assignment description of course).  Let us know what third-party
+source code or resources you used (if any) so it's clear what's your work
 and what isn't:
 
 [...]
@@ -41,13 +41,13 @@ For example, other elements outside this list *often* warrant an increase
 or decrease in marks; examples include hard to quantify features such as
 the style or efficiency of a solution.
 
-[?] Stage 1 : an attack based on error messages
+[X] Stage 1 : an attack based on error messages
 
               - correct target material                              ( 40%)
               - solution quality wrt. efficiency, robustness etc.    ( 30%)
               - analysis questions                                   ( 30%)
 
-              target material : [...]
+              target material : 
 
 [?] Stage 2 : an attack based on execution time
 
