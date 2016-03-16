@@ -384,7 +384,7 @@ int main( int argc, char* argv[] ) {
           break;
         }
         // Execute a function representing the attacker.
-        attack();
+//        attack();
 
         // Break and clean-up once finished.
         break;
