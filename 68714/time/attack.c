@@ -358,7 +358,7 @@ int main( int argc, char* argv[] ) {
           }
 
         default : {
-        printf("test5 %s\n", argv[1]);
+          printf("test5 %s\n", argv[1]);
           // Construct handles to attack target standard input and output.
           if( ( target_out = fdopen( attack_raw[ 0 ], "r" ) ) == NULL ) {
             abort();
@@ -377,6 +377,7 @@ int main( int argc, char* argv[] ) {
           }
           // Execute a function representing the attacker.
           printf("test6 %s\n", argv[1]);
+
           attack();
 
           // Break and clean-up once finished.
