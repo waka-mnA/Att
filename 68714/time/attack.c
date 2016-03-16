@@ -141,25 +141,24 @@ void attack() {
     abort();
   }
   fclose(data_in);
-  gmp_printf("%ZX\n", N);
+
   //Choose the set of ciphertexts
   mpz_set_ui(c, 12312901293102931);
 
-  //Guess one bit of the key
-  int size = 1;//size = size of d ???
+  //Guess the size of the key
+  int size = 1;
   mpz_set_ui(d_R1, 1);
   r = 0;
   r_R = -1;
   while (r>=r_R){
     interact(&r, m, c);
-    printf("r %d\n",  r);
     interact_R(&r_R, m_R, c, N, d_R1);
-    printf("R %d\n", r_R);
     if (r<r_R) break;
     mpz_mul_ui(d_R1, d_R1, 2);
     mpz_add_ui(d_R1, d_R1, 1);
     size++;
   }
+  printf("size %d\n", size);
   int index = size - 1;
   mpz_set_ui(d_R1, 1);
   mpz_set_ui(d_R0, 1);
@@ -232,12 +231,12 @@ void cleanup( int s ){
 
   fclose( R_in  );
   fclose( R_out );
+
   // Close the unbuffered communication handles.
   close( target_raw[ 0 ] );
   close( target_raw[ 1 ] );
   close( attack_raw[ 0 ] );
   close( attack_raw[ 1 ] );
-
 
   close( target_R_raw[ 0 ] );
   close( target_R_raw[ 1 ] );
@@ -337,7 +336,6 @@ int main( int argc, char* argv[] ) {
             if( dup2( target_R_raw[ 0 ],  STDIN_FILENO ) == -1 ) {
               abort();
             }
-
             // Produce a sub-process representing the attack target.
             execl( "68714.R", argv[ 0 ], NULL );
 
@@ -346,7 +344,6 @@ int main( int argc, char* argv[] ) {
           }
 
         default : {
-          //printf("test5 %s\n", argv[1]);
           // Construct handles to attack target standard input and output.
           if( ( target_out = fdopen( attack_raw[ 0 ], "r" ) ) == NULL ) {
             abort();
@@ -364,16 +361,11 @@ int main( int argc, char* argv[] ) {
             abort();
           }
           // Execute a function representing the attacker.
-          //printf("test6 %s\n", argv[1]);
-
           attack();
 
           // Break and clean-up once finished.
           break;
         }
-        // Execute a function representing the attacker.
-//        attack();
-
         // Break and clean-up once finished.
         break;
       }
