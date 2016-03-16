@@ -262,12 +262,10 @@ void cleanupR( int s ){
   close( attack_R_raw[ 0 ] );
   close( attack_R_raw[ 1 ] );
 
-
   // Forcibly terminate the attack target process.
   if( pid_R > 0 ) {
     kill( pid_R, SIGKILL );
   }
-
   // Forcibly terminate the attacker      process.
   exit( 1 );
 }
@@ -306,19 +304,8 @@ int main( int argc, char* argv[] ) {
         if( dup2( target_raw[ 0 ],  STDIN_FILENO ) == -1 ) {
           abort();
         }
-/*        close( STDOUT_FILENO );
-        if( dup2( attack_R_raw[ 1 ], STDOUT_FILENO ) == -1 ) {
-          abort();
-        }
-        close(  STDIN_FILENO );
-        if( dup2( target_R_raw[ 0 ],  STDIN_FILENO ) == -1 ) {
-          abort();
-        }
-        */
-        // Produce a sub-process representing the attack target.
-        execl( argv[ 1 ], argv[ 0 ], NULL );
-        //execl( "68714.R", argv[ 0 ], NULL );
 
+        execl( argv[ 1 ], argv[ 0 ], NULL );
         //printf("test2 %s\n", argv[1]);
         // Break and clean-up once finished.
         break;
@@ -341,11 +328,11 @@ int main( int argc, char* argv[] ) {
 
           case +0 : {
             // (Re)connect standard input and output to pipes.
-            close( STDOUT_FILENO );
+            close( attack_R_raw[ 1 ] );
             if( dup2( attack_R_raw[ 1 ], STDOUT_FILENO ) == -1 ) {
               abort();
             }
-            close(  STDIN_FILENO );
+            close(  target_R_raw[ 0 ] );
             if( dup2( target_R_raw[ 0 ],  STDIN_FILENO ) == -1 ) {
               abort();
             }
