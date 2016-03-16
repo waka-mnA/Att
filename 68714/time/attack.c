@@ -188,6 +188,7 @@ void attack() {
   gmp_printf("Time : %d\n", r_R);
   gmp_printf("Ciphertext : %ZX\n", c);
   gmp_printf("Key Hypothesis : %ZX\n", d_R1);
+  gmp_printf("Key Hypothesis : %Zb\n", d_R1);
   gmp_printf("Plaintext : %ZX\n", m_R);
 
   //Send c and receive time taken and decrypted message
