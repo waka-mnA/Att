@@ -276,10 +276,12 @@ void cleanupR( int s ){
 The main function
 */
 int main( int argc, char* argv[] ) {
+printf("%s\n", argv[1]);
   // Ensure we clean-up correctly if Control-C (or similar) is signalled.
     signal( SIGINT, &cleanup );
     signal( SIGINT, &cleanupR );
 
+printf("%s\n", argv[1]);
     // Create pipes to/from attack target; if it fails the reason is stored
     // in errno, but we'll just abort.
     if( pipe( target_raw ) == -1 ) {
