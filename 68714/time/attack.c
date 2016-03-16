@@ -95,7 +95,6 @@ void interact( int* t, mpz_t m, const mpz_t c){
 
 void interact_R( int* t, mpz_t m, const mpz_t c, const mpz_t N, const mpz_t d){
   //Send c
-  //fprintf( target_in, "%s\n", c );  fflush( target_in );
   gmp_fprintf(R_in, "%ZX\n", c); fflush(R_in);
   gmp_fprintf(R_in, "%ZX\n", N); fflush(R_in);
   gmp_fprintf(R_in, "%ZX\n", d); fflush(R_in);
@@ -231,22 +230,27 @@ void cleanup( int s ){
   fclose( target_in  );
   fclose( target_out );
 
-//  fclose( R_in  );
-//  fclose( R_out );
+  fclose( R_in  );
+  fclose( R_out );
   // Close the unbuffered communication handles.
   close( target_raw[ 0 ] );
   close( target_raw[ 1 ] );
   close( attack_raw[ 0 ] );
   close( attack_raw[ 1 ] );
 
-/*  close( target_R_raw[ 1 ] );
+
+  close( target_R_raw[ 0 ] );
+  close( target_R_raw[ 1 ] );
   close( attack_R_raw[ 0 ] );
   close( attack_R_raw[ 1 ] );
-*/
+
 
   // Forcibly terminate the attack target process.
   if( pid > 0 ) {
     kill( pid, SIGKILL );
+  }
+  if( pid_R > 0 ) {
+    kill( pid_R, SIGKILL );
   }
 
   // Forcibly terminate the attacker      process.
@@ -277,7 +281,7 @@ The main function
 int main( int argc, char* argv[] ) {
   // Ensure we clean-up correctly if Control-C (or similar) is signalled.
     signal( SIGINT, &cleanup );
-    signal( SIGINT, &cleanupR );
+//    signal( SIGINT, &cleanupR );
 
     // Create pipes to/from attack target; if it fails the reason is stored
     // in errno, but we'll just abort.
@@ -378,7 +382,7 @@ int main( int argc, char* argv[] ) {
     }
 
     // Clean up any resources we've hung on to.
-    cleanupR( SIGINT );
+//    cleanupR( SIGINT );
     cleanup( SIGINT );
     return 0;
 }
