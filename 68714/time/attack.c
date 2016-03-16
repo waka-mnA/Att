@@ -142,7 +142,7 @@ void attack() {
     abort();
   }
   fclose(data_in);
-
+  gmp_printf("%ZX\n", N);
   //Choose the set of ciphertexts
   mpz_set_ui(c, 12312901293102931);
 
@@ -329,13 +329,14 @@ int main( int argc, char* argv[] ) {
           case +0 : {
             // (Re)connect standard input and output to pipes.
             close( attack_R_raw[ 1 ] );
-            if( dup2( attack_R_raw[ 1 ], STDOUT_FILENO ) == -1 ) {
+            close(  target_R_raw[ 0 ] );
+            /*if( dup2( attack_R_raw[ 1 ], STDOUT_FILENO ) == -1 ) {
               abort();
             }
-            close(  target_R_raw[ 0 ] );
+
             if( dup2( target_R_raw[ 0 ],  STDIN_FILENO ) == -1 ) {
               abort();
-            }
+            }*/
             //printf("test4 %s\n", argv[1]);
 
             // Produce a sub-process representing the attack target.
