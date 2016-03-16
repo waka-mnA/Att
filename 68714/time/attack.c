@@ -288,12 +288,6 @@ int main( int argc, char* argv[] ) {
     if( pipe( attack_raw ) == -1 ) {
       abort();
     }
-    if( pipe( target_R_raw ) == -1 ) {
-      abort();
-    }
-    if( pipe( attack_R_raw ) == -1 ) {
-      abort();
-    }
 
     //printf("test1 %s\n", argv[1]);
     switch( pid = fork() ) {
@@ -332,6 +326,13 @@ int main( int argc, char* argv[] ) {
 
       default : {
       //printf("test3 %s\n", argv[1]);
+          if( pipe( target_R_raw ) == -1 ) {
+            abort();
+          }
+          if( pipe( attack_R_raw ) == -1 ) {
+            abort();
+          }
+
         switch(pid_R = fork()){
           case -1 : {
             // The fork failed; reason is stored in errno, but we'll just abort.
@@ -393,7 +394,7 @@ int main( int argc, char* argv[] ) {
     }
 
     // Clean up any resources we've hung on to.
-    cleanup( SIGINT );
     cleanupR( SIGINT );
+    cleanup( SIGINT );
     return 0;
 }
