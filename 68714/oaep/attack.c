@@ -60,11 +60,13 @@ void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
 char* int2oct(const mpz_t i){
   char* octet;
 
-  int l = mpz_sizeinbase(i, 16);
+  int l = mpz_sizeinbase(i, 2);
   int size;
   if (l % 2 != 0) size = l+1;
   else size = l;
-
+  printf("%d\n", size);
+  size = size/8;
+  printf("%d\n", size);
   octet = malloc(size+1);
 
   char* tmpStr = NULL;
