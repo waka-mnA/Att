@@ -79,7 +79,8 @@ char* int2oct(const mpz_t i){
     else octet[k+1] = toupper(tmpStr[size-k-1]);
   }
   octet[size] = '\0';
-  return octet;
+  //return octet;
+  return tmpStr;
 }
 
 //Convert octet string to integer
