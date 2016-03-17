@@ -76,6 +76,7 @@ char* int2oct(const mpz_t i){
     else octet[k+1] = toupper(tmpStr[size-k-1]);
   }
   octet[size] = '\0';
+  gmp_printf("octet %s\n", octet);
   return octet;
 }
 
