@@ -172,8 +172,12 @@ void attack() {
   fclose(data_in);
   //Convert string to mpz_t
   oct2int(c, cString);
+  char* nani2 = "09080706050403020100";
+
   char* nani;
   mpz_t suuji;mpz_init(suuji);
+  oct2int(suuji, nani2);
+  gmp_printf("suuji1 %ZX\n%Zd", suuji, suuji);
   mpz_set_ui(suuji,18591708106338011145);
   nani=int2oct(suuji);
   gmp_printf("suuji %s\n", nani);
