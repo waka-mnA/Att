@@ -69,10 +69,16 @@ char* int2oct(const mpz_t i, const mpz_t N){
 
   char* tmpStr = NULL;
   tmpStr = mpz_get_str(tmpStr, 16, i);
-  for (int k = 0;k<size;k = k+2){
-    if ((size != l)&& (size - k >l)) octet[k] = '0';
-    else octet[k] = toupper(tmpStr[k]);
-    octet[k+1] = toupper(tmpStr[k+1]);
+  int index = 0;
+  for (index = 0; index<(size - l) ;index++){
+    octet[index] = '0';
+  }
+  printf("index %d\n", index);
+  for (int k = index-1;k<size;k = k+1){
+    //if ((size != l)&& (size - k >l)) octet[k] = '0';
+    //else octet[k] = toupper(tmpStr[k]);
+    //octet[k+1] = toupper(tmpStr[k+1]);
+    octet[k] = toupper(tmpStr[k]);
   }
   octet[size] = '\0';
   return octet;
