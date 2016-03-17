@@ -68,7 +68,7 @@ char* int2oct(const mpz_t i){
 
   char* tmpStr = NULL;
   tmpStr = mpz_get_str(tmpStr, 16, i);
-
+  gmp_printf("%d %ZX\n", size i);
   for (int k = 0;k<size;k = k+2){
     octet[k] = toupper(tmpStr[size-k-2]);
     if ((size != l)&& (k == (size-2))) octet[k+1] = '0';
@@ -178,7 +178,7 @@ void attack() {
     mpz_mod(send, send, N);
 
     char* sendStr = int2oct(send);
-    interact(&r, lString,sendStr);
+    interact(&r, lString , sendStr);
     interaction++;
     int test = mpz_cmp(send, N);
 
