@@ -79,8 +79,7 @@ char* int2oct(const mpz_t i){
     else octet[k+1] = toupper(tmpStr[size-k-1]);
   }
   octet[size] = '\0';
-  //return octet;
-  return tmpStr;
+  return octet;
 }
 
 //Convert octet string to integer
@@ -106,6 +105,8 @@ void oct2int(mpz_t i, const char* string){
 
 void interact( int* r, const char* l, const char* c){
   //Send l and c
+  int size = strlen(c);
+  printf("%d\n", size);
   fprintf( target_in, "%s\n", l );  fflush( target_in );
   fprintf( target_in, "%s\n", c );  fflush( target_in );
 
