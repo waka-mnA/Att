@@ -60,42 +60,22 @@ void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
 char* int2oct(const mpz_t i){
   char* octet;
 
-  int l = mpz_sizeinbase(i, 2);
+  int l = mpz_sizeinbase(i, 16);
   int size;
   if (l % 2 != 0) size = l+1;
   else size = l;
-  size = ceil((double)size/8);
   octet = malloc(size+1);
 
   char* tmpStr = NULL;
-  tmpStr = mpz_get_str(tmpStr, 2, i);
-  mpz_t num; mpz_init(num);
-  mpz_t r; mpz_init(r);mpz_set(r, i);
-  mpz_t div; mpz_init(div);
-  mpz_t base; mpz_init(base);mpz_set_ui(base, 2);
-  mpz_pow_ui(base, base, 4 *(size-1));
-  gmp_printf("%ZX\n", i);
-  for (int k = size;k>=0;k= k-2){
-
-    mpz_fdiv_qr(num, r, r, base);
-    char* tmp = NULL;
-    tmp = mpz_get_str(tmp, 16, num);
-    gmp_printf("%d %Zd %s %ZX\n", k, base, tmp, num);
-    octet[size-k] = toupper(tmp[0]);
-    octet[size-k+1] = toupper(tmp[1]);
-    gmp_printf("%s\n", octet);
-    mpz_div_ui(base, base, 178);
-  }
+  tmpStr = mpz_get_str(tmpStr, 16, i);
 
 
-  //octet[0] =toupper(tmpStr[size-2]);
-  //octet[1] =toupper(tmpStr[size-1]);
 
-  /*for (int k = 2;k<size;k = k+2){
+  for (int k = 0;k<size;k = k+2){
     octet[k] = toupper(tmpStr[size-k-2]);
     if ((size != l)&& (k == (size-2))) octet[k+1] = '0';
     else octet[k+1] = toupper(tmpStr[size-k-1]);
-  }*/
+  }
   octet[size] = '\0';
   return octet;
 }
