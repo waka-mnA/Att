@@ -199,11 +199,12 @@ void attack() {
     char* sendStr = int2oct(send);
     interact(&r, lString,sendStr);
     interaction++;
+    gmp_printf("%ZX\n%ZX", sendStr, N);
     gmp_printf("Loop 2 Result Code: %d f2: %Zd interaction: %d\n", r, f2, interaction);
     //if error == 1 let f2 = f2 + f1/2
     //if error != 0 break
     if (r == 1) mpz_add(f2, f2, tmp2);
-    else break;
+    //else break;
   }
 
   //mmin = ceil(n/f2), mmax = floor((n+B)/f2)
