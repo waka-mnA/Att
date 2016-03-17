@@ -80,24 +80,7 @@ char* int2oct(const mpz_t i){
 
 //Convert octet string to integer
 void oct2int(mpz_t i, const char* string){
-  //int size = strlen(string);
   mpz_set_str(i, string, 16);
-  /*mpz_set_ui(i, 0);
-  mpz_t tmp;mpz_init(tmp);
-  mpz_t tmp2;mpz_init(tmp2);
-  mpz_t two;mpz_init(two);mpz_set_ui(two, 2);
-  char octet[3] = {'\0'};
-  for (int k = 0;k<size;k = k+2){
-    octet[0] = string[k];
-    octet[1] = string[k+1];
-    mpz_set_str(tmp, octet, 16);
-    mpz_pow_ui(tmp2, two, 4*k);
-    mpz_mul(tmp, tmp, tmp2);
-    mpz_add(i, i, tmp);
-  }
-  mpz_clear(tmp);
-  mpz_clear(tmp2);
-  mpz_clear(two);*/
 }
 
 void interact( int* r, const char* l, const char* c){
@@ -151,14 +134,7 @@ void attack() {
   fclose(data_in);
   //Convert string to mpz_t
   oct2int(c, cString);
-  char* nani2 = "09080706050403020100";
 
-  char* nani;
-  mpz_t suuji;mpz_init(suuji);
-  oct2int(suuji, nani2);
-  gmp_printf("suuji1 %ZX\n%Zd", suuji, suuji);
-  nani=int2oct(suuji);
-  gmp_printf("suuji %s\n", nani);
   //let B = 2^(8(k-1))
   int k = mpz_sizeinbase(N, 2);
   k = k/8;
@@ -206,7 +182,6 @@ void attack() {
     interact(&r, lString,sendStr);
     interaction++;
     int test = mpz_cmp(send, N);
-    gmp_printf("%d\n%ZX\n%ZX\n%s\n", test, send, N, sendStr);
     gmp_printf("Loop 2 Result Code: %d f2: %Zd interaction: %d\n", r, f2, interaction);
     //if error == 1 let f2 = f2 + f1/2
     //if error != 0 break
