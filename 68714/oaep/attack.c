@@ -65,7 +65,7 @@ char* int2oct(const mpz_t i){
   if (l % 2 != 0) size = l+1;
   else size = l;
   printf("%d\n", size);
-  size = ceil(size/8);
+  size = ceil((double)size/8);
   printf("%d\n", size);
   octet = malloc(size+1);
 
