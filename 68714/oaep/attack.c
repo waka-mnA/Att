@@ -74,11 +74,13 @@ char* int2oct(const mpz_t i, const mpz_t N){
     octet[index] = '0';
   }
   printf("index %d\n", index);
+  int m = 0;
   for (int k = index-1;k<size;k = k+1){
     //if ((size != l)&& (size - k >l)) octet[k] = '0';
     //else octet[k] = toupper(tmpStr[k]);
     //octet[k+1] = toupper(tmpStr[k+1]);
-    octet[k] = toupper(tmpStr[k]);
+    octet[k] = toupper(tmpStr[m]);
+    m++;
   }
   octet[size] = '\0';
   return octet;
