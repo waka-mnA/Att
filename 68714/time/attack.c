@@ -11,27 +11,21 @@ pid_t pid_R        = 0;    // process ID (of either parent or child) from fork
 
 int   target_raw[ 2 ];   // unbuffered communication: attacker -> attack target
 int   attack_raw[ 2 ];   // unbuffered communication: attack target -> attacker
-
 int   target_R_raw[ 2 ];   // unbuffered communication: attacker -> R
 int   attack_R_raw[ 2 ];   // unbuffered communication: R -> attacker
 
-
 FILE* target_out = NULL; // buffered attack target input  stream
 FILE* target_in  = NULL; // buffered attack target output stream
-
 FILE* R_out = NULL; // buffered attack R input  stream
 FILE* R_in  = NULL; // buffered attack R output stream
 
-
-FILE* data_in  = NULL; //
-
+FILE* data_in  = NULL; //.conf file
 
 int interaction= 0;
 char N2[256];
 char e2[256];
 char lString[256];
 char cString[256];
-
 
 //Convert integer to octet string
 char* int2oct(const mpz_t i){
@@ -94,7 +88,7 @@ void interact( int* t, mpz_t m, const mpz_t c){
 }
 
 void interact_R( int* t, mpz_t m, const mpz_t c, const mpz_t N, const mpz_t d){
-  //Send c
+  //Send c, N, d
   gmp_fprintf(R_in, "%ZX\n", c); fflush(R_in);
   gmp_fprintf(R_in, "%ZX\n", N); fflush(R_in);
   gmp_fprintf(R_in, "%ZX\n", d); fflush(R_in);
@@ -113,12 +107,10 @@ void attack() {
   mpz_t e;mpz_init(e);
   mpz_t m;mpz_init(m);
   mpz_t c;mpz_init(c);
-
   mpz_t d_R1; mpz_init(d_R1);
   mpz_t d_R0; mpz_init(d_R0);
   mpz_t d; mpz_init(d);
   mpz_t m_R;mpz_init(m_R);
-
 
   mpz_t f2; mpz_init(f2);
   mpz_t f3;mpz_init(f3);
@@ -148,13 +140,18 @@ void attack() {
   //Guess the size of the key
   int size = 1;
   mpz_set_ui(d_R1, 1);
+  mpz_set_ui(d_R0, 1);
   r = 0;
   r_R = -1;
+  int r_R0 = -1;
   while (r>=r_R){
     interact(&r, m, c);
     interact_R(&r_R, m_R, c, N, d_R1);
+    interact_R(&r_R0, m_R, c, N, d_R0);
+    printf("%d %d\n", r_R, r_R0);
     if (r<r_R) break;
     mpz_mul_ui(d_R1, d_R1, 2);
+    mpz_mul_ui(d_R0, d_R0, 2);
     mpz_add_ui(d_R1, d_R1, 1);
     size++;
   }
@@ -172,16 +169,8 @@ void attack() {
       mpz_add_ui(d_R1, d_R1, 1);
     }
   }
-
-  //INSERT LOOP HERE TO TEST KEY HYPO
-  //This should be the last of the loop...?
-  /*mpz_set_ui(tmp, 1);
-  for (int i = index;i>=0;i--){
-    mpz_mul_ui(tmp, tmp, 2);
-  }
-  mpz_set(d_R0, d_R1);
-  mpz_add(d_R1, d_R1, tmp);
-*/
+int endFlag = 0;
+while (endFlag != 1){
   //Send c, N and key hypothsis d,
   //Receive time taken and decrypted message
   interact_R(&r_R, m_R, c, N, d_R1);
@@ -197,12 +186,26 @@ void attack() {
   gmp_printf("Ciphertext : %ZX\n", c);
   gmp_printf("Plaintext : %ZX\n", m);
 
+//TEST
 
   //Analysis
+  //if index bit hypothesis is right...
+  index--;
+  //Update key hypothesis
+  mpz_set_ui(tmp, 1);
+  for (int i = index;i>=0;i--){
+    mpz_mul_ui(tmp, tmp, 2);
+  }
+  mpz_set(d_R0, d_R1);
+  mpz_add(d_R1, d_R1, tmp);
+}
 
-//if index bit hypothesis is right...
-index--;
 
+
+
+
+
+//END
 gmp_printf("Target Material : %ZX\n", m);
 gmp_printf("Total Number of Interaction: %d\n", interaction);
 
