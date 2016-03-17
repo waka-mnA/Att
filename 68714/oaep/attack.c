@@ -83,7 +83,7 @@ char* int2oct(const mpz_t i){
     octet[size-k] = toupper(tmp[0]);
     octet[size-k+1] = toupper(tmp[1]);
     gmp_printf("%s\n", octet);
-    base = base/pow(2, 8);
+    base = base/256;
   }
 
 
