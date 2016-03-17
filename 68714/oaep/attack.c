@@ -71,9 +71,10 @@ char* int2oct(const mpz_t i){
   gmp_printf("%d %ZX\n", size, i);
   gmp_printf("%s %ZX\n", tmpStr, i);
   for (int k = 0;k<size;k = k+2){
-    octet[k] = toupper(tmpStr[k]);
-    if ((size != l)&& (k == (size-2))) octet[k+1] = '0';
-    else octet[k+1] = toupper(tmpStr[k+1]);
+
+    if ((size != l)&& (k == 0)) octet[k] = '0';
+    else octet[k] = toupper(tmpStr[k]);
+    octet[k+1] = toupper(tmpStr[k+1]);
   }
   octet[size] = '\0';
   gmp_printf("octet %s\n", octet);
