@@ -69,8 +69,6 @@ char* int2oct(const mpz_t i){
   char* tmpStr = NULL;
   tmpStr = mpz_get_str(tmpStr, 16, i);
 
-
-
   for (int k = 0;k<size;k = k+2){
     octet[k] = toupper(tmpStr[size-k-2]);
     if ((size != l)&& (k == (size-2))) octet[k+1] = '0';
@@ -82,8 +80,9 @@ char* int2oct(const mpz_t i){
 
 //Convert octet string to integer
 void oct2int(mpz_t i, const char* string){
-  int size = strlen(string);
-  mpz_set_ui(i, 0);
+  //int size = strlen(string);
+  mpz_set_str(i, string, 16);
+  /*mpz_set_ui(i, 0);
   mpz_t tmp;mpz_init(tmp);
   mpz_t tmp2;mpz_init(tmp2);
   mpz_t two;mpz_init(two);mpz_set_ui(two, 2);
@@ -98,7 +97,7 @@ void oct2int(mpz_t i, const char* string){
   }
   mpz_clear(tmp);
   mpz_clear(tmp2);
-  mpz_clear(two);
+  mpz_clear(two);*/
 }
 
 void interact( int* r, const char* l, const char* c){
@@ -158,7 +157,6 @@ void attack() {
   mpz_t suuji;mpz_init(suuji);
   oct2int(suuji, nani2);
   gmp_printf("suuji1 %ZX\n%Zd", suuji, suuji);
-  mpz_set_ui(suuji,18591708106338011145);
   nani=int2oct(suuji);
   gmp_printf("suuji %s\n", nani);
   //let B = 2^(8(k-1))
