@@ -72,7 +72,7 @@ char* int2oct(const mpz_t i){
   mpz_t num; mpz_init(num);
   mpz_t r; mpz_init(r);mpz_set(r, i);
   mpz_t div; mpz_init(div);
-  int base = pow(2, 8*size);
+  int base = (int)pow(2.0, 8.0*size);
 
   for (int k = size;size>=0;size= size-2){
 
