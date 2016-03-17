@@ -181,7 +181,7 @@ void attack() {
     interaction++;
     int test = mpz_sizeinbase(N, 16);
 
-    int test2 = strLen(sendStr);
+    int test2 = strlen(sendStr);
 
 
     gmp_printf("%d %d\n%ZX\n%ZX\n%s\n",test,test2, send, N, sendStr);
