@@ -74,7 +74,7 @@ char* int2oct(const mpz_t i){
   mpz_t div; mpz_init(div);
   int base = (int)pow(2.0, 8.0*(size-1));
 
-  for (int k = size;size>=0;size= size-2){
+  for (int k = size;k>=0;k= k-2){
 
     mpz_fdiv_qr_ui(num, r, r, base);
     char* tmp = NULL;
