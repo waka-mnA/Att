@@ -72,18 +72,19 @@ char* int2oct(const mpz_t i){
   mpz_t num; mpz_init(num);
   mpz_t r; mpz_init(r);mpz_set(r, i);
   mpz_t div; mpz_init(div);
-  int base = (int)pow(2.0, 8.0*(size-1));
+  mpz_t base; mpz_init(base);mpz_set_ui(base, 2);
+  mpz_pow_ui(base,base, 8.0*(size-1));
   gmp_printf("%ZX\n", i);
   for (int k = size;k>=0;k= k-2){
 
-    mpz_fdiv_qr_ui(num, r, r, base);
+    mpz_fdiv_qr(num, r, r, base);
     char* tmp = NULL;
     tmp = mpz_get_str(tmp, 16, num);
-    gmp_printf("%d %d %s %ZX\n", k, base, tmp, num);
+    gmp_printf("%d %Zd %s %ZX\n", k, base, tmp, num);
     octet[size-k] = toupper(tmp[0]);
     octet[size-k+1] = toupper(tmp[1]);
     gmp_printf("%s\n", octet);
-    base = base/256;
+    mpz_div_ui(base, base, 256);
   }
 
 
