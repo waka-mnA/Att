@@ -152,7 +152,7 @@ void attack() {
     mpz_mul(send, send, tmp);
     mpz_mod(send, send, N);
 
-    char* sendStr = int2oct(send);
+    char* sendStr = int2oct(send, N);
     interact(&r, lString,sendStr);
     interaction++;
     gmp_printf("Loop 1 Result Code: %d f1: %Zd interaction: %d\n", r, f1, interaction);
@@ -221,7 +221,7 @@ while(mpz_cmp(mmin, mmax)!= 0){
   mpz_mul(send, send, tmp);
   mpz_mod(send, send, N);
 
-  char* sendStr = int2oct(send);
+  char* sendStr = int2oct(send, N);
   interact(&r, lString,sendStr);
   interaction++;
   gmp_printf("Loop 3 Result Code: %d interaction: %d\n", r, interaction);
