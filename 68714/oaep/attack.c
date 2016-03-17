@@ -70,7 +70,7 @@ char* int2oct(const mpz_t i, const mpz_t N){
   char* tmpStr = NULL;
   tmpStr = mpz_get_str(tmpStr, 16, i);
   int index = 0;
-  for (index = 0; index<(size - l) ;index++){
+  for (index = 0; index<=(size - l) ;index++){
     octet[index] = '0';
   }
   printf("index %d\n", index);
