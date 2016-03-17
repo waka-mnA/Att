@@ -64,9 +64,7 @@ char* int2oct(const mpz_t i){
   int size;
   if (l % 2 != 0) size = l+1;
   else size = l;
-  printf("%d\n", size);
   size = ceil((double)size/8);
-  printf("%d\n", size);
   octet = malloc(size+1);
 
   char* tmpStr = NULL;
@@ -174,7 +172,10 @@ void attack() {
   fclose(data_in);
   //Convert string to mpz_t
   oct2int(c, cString);
-
+  char* nani;
+  mpz_t suuji;mpz_init(suuji);
+  mpz_set_ui(suuji,18591708106338011145);
+  nani=int2oct(suuji);
   //let B = 2^(8(k-1))
   int k = mpz_sizeinbase(N, 2);
   k = k/8;
