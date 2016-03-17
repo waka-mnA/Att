@@ -57,19 +57,20 @@ void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
 }
 
 //Convert integer to octet string
-char* int2oct(const mpz_t i){
+char* int2oct(const mpz_t i, const mpz_t N){
   char* octet = NULL;
-
+  int size = mpz_sizeinbase(N, 16);
   int l = mpz_sizeinbase(i, 16);
-  int size;
-  if (l % 2 != 0) size = l+1;
-  else size = l;
+  /*int size;
+  //if (l % 2 != 0) size = l+1;
+  if (lN != l ) size = lN;
+  else size = l;*/
   octet = malloc(size+1);
 
   char* tmpStr = NULL;
   tmpStr = mpz_get_str(tmpStr, 16, i);
   for (int k = 0;k<size;k = k+2){
-    if ((size != l)&& (k == 0)) octet[k] = '0';
+    if ((size != l)&& (size - k >l)) octet[k] = '0';
     else octet[k] = toupper(tmpStr[k]);
     octet[k+1] = toupper(tmpStr[k+1]);
   }
@@ -176,7 +177,7 @@ void attack() {
     mpz_mul(send, send, tmp);
     mpz_mod(send, send, N);
 
-    char* sendStr = int2oct(send);
+    char* sendStr = int2oct(send, N);
     interact(&r, lString , sendStr);
     interaction++;
     int test = mpz_sizeinbase(N, 16);
