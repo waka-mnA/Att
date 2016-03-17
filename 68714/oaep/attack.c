@@ -220,6 +220,7 @@ while(mpz_cmp(mmin, mmax)!= 0){
   char* sendStr = int2oct(send);
   interact(&r, lString,sendStr);
   interaction++;
+  gmp_printf("%ZX\n%ZX\n", send, N);
   gmp_printf("Loop 3 Result Code: %d interaction: %d\n", r, interaction);
   //if error == 1 then set mmin = ceil((in+B)/f3)
   //if error != 1 then set mmax = floor((in+B)/f3)
