@@ -76,9 +76,6 @@ char* int2oct(const mpz_t i, const mpz_t N){
   printf("index %d\n", index);
   int m = 0;
   for (int k = index-1;k<size;k = k+1){
-    //if ((size != l)&& (size - k >l)) octet[k] = '0';
-    //else octet[k] = toupper(tmpStr[k]);
-    //octet[k+1] = toupper(tmpStr[k+1]);
     octet[k] = toupper(tmpStr[m]);
     m++;
   }
@@ -93,7 +90,6 @@ void oct2int(mpz_t i, const char* string){
 
 void interact( int* r, const char* l, const char* c){
   //Send l and c
-  int size = strlen(c);
   fprintf( target_in, "%s\n", l );  fflush( target_in );
   fprintf( target_in, "%s\n", c );  fflush( target_in );
 
@@ -177,7 +173,7 @@ void attack() {
   mpz_div_ui(tmp2, f1, 2);
   mpz_mul(f2, tmp, tmp2);
 
-  while(r != 0){
+  while(r != 2){
   //Loop2
     //send f2^e * c mod N
     mpz_powm(send, f2 ,e, N);
@@ -188,17 +184,17 @@ void attack() {
     char* sendStr = int2oct(send, N);
     interact(&r, lString , sendStr);
     interaction++;
-    int test = mpz_sizeinbase(N, 16);
+    //int test = mpz_sizeinbase(N, 16);
 
-    int test2 = strlen(sendStr);
+    //int test2 = strlen(sendStr);
 
 
-    gmp_printf("%d %d\n%ZX\n%ZX\n%s\n",test,test2, send, N, sendStr);
+    //gmp_printf("%d %d\n%ZX\n%ZX\n%s\n",test,test2, send, N, sendStr);
     gmp_printf("Loop 2 Result Code: %d f2: %Zd interaction: %d\n", r, f2, interaction);
     //if error == 1 let f2 = f2 + f1/2
     //if error != 0 break
     if (r == 1) mpz_add(f2, f2, tmp2);
-    //else break;
+    if (r == 2) break;
   }
 
   //mmin = ceil(n/f2), mmax = floor((n+B)/f2)
