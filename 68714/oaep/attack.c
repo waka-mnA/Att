@@ -68,16 +68,12 @@ char* int2oct(const mpz_t i){
 
   char* tmpStr = NULL;
   tmpStr = mpz_get_str(tmpStr, 16, i);
-  gmp_printf("%d %ZX\n", size, i);
-  gmp_printf("%s %ZX\n", tmpStr, i);
   for (int k = 0;k<size;k = k+2){
-
     if ((size != l)&& (k == 0)) octet[k] = '0';
     else octet[k] = toupper(tmpStr[k]);
     octet[k+1] = toupper(tmpStr[k+1]);
   }
   octet[size] = '\0';
-  gmp_printf("octet %s\n", octet);
   return octet;
 }
 
@@ -183,9 +179,12 @@ void attack() {
     char* sendStr = int2oct(send);
     interact(&r, lString , sendStr);
     interaction++;
-    int test = mpz_cmp(send, N);
+    int test = mpz_sizeinbase(N, 16);
 
-    gmp_printf("%d %ZX\n%ZX\n%s\n",test, send, N, sendStr);
+    int test2 = strLen(sendStr);
+
+
+    gmp_printf("%d %d\n%ZX\n%ZX\n%s\n",test,test2, send, N, sendStr);
     gmp_printf("Loop 2 Result Code: %d f2: %Zd interaction: %d\n", r, f2, interaction);
     //if error == 1 let f2 = f2 + f1/2
     //if error != 0 break
