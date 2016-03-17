@@ -73,7 +73,7 @@ char* int2oct(const mpz_t i){
   mpz_t r; mpz_init(r);mpz_set(r, i);
   mpz_t div; mpz_init(div);
   int base = (int)pow(2.0, 8.0*(size-1));
-
+  gmp_printf("%ZX\n", i);
   for (int k = size;k>=0;k= k-2){
 
     mpz_fdiv_qr_ui(num, r, r, base);
