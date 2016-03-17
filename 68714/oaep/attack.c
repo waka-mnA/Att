@@ -199,7 +199,7 @@ void attack() {
     char* sendStr = int2oct(send);
     interact(&r, lString,sendStr);
     interaction++;
-    gmp_printf("%ZX\n%ZX", send, N);
+    gmp_printf("%ZX\n%ZX\n%s\n", send, N, sendStr);
     gmp_printf("Loop 2 Result Code: %d f2: %Zd interaction: %d\n", r, f2, interaction);
     //if error == 1 let f2 = f2 + f1/2
     //if error != 0 break
