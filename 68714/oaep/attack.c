@@ -176,7 +176,7 @@ void attack() {
   mpz_t suuji;mpz_init(suuji);
   mpz_set_ui(suuji,18591708106338011145);
   nani=int2oct(suuji);
-  gmp_printf("suuji %s\n", nani)
+  gmp_printf("suuji %s\n", nani);
   //let B = 2^(8(k-1))
   int k = mpz_sizeinbase(N, 2);
   k = k/8;
