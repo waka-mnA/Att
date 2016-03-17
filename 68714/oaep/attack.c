@@ -86,7 +86,6 @@ void oct2int(mpz_t i, const char* string){
 void interact( int* r, const char* l, const char* c){
   //Send l and c
   int size = strlen(c);
-  printf("%d\n", size);
   fprintf( target_in, "%s\n", l );  fflush( target_in );
   fprintf( target_in, "%s\n", c );  fflush( target_in );
 
@@ -183,7 +182,7 @@ void attack() {
     interaction++;
     int test = mpz_cmp(send, N);
 
-    gmp_printf("%d %ZX\n%ZX\n",test, send, N);
+    gmp_printf("%d %ZX\n%ZX\n%s\n",test, send, N, sendStr);
     gmp_printf("Loop 2 Result Code: %d f2: %Zd interaction: %d\n", r, f2, interaction);
     //if error == 1 let f2 = f2 + f1/2
     //if error != 0 break
