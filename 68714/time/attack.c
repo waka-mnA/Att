@@ -148,7 +148,7 @@ void attack() {
     interact(&r, m, c);
     interact_R(&r_R, m_R, c, N, d_R1);
     interact_R(&r_R0, m_R, c, N, d_R0);
-    printf("%d %d\n", r_R, r_R0);
+    printf("%d %d %d\n", r_R, r, r_R0);
     if (r<r_R) break;
     mpz_mul_ui(d_R1, d_R1, 2);
     mpz_mul_ui(d_R0, d_R0, 2);
