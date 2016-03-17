@@ -69,6 +69,7 @@ char* int2oct(const mpz_t i){
   char* tmpStr = NULL;
   tmpStr = mpz_get_str(tmpStr, 16, i);
   gmp_printf("%d %ZX\n", size, i);
+  gmp_printf("%s %ZX\n", tmpStr, i);
   for (int k = 0;k<size;k = k+2){
     octet[k] = toupper(tmpStr[size-k-2]);
     if ((size != l)&& (k == (size-2))) octet[k+1] = '0';
