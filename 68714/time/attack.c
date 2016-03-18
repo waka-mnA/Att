@@ -140,6 +140,7 @@ int monPro(const mpz_t a, const mpz_t b, const mpz_t N, const mpz_t N2, const mp
   mpz_mul(tmp, tmp, N);//(t*N2 mod R)N
   mpz_add(tmp, t, tmp);
   mpz_div(u, tmp, R);
+  gmp_printf("%ZX\n%d\n", u, mpz_cmp(u, N));
   if (mpz_cmp(u, N)<0) return false;
   return true;
 
@@ -294,7 +295,7 @@ void attack() {
     zAvg1 = zAvg1 / zNum1;  //dj = 0, with reduction
     zAvg2 = zAvg2 / zNum2;  //dj = 0, without reduction
     printf("d bit: %d\nAvg (dj = 1) time difference: %d\n", j, yAvg1 - yAvg2);
-    printf("Avg (dj = 1) time difference: %d\n",zAvg1-zAvg2);
+    printf("Avg (dj = 0) time difference: %d\n",zAvg1-zAvg2);
     if ((yAvg1 - yAvg2) > (zAvg1 - zAvg2)) {
         mpz_mul_ui(dFinal, dFinal, 2);
         mpz_add_ui(dFinal, dFinal, 1);
