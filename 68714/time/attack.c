@@ -103,6 +103,37 @@ void interact_R( int* t, mpz_t m, const mpz_t c, const mpz_t N, const mpz_t d){
   interaction++;
 }
 
+void find_R(mpz_t R, const mpz_t N){
+  mpz_set_ui(R, 1);
+  int length = lN2;
+  int lengthR = lN2%64;
+  if (lengthR!= 0) length= length +(64 - lengthR)-1;
+  mpz_mul_2exp(R, R, length);
+}
+
+void find_N2(mpz_t N2, const mpz_t N){
+  mpz_t tmp; mpz_init(tmp);
+  mpz_t a; mpz_init(a);
+  mpz_t b; mpz_init(b);
+
+  mpz_set_ui(N2, 0);// N2 = 0
+  mpz_set_ui(a, 0); // a = 0
+  mpz_set_ui(b, 1); // b = 1
+  int l = mpz_sizeinbase (N, 2) - 1; //l = binary size of N - 1
+
+  while(l > 0){
+    mpz_mod_ui(tmp, a, 2);
+    if (mpz_cmp_ui(tmp, 0) == 0){//if (a&1)==0
+      mpz_add(a, a, N);//a = a + N
+
+      mpz_add(N2, N2, b);//N2 = N2 + b
+    }
+    mpz_div_2exp(a, a, 1);//a= a / 2
+    mpz_mul_2exp(b, b, 1);//b= b * 2;
+    l--;
+  }
+
+
 //mpz_t N, e, ...
 void attack() {
   mpz_t N;mpz_init(N);
@@ -120,6 +151,9 @@ void attack() {
   mpz_t cY;mpz_init(cY);
   mpz_t cZ;mpz_init(cZ);
   mpz_t dFinal;mpz_init(dFinal);mpz_set_ui(dFinal, 1);
+
+mpz_t R;mpz_init(R);
+  mpz_t N2;mpz_init(N2);
 
   int r = 0;
   int r_R = 0;
@@ -171,16 +205,14 @@ void attack() {
     }
   }*/
 
-  mpz_t R;mpz_init(R);mpz_set_ui(R, 1);
-  mpz_t baseR;mpz_init(baseR);mpz_set_ui(baseR, 2);
-  mpz_pow_ui(baseR, baseR, 64);
-  int length = lN2;
-  int lengthR = lN2%64;
-  if (lengthR!= 0) length= length +(64 - lengthR)-1;
-  mpz_mul_2exp(R, R, length);
-  lengthR = mpz_sizeinbase(R, 2);
-  gmp_printf("%ZX\n%ZX\n%d %d %d\n", N, R, lN2, length, lengthR);
-
+  //Find R for Montgomery reduction
+  find_R(R, N);
+  //Find N'
+  find_N2(N2, N);
+  mpz_mul(N, N2, N);
+  mpz_mod(N, N, R);
+  mpz_sub(N, N, R);
+  gmp_printf("N' %Zd\n", N);
 
 
   int yAvg, zAvg;//time average for each ciphertext set
