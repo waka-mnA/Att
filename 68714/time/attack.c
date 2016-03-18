@@ -218,14 +218,14 @@ mpz_t R;mpz_init(R);
       gmp_randstate_t state;//要改良
       srand(time(NULL));
       unsigned long int random = rand();
-      printf("%I64u\n", random);
+      printf("%lu\n", random);
       gmp_randseed_ui(state, random);
       mpz_urandomm(cY, state, Y);
       gmp_randclear(state);
       mpz_set_ui(cZ, 0);
       while(mpz_cmp(cZ, Z3)<=0){
         random = rand();
-        printf("%I64u\n", random);
+        printf("%lu\n", random);
         gmp_randseed_ui(state, random);
         mpz_urandomm(cZ, state, Z2);
       }
