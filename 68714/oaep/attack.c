@@ -23,48 +23,11 @@ char e2[256];
 char lString[256];
 char cString[256];
 
-
-void exp_mpz(mpz_t r, const mpz_t x, const mpz_t y){
-  mpz_t n; mpz_init(n);
-  mpz_t modTmp; mpz_init(modTmp);
-  mpz_t y2; mpz_init(y2);
-
-  mpz_set(y2, y);
-  mpz_set_ui(n, 1);
-  mpz_set(r, x);
-  if (mpz_cmp_ui(y, 0) == 0) {
-    mpz_set_ui(r, 1);
-    return;
-  }
-  while(mpz_cmp_ui(y2, 1)>0){
-    mpz_mod_ui(modTmp, y2, 2);
-    if (mpz_cmp_ui(modTmp, 0)==0){//y = even
-      mpz_mul(r, r, r); //r = r*r
-      mpz_div_ui(y2, y2, 2); //y2 = y2/2
-    }else{
-      mpz_mul(n, n, r); //n = n*r
-      mpz_mul(r, r, r); //r = r*r
-      mpz_sub_ui(y2, y2, 1); //y2 --
-      mpz_div_ui(y2, y2, 2); //y2 = y2/2
-    }
-  }
-  mpz_mul(r, r, n);
-
-  mpz_clear(n);
-  mpz_clear(modTmp);
-  mpz_clear(y2);
-
-}
-
 //Convert integer to octet string
 char* int2oct(const mpz_t i, const mpz_t N){
   char* octet = NULL;
   int size = mpz_sizeinbase(N, 16);
   int l = mpz_sizeinbase(i, 16);
-  /*int size;
-  //if (l % 2 != 0) size = l+1;
-  if (lN != l ) size = lN;
-  else size = l;*/
   octet = malloc(size+1);
 
   char* tmpStr = NULL;
@@ -73,7 +36,6 @@ char* int2oct(const mpz_t i, const mpz_t N){
   for (index = 0; index<=(size - l) ;index++){
     octet[index] = '0';
   }
-  printf("index %d\n", index);
   int m = 0;
   for (int k = index-1;k<size;k = k+1){
     octet[k] = toupper(tmpStr[m]);

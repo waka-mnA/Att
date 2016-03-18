@@ -112,6 +112,14 @@ void attack() {
   mpz_t d; mpz_init(d);
   mpz_t m_R;mpz_init(m_R);
 
+
+
+    mpz_t Y;mpz_init(Y);
+    mpz_t Z2;mpz_init(Z2);
+    mpz_t Z3;mpz_init(Z3);
+    mpz_t cY;mpz_init(cY);
+    mpz_t cZ;mpz_init(cZ);
+
   mpz_t f2; mpz_init(f2);
   mpz_t f3;mpz_init(f3);
   mpz_t mmin;mpz_init(mmin);mpz_set_ui(mmin, 0);
@@ -136,6 +144,28 @@ void attack() {
 
   //Choose the set of ciphertexts
   mpz_set_ui(c, 12312901293102931);
+
+  //Y^3< N
+  if (mpz_root(Y, N, 3) != 0){
+    mpz_sub_ui(Y, Y, 1);
+  }
+
+  //Z^2 < N < Z^3
+  mpz_sqrt(Z2, N);
+  if (mpz_root(Z3, N, 3) != 0){
+    mpz_add_ui(Z3, Z3, 1);
+  }
+
+  gmp_randstate_t state;
+  gmp_randinit_mt(state);
+  mpz_urandomm(cY, state, Y);
+  mpz_set_ui(cZ, 0);
+  while(mpz_cmp(cZ, Z3)<=0){
+    gmp_randinit_mt(state);
+    mpz_urandomm(cZ, state, Z2);
+  }
+  gmp_printf("%d %d %d\n", mpz_cmp(cY, Y), mpz_cmp(cZ, Z2), mpz_cmp(cZ, Z3));
+  //Should print negative, negative, positive
 
   //Guess the size of the key
   int size = 1;
