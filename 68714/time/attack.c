@@ -173,7 +173,7 @@ mpz_t R;mpz_init(R);
 
 
   //Guess the size of the key
-  int size = 1;
+  /*int size = 1;
   mpz_set_ui(d_R1, 1);
   mpz_set_ui(d_R0, 1);
   r = 0;
@@ -194,7 +194,7 @@ mpz_t R;mpz_init(R);
   int index = size - 1;
   mpz_set_ui(d_R1, 1);
   mpz_set_ui(d_R0, 1);
-
+*/
   /*//Initial key hypothesis
   for (int i = size-1;i>=0;i--){
       mpz_mul_ui(d_R1, d_R1, 2);
@@ -208,10 +208,11 @@ mpz_t R;mpz_init(R);
   //Find R for Montgomery reduction
   find_R(R, N);
   //Find N'
+    mpz_t tmpN;mpz_init(tmpN);
   find_N2(N2, N, R);
-  mpz_mul(N, N2, N);
-  mpz_mod(N, N, R);
-  mpz_sub(N, N, R);
+  mpz_mul(tmpN, N2, N);
+  mpz_mod(tmpN, tmpN, R);
+  mpz_sub(tmpN, tmpN, R);
   gmp_printf("N' %Zd\n", N);
 
 
