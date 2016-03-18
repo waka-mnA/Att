@@ -110,21 +110,14 @@ void find_R(mpz_t R, const mpz_t N){
   if (lengthR!= 0) length= length +(64 - lengthR)-1;
   mpz_mul_2exp(R, R, length);
 }
+
 //N * NR = -1 MOD R
-void find_N2(mpz_t N2, const mpz_t N, const mpz_t R){
+void find_N2(mpz_t N2, mpz_t rInv, const mpz_t N, const mpz_t R){
   mpz_t tmp; mpz_init(tmp);
-  mpz_t rInv; mpz_init(rInv);
-  mpz_t tmp2; mpz_init(tmp2);
-  mpz_t tmp3; mpz_init(tmp3);
 
   mpz_gcdext(tmp, rInv, N2, R, N);
-  mpz_mul(tmp2, R, rInv);
-  mpz_mul(tmp3, N, N2);
-  gmp_printf("gcd %ZX\n%ZX\n", tmp2, tmp3);
-  mpz_add(tmp2, tmp2, tmp3);
-  gmp_printf("gcd %ZX\n%ZX\n", tmp, tmp2);
+  mpz_mul_si(N2, N2, -1);
   mpz_clear(tmp);
-  mpz_clear(rInv);
 }
 
 
@@ -148,6 +141,7 @@ void attack() {
 
 mpz_t R;mpz_init(R);
   mpz_t N2;mpz_init(N2);
+    mpz_t rInv;mpz_init(rInv);
 
   int r = 0;
   int r_R = 0;
@@ -163,7 +157,6 @@ mpz_t R;mpz_init(R);
 
   //Choose the set of ciphertexts
   mpz_set_ui(c, 12312901293102931);
-
 
   //Guess the size of the key
   /*int size = 1;
@@ -188,25 +181,11 @@ mpz_t R;mpz_init(R);
   mpz_set_ui(d_R1, 1);
   mpz_set_ui(d_R0, 1);
 */
-  /*//Initial key hypothesis
-  for (int i = size-1;i>=0;i--){
-      mpz_mul_ui(d_R1, d_R1, 2);
-      mpz_mul_ui(d_R0, d_R0, 2);
-    //1 * 2^i
-    if (i == size - 1) {
-      mpz_add_ui(d_R1, d_R1, 1);
-    }
-  }*/
 
   //Find R for Montgomery reduction
   find_R(R, N);
   //Find N'
-  mpz_t tmpN;mpz_init(tmpN);
-  find_N2(N2, N, R);
-  mpz_mul(tmpN, N2, N);
-  mpz_mod(tmpN, tmpN, R);
-  mpz_sub(tmpN, tmpN, R);
-  gmp_printf("N' %Zd\n", tmpN);
+  find_N2(N2,rInv, N, R);
 
 
   int yAvg, zAvg;//time average for each ciphertext set
@@ -216,10 +195,9 @@ mpz_t R;mpz_init(R);
   mpz_t mZ;mpz_init(mZ);
   int cNum = 10;//number of ciphertexts in the set
   int endFlag = 0;
-  int dj = 0;//each bit value
-  int j = 1;
+  int j = 1;    //bit number
   //Loop for finding entire key d1-n
-  while(endFlag != 0)//change to until reach the last bit
+  while(endFlag != 1)//change to until reach the last bit
   {
     //Range generation
     //Y^3< N
@@ -245,9 +223,8 @@ mpz_t R;mpz_init(R);
         gmp_randinit_mt(state);
         mpz_urandomm(cZ, state, Z2);
       }
-      gmp_printf("%d %d %d\n%ZX\n%ZX\n", mpz_cmp(cY, Y), mpz_cmp(cZ, Z2), mpz_cmp(cZ, Z3), cY, cZ);
+      //gmp_printf("%d %d %d\n%ZX\n%ZX\n", mpz_cmp(cY, Y), mpz_cmp(cZ, Z2), mpz_cmp(cZ, Z3), cY, cZ);
       //Should print negative, negative, positive
-
 
       tY = 0; tZ = 0;
       //Send Y to oracle
@@ -267,38 +244,11 @@ mpz_t R;mpz_init(R);
         mpz_add_ui(dFinal, dFinal, 1);
     }
     else mpz_mul_ui(dFinal, dFinal, 2);
-    //Update j index value?
+    //Update j index value
     j++;
   }
-/*while (endFlag != 1){
-  //Send c, N and key hypothsis d,
-  //Receive time taken and decrypted message
-  interact_R(&r_R, m_R, c, N, d_R1);
-  gmp_printf("Time : %d\n", r_R);
-  gmp_printf("Ciphertext : %ZX\n", c);
-  gmp_printf("Key Hypothesis : %ZX\n", d_R1);
-  gmp_printf("Plaintext : %ZX\n", m_R);
 
-  //Send c and receive time taken and decrypted message
-  interact(&r, m, c);
-  interaction++;
-  gmp_printf("Time : %d\n", r);
-  gmp_printf("Ciphertext : %ZX\n", c);
-  gmp_printf("Plaintext : %ZX\n", m);
-
-//TEST
-
-  //Analysis
-  //if index bit hypothesis is right...
-  index--;
-  //Update key hypothesis
-  mpz_set_ui(tmp, 1);
-  for (int i = index;i>=0;i--){
-    mpz_mul_ui(tmp, tmp, 2);
-  }
-  mpz_set(d_R0, d_R1);
-  mpz_add(d_R1, d_R1, tmp);
-}*/
+//GUESS THE LAST bit
 
 //END
 gmp_printf("Target Material : %ZX\n", dFinal);
