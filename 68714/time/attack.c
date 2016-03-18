@@ -120,7 +120,7 @@ void find_N2(mpz_t N2, mpz_t rInv, const mpz_t N, const mpz_t R){
   mpz_clear(tmp);
 }
 //return true if u>=N, (with reduction), false if not
-int monPro(const mpt_t a, const mpz_t b, const mpz_t N, const mpz_t N2, const mpz_t R){
+int monPro(const mpz_t a, const mpz_t b, const mpz_t N, const mpz_t N2, const mpz_t R){
   mpz_t t;mpz_init(t);
   mpz_t a2;mpz_init(a2);
   mpz_t b2;mpz_init(b2);
@@ -143,10 +143,8 @@ int monPro(const mpt_t a, const mpz_t b, const mpz_t N, const mpz_t N2, const mp
   if (mpz_cmp(u, N)<0) return false;
   return true;
 
-  mpz_clear(t);
-  mpz_clear(tmp);
-  mpz_clear(u);
-  mpz_clear(a2);
+  mpz_clear(t); mpz_clear(tmp);
+  mpz_clear(u); mpz_clear(a2);
   mpz_clear(b2);
 }
 
