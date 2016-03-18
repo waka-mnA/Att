@@ -119,7 +119,36 @@ void find_N2(mpz_t N2, mpz_t rInv, const mpz_t N, const mpz_t R){
   mpz_mul_si(N2, N2, -1);
   mpz_clear(tmp);
 }
+//return true if u>=N, (with reduction), false if not
+int monPro(const mpt_t a, const mpz_t b, const mpz_t N, const mpz_t N2, const mpz_t R){
+  mpz_t t;mpz_init(t);
+  mpz_t a2;mpz_init(a2);
+  mpz_t b2;mpz_init(b2);
+  mpz_t u;mpz_init(u);
+  mpz_t tmp;mpz_init(tmp);
 
+  //Montgomery a
+  mpz_mul(a2, a, R);
+  mpz_mod(a2, a2, N);
+  //Montgomery b
+  mpz_mul(b2, b, R);
+  mpz_mod(b2, b2, N);
+  mpz_mul(t, a2, b2);
+  //calc u = (t + (t*N2 mod R)N)/R
+  mpz_mul(tmp, t, N2);
+  mpz_mod(tmp, tmp, R);
+  mpz_mul(tmp, tmp, N);//(t*N2 mod R)N
+  mpz_add(tmp, t, tmp);
+  mpz_div(u, tmp, R);
+  if (mpz_cmp(u, N)<0) return false;
+  return true;
+
+  mpz_clear(t);
+  mpz_clear(tmp);
+  mpz_clear(u);
+  mpz_clear(a2);
+  mpz_clear(b2);
+}
 
 //mpz_t N, e, ...
 void attack() {
@@ -188,42 +217,51 @@ mpz_t R;mpz_init(R);
   find_N2(N2,rInv, N, R);
 
 
-  int yAvg, zAvg;//time average for each ciphertext set
+  mpz_t cTmp;mpz_init(cTmp);  //mtmp
+  mpz_t cTmpC;mpz_init(cTmpC);//mtmp * m
+
+
+  int yAvg1, zAvg1, yAvg2, zAvg2;//time average for each ciphertext set
+  int yNum1, zNum1, yNum2, zNum2;
   int emp = 200;//empirical value to determine the significant difference between y and z time
   int tY, tZ;
   mpz_t mY;mpz_init(mY);
   mpz_t mZ;mpz_init(mZ);
-  int cNum = 10;//number of ciphertexts in the set
+  int cNum = 5;//number of ciphertexts in the set
   int endFlag = 0;
   int j = 1;    //bit number
   //Loop for finding entire key d1-n
   while(endFlag != 1)//change to until reach the last bit
   {
-    //Range generation
+/*    //Range generation
     //Y^3< N
     if (mpz_root(Y, N, 3) != 0){
       mpz_sub_ui(Y, Y, 1);
     }
-
     //Z^2 < N < Z^3
     mpz_sqrt(Z2, N);
     if (mpz_root(Z3, N, 3) != 0){
       mpz_add_ui(Z3, Z3, 1);
     }
-    //initiate average y and z
-    yAvg = 0; zAvg = 0;
+*/
+
+    //initiate average time
+    yAvg1 = 0; zAvg1 = 0;
+    yAvg2 = 0; zAvg2 = 0;
+    yNum1 = 0; zNum1 = 0;
+    yNum2 = 0; zNum2 = 0;
+    int o1_flag = 0, o2_flag = 0;
     //Loop for statistics
-    for (int count = 0;count< cNum;count++){
-      //Generate Y and Z ciphertext
-      gmp_randstate_t state;//要改良
+    while(!((yNum1 >cNum) &&(yNum2 > cNum) && (zNum1>cNum)&&(zNum2>cNum))){
+
+  /*    gmp_randstate_t state;//要改良
       srand(time(NULL));
       int random = rand();
-      printf("%d\n", random);
       gmp_randseed_ui(state, random);
-      printf("test\n");
       mpz_urandomm(cY, state, Y);
       gmp_printf("cY %ZX\n", cY);
       gmp_randclear(state);
+
       mpz_set_ui(cZ, 0);
       while(mpz_cmp(cZ, Z3)<=0){
         random = rand();
@@ -232,25 +270,74 @@ mpz_t R;mpz_init(R);
         mpz_urandomm(cZ, state, Z2);
         gmp_randclear(state);
 
+      }*/
+      srand(time(NULL));
+      int random = rand();
+      gmp_randstate_t state;
+      gmp_randinit_default(state);
+      gmp_randseed_ui(state, random);
+      mpz_urandomm(c, state, N);
+
+      gmp_printf("c %ZX\n", c);
+      //Choose random C
+
+      //get Ctmp
+      interact_R(&r_R, cTmp, c, N, dFinal);
+      mpz_mul(cTmp, cTmp, cTmp);
+      mpz_mul(cTmpC, cTmp, c);
+
+      if (monPro(cTmpC, cTmpC, N, N2, cR)) {
+        mpz_set(cY, c);
+        o1_flag = 1;
+      } else {
+        mpz_set(cY, c);
+        o1_flag = 0;
       }
-      gmp_printf("cZ %ZX\n", cZ);
-      //gmp_printf("%d %d %d\n%ZX\n%ZX\n", mpz_cmp(cY, Y), mpz_cmp(cZ, Z2), mpz_cmp(cZ, Z3), cY, cZ);
+
+      if (monPro(cTmp, cTmp, N, N2, cR)){
+        mpz_set(cZ, c);
+        o2_flag = 1;
+      } else {
+        mpz_set(cZ, c);
+        o2_flag = 0;
+      }
+
+      gmp_printf("%d %d\n", o1_flag, o2_flag);
       //Should print negative, negative, positive
 
       tY = 0; tZ = 0;
       //Send Y to oracle
       interact(&tY, mY, cY);
-      yAvg = yAvg + tZ;
+
       //Send Z to oracle
       interact(&tZ, mZ, cZ);
-      zAvg = zAvg + tZ;
+      if (o1_flag == 1) {
+        yNum1++;
+        yAvg1 += tY;
+      }
+      else {
+        yNum2++;
+        yAvg2 += tY;
+      }
+      if (o2_flag == 1) {
+        zNum1++;
+        zAvg1 += tZ;
+      }
+      else {
+        zNum2++;
+        zAvg2 += tZ;
+      }
     }
     //Analysis: take average y and z, dj = 1? 0?
-    yAvg = yAvg / cNum;
-    zAvg = zAvg / cNum;
-    printf("d bit: %d Avg Y time: %d\n", j, yAvg);
-    printf("d bit: %d Avg Z time: %d\n", j, zAvg);
-    if (zAvg > yAvg + emp) {
+    yAvg1 = yAvg1 / yNum1;
+    yAvg2 = yAvg2 / yNum2;
+    zAvg1 = zAvg1 / zNum1;
+    zAvg2 = zAvg2 / zNum2;
+    printf("d bit: %d Avg (dj = 1)&& (REDC) time: %d\n", j, yAvg1);
+    printf("d bit: %d Avg (dj = 1)&&!(REDC) time: %d\n", j, yAvg2);
+    printf("d bit: %d Avg (dj = 0)&& (REDC) time: %d\n", j, zAvg1);
+    printf("d bit: %d Avg (dj = 0)&&!(REDC) time: %d\n", j, zAvg2);
+    if (yAvg1 > yAvg2 + emp) {
         mpz_mul_ui(dFinal, dFinal, 2);
         mpz_add_ui(dFinal, dFinal, 1);
     }
