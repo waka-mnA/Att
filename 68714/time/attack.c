@@ -110,8 +110,8 @@ void find_R(mpz_t R, const mpz_t N){
   if (lengthR!= 0) length= length +(64 - lengthR)-1;
   mpz_mul_2exp(R, R, length);
 }
-
-void find_N2(mpz_t N2, const mpz_t N){
+//N * NR = -1 MOD R
+void find_N2(mpz_t N2, const mpz_t N const mpz_t R){
   mpz_t tmp; mpz_init(tmp);
   mpz_t a; mpz_init(a);
   mpz_t b; mpz_init(b);
@@ -124,7 +124,7 @@ void find_N2(mpz_t N2, const mpz_t N){
   while(l > 0){
     mpz_mod_ui(tmp, a, 2);
     if (mpz_cmp_ui(tmp, 0) == 0){//if (a&1)==0
-      mpz_add(a, a, N);//a = a + N
+      mpz_add(a, a, R);//a = a + N
 
       mpz_add(N2, N2, b);//N2 = N2 + b
     }
