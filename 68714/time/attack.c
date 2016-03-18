@@ -114,8 +114,14 @@ void find_R(mpz_t R, const mpz_t N){
 void find_N2(mpz_t N2, const mpz_t N, const mpz_t R){
   mpz_t tmp; mpz_init(tmp);
   mpz_t rInv; mpz_init(rInv);
+  mpz_t tmp2; mpz_init(tmp2);
+  mpz_t tmp3; mpz_init(tmp3);
 
   mpz_gcdext(tmp, N2, rInv, N, R);
+  mpz_mul(tmp2, rInv, R);
+  mpz_mul(tmp3, N2, N);
+  mpz_sub(tmp2, tmp2, tmp3);
+  gmp_printf("gcd %ZX\n%ZX\n", tmp, tmp2);
   mpz_clear(tmp);
   mpz_clear(rInv);
 }
@@ -194,7 +200,7 @@ mpz_t R;mpz_init(R);
   //Find R for Montgomery reduction
   find_R(R, N);
   //Find N'
-    mpz_t tmpN;mpz_init(tmpN);
+  mpz_t tmpN;mpz_init(tmpN);
   find_N2(N2, N, R);
   mpz_mul(tmpN, N2, N);
   mpz_mod(tmpN, tmpN, R);
