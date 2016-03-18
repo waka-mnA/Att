@@ -156,9 +156,8 @@ void attack() {
   mpz_set_ui(d_R0, 1);
 */
 
-  //Find R for Montgomery reduction
+  //Find R and N' for Montgomery reduction
   find_R(R, N);
-  //Find N'
   find_N2(N2,rInv, N, R);
 
   int yAvg1, zAvg1, yAvg2, zAvg2; //time average for each ciphertext set
@@ -255,14 +254,34 @@ void attack() {
     //Update j index value
     j++;
     gmp_printf("d: %ZX\n%s\n", dFinal, dChar);
+    interact_R(&r_R, m_R, c, N, dFinal);
+    interact(&r, m, c);
+    if (mpz_cmp(m_R, m) == 0) endFlag = 1;
+    gmp_printf("R %ZX\nD %ZX\n", m_R, m);
   }
 
 //GUESS THE LAST bit
-
+  mpz_t dTmp;mpz_init(dTmp);mpz_set(dTmp, dFinal);
+  //Test if dn = 0
+  mpz_mul_ui(dTmp, dFinal, 2);
+  int r0, r1, r;
+  interact_R(&r0, m, c, N, dTmp);
+  //Test if dn = 1
+  mpz_mul_ui(dTmp, dFinal, 2);
+  mpz_add_ui(dTmp, dTmp, 1);
+  interact_R(&r1, m, c, N, dTmp);
+  interact(&r,m,c);
+  if (abs(r1 - r) > abs(r0 - r)) {
+    mpz_mul_ui(dFinal, dFinal, 2);
+    mpz_add_ui(dFinal, dFinal, 1);
+  }
+  else{
+    mpz_mul_ui(dFinal, dFinal, 2);
+  }
 //END
 gmp_printf("Target Material : %ZX\n", dFinal);
 gmp_printf("Total Number of Interaction: %d\n", interaction);
-
+mpz_clear(dTmp);
 mpz_clear(N);
 mpz_clear(e);
 mpz_clear(m);
