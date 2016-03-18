@@ -140,7 +140,7 @@ int monPro(const mpz_t a, const mpz_t b, const mpz_t N, const mpz_t N2, const mp
   mpz_mul(tmp, tmp, N);//(t*N2 mod R)N
   mpz_add(tmp, t, tmp);
   mpz_div(u, tmp, R);
-  gmp_printf("%ZX\n%d\n", u, mpz_cmp(u, N));
+  gmp_printf("%ZX\n%ZX\n%d\n", u, N, mpz_cmp(u, N));
   if (mpz_cmp(u, N)<0) return false;
   return true;
 
