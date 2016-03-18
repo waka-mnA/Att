@@ -111,7 +111,7 @@ void find_R(mpz_t R, const mpz_t N){
   mpz_mul_2exp(R, R, length);
 }
 //N * NR = -1 MOD R
-void find_N2(mpz_t N2, const mpz_t N const mpz_t R){
+void find_N2(mpz_t N2, const mpz_t N, const mpz_t R){
   mpz_t tmp; mpz_init(tmp);
   mpz_t a; mpz_init(a);
   mpz_t b; mpz_init(b);
@@ -208,7 +208,7 @@ mpz_t R;mpz_init(R);
   //Find R for Montgomery reduction
   find_R(R, N);
   //Find N'
-  find_N2(N2, N);
+  find_N2(N2, N, R);
   mpz_mul(N, N2, N);
   mpz_mod(N, N, R);
   mpz_sub(N, N, R);
