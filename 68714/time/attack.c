@@ -284,7 +284,7 @@ mpz_t R;mpz_init(R);
       mpz_mul(cTmp, cTmp, cTmp);
       mpz_mul(cTmpC, cTmp, c);
 
-      if (monPro(cTmpC, cTmpC, N, N2, cR)) {
+      if (monPro(cTmpC, cTmpC, N, N2, R)) {
         mpz_set(cY, c);
         o1_flag = 1;
       } else {
@@ -292,7 +292,7 @@ mpz_t R;mpz_init(R);
         o1_flag = 0;
       }
 
-      if (monPro(cTmp, cTmp, N, N2, cR)){
+      if (monPro(cTmp, cTmp, N, N2, R)){
         mpz_set(cZ, c);
         o2_flag = 1;
       } else {
