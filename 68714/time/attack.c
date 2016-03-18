@@ -190,6 +190,7 @@ void attack() {
   int cNum = 10;//number of ciphertexts in the set
   int endFlag = 0;
   int dj = 0;//each bit value
+  int j = 1;
   //Loop for finding entire key d1-n
   while(endFlag != 0)//change to until reach the last bit
   {
@@ -232,14 +233,15 @@ void attack() {
     //Analysis: take average y and z, dj = 1? 0?
     yAvg = yAvg / cNum;
     zAvg = zAvg / cNum;
-    printf("d bit: %d Avg Y time: %d\n", count, yAvg);
-    printf("d bit: %d Avg Z time: %d\n", count, zAvg);
+    printf("d bit: %d Avg Y time: %d\n", j, yAvg);
+    printf("d bit: %d Avg Z time: %d\n", j, zAvg);
     if (zAvg > yAvg + emp) {
         mpz_mul_ui(dFinal, dFinal, 2);
         mpz_add_ui(dFinal, dFinal, 1);
     }
     else mpz_mul_ui(dFinal, dFinal, 2);
     //Update j index value?
+    j++;
   }
 /*while (endFlag != 1){
   //Send c, N and key hypothsis d,
