@@ -220,6 +220,7 @@ mpz_t R;mpz_init(R);
       unsigned long int random = rand();
       printf("%lu\n", random);
       gmp_randseed_ui(state, random);
+      printf("test\n");
       mpz_urandomm(cY, state, Y);
       gmp_printf("cY %ZX\n", cY);
       gmp_randclear(state);
