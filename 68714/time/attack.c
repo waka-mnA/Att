@@ -119,7 +119,7 @@ void find_N2(mpz_t N2, const mpz_t N, const mpz_t R){
   mpz_set_ui(N2, 0);// N2 = 0
   mpz_set_ui(a, 0); // a = 0
   mpz_set_ui(b, 1); // b = 1
-  int l = mpz_sizeinbase (N, 2) - 1; //l = binary size of N - 1
+  int l = mpz_sizeinbase (N, 2)/64 - 1; //l = binary size of N - 1
 
   while(l > 0){
     mpz_mod_ui(tmp, a, 2);
