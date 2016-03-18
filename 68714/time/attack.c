@@ -140,7 +140,6 @@ int monPro(const mpz_t a, const mpz_t b, const mpz_t N, const mpz_t N2, const mp
   mpz_mul(tmp, tmp, N);//(t*N2 mod R)N
   mpz_add(tmp, t, tmp);
   mpz_div(u, tmp, R);
-  gmp_printf("%ZX\n%ZX\n%d\n", u, N, mpz_cmp(u, N));
   if (mpz_cmp(u, N)<0) return false;
   return true;
 
@@ -153,7 +152,7 @@ int monPro(const mpz_t a, const mpz_t b, const mpz_t N, const mpz_t N2, const mp
 void attack() {
   //Empirical value
   //Determine the significant difference in time
-  int emp = 200;
+  //int emp = 200;
 
   mpz_t N;mpz_init(N);
   mpz_t e;mpz_init(e);
