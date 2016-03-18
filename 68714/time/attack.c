@@ -275,7 +275,7 @@ mpz_t R;mpz_init(R);
       gmp_randinit_default(state);
       gmp_randseed_ui(state, random);
       mpz_urandomm(c, state, N);
-
+      gmp_randclear(state);
       gmp_printf("c %ZX\n", c);
       //Choose random C
 
