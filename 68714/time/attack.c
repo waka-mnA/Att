@@ -218,10 +218,13 @@ mpz_t R;mpz_init(R);
       gmp_randstate_t state;//要改良
       gmp_randinit_mt(state);
       mpz_urandomm(cY, state, Y);
+      gmp_randclear(state);
       mpz_set_ui(cZ, 0);
       while(mpz_cmp(cZ, Z3)<=0){
         gmp_randinit_mt(state);
+
         mpz_urandomm(cZ, state, Z2);
+        gmp_randclear(state);
       }
       gmp_printf("cY %ZX\n", cY);
       gmp_printf("cZ %ZX\n", cZ);
