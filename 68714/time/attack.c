@@ -176,7 +176,7 @@ void attack() {
   mpz_pow_ui(baseR, baseR, 64);
   int length = lN2;
   int lengthR = lN2%64;
-  if (lengthR!= 0) length= length +(64 - lengthR);
+  if (lengthR!= 0) length= length +(64 - lengthR)-1;
   mpz_mul_2exp(R, R, length);
   gmp_printf("%ZX\n%ZX\n%d %d %d\n", N, R, lN2, length, lengthR);
 
