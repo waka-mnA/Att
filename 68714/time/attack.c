@@ -106,7 +106,7 @@ void interact_R( int* t, mpz_t m, const mpz_t c, const mpz_t N, const mpz_t d){
 void find_R(mpz_t R, const mpz_t N){
   mpz_set_ui(R, 1);
   int length = mpz_sizeinbase(N, 2);//N bit size
-  int lengthR = lN2%64;
+  int lengthR = length%64;
   if (lengthR!= 0) length= length +(64 - lengthR)-1;
   mpz_mul_2exp(R, R, length);
 }
@@ -132,6 +132,7 @@ void find_N2(mpz_t N2, const mpz_t N){
     mpz_mul_2exp(b, b, 1);//b= b * 2;
     l--;
   }
+}
 
 
 //mpz_t N, e, ...
