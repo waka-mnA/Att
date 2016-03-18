@@ -85,6 +85,7 @@ void interact( int* t, mpz_t m, const mpz_t c){
   if (gmp_fscanf(target_out, "%ZX", m) == 0) {
     abort();
   }
+  interaction++;
 }
 
 void interact_R( int* t, mpz_t m, const mpz_t c, const mpz_t N, const mpz_t d){
@@ -99,6 +100,7 @@ void interact_R( int* t, mpz_t m, const mpz_t c, const mpz_t N, const mpz_t d){
   if (gmp_fscanf(R_out, "%ZX", m) == 0) {
     abort();
   }
+  interaction++;
 }
 
 //mpz_t N, e, ...
@@ -112,24 +114,14 @@ void attack() {
   mpz_t d; mpz_init(d);
   mpz_t m_R;mpz_init(m_R);
 
+  mpz_t Y;mpz_init(Y);
+  mpz_t Z2;mpz_init(Z2);
+  mpz_t Z3;mpz_init(Z3);
+  mpz_t cY;mpz_init(cY);
+  mpz_t cZ;mpz_init(cZ);
+  mpz_t dFinal;mpz_init(dFinal);mpz_set_ui(dFinal, 1);
 
-
-    mpz_t Y;mpz_init(Y);
-    mpz_t Z2;mpz_init(Z2);
-    mpz_t Z3;mpz_init(Z3);
-    mpz_t cY;mpz_init(cY);
-    mpz_t cZ;mpz_init(cZ);
-
-  mpz_t f2; mpz_init(f2);
-  mpz_t f3;mpz_init(f3);
-  mpz_t mmin;mpz_init(mmin);mpz_set_ui(mmin, 0);
-  mpz_t mmax;mpz_init(mmax);mpz_set_ui(mmin, 1);
-  mpz_t ftmp; mpz_init(ftmp);
-
-  mpz_t send; mpz_init(send);
-  mpz_t tmp;mpz_init(tmp);
-  mpz_t tmp2;mpz_init(tmp2);
-
+  int lN2 = mpz_sizeinbase(N, 2);//N bit size
   int r = 0;
   int r_R = 0;
 
@@ -145,27 +137,6 @@ void attack() {
   //Choose the set of ciphertexts
   mpz_set_ui(c, 12312901293102931);
 
-  //Y^3< N
-  if (mpz_root(Y, N, 3) != 0){
-    mpz_sub_ui(Y, Y, 1);
-  }
-
-  //Z^2 < N < Z^3
-  mpz_sqrt(Z2, N);
-  if (mpz_root(Z3, N, 3) != 0){
-    mpz_add_ui(Z3, Z3, 1);
-  }
-
-  gmp_randstate_t state;
-  gmp_randinit_mt(state);
-  mpz_urandomm(cY, state, Y);
-  mpz_set_ui(cZ, 0);
-  while(mpz_cmp(cZ, Z3)<=0){
-    gmp_randinit_mt(state);
-    mpz_urandomm(cZ, state, Z2);
-  }
-  gmp_printf("%d %d %d\n%ZX\n%ZX\n", mpz_cmp(cY, Y), mpz_cmp(cZ, Z2), mpz_cmp(cZ, Z3), cY, cZ);
-  //Should print negative, negative, positive
 
   //Guess the size of the key
   int size = 1;
@@ -190,7 +161,7 @@ void attack() {
   mpz_set_ui(d_R1, 1);
   mpz_set_ui(d_R0, 1);
 
-  //Initial key hypothesis
+  /*//Initial key hypothesis
   for (int i = size-1;i>=0;i--){
       mpz_mul_ui(d_R1, d_R1, 2);
       mpz_mul_ui(d_R0, d_R0, 2);
@@ -198,9 +169,79 @@ void attack() {
     if (i == size - 1) {
       mpz_add_ui(d_R1, d_R1, 1);
     }
+  }*/
+
+  mpz_t R;mpz_init(R);mpz_set_ui(R, 1);
+  mpz_t baseR;mpz_init(baseR);mpz_set_ui(baseR, 2);
+  mpz_pow_ui(baseR, baseR, 64);
+  int length = lN2;
+  int lengthR = lN2%64;
+  if (lengthR!= 0) length= length +(64 - lengthR);
+  mpz_mul_2exp(R, R, length);
+  gmp_printf("%ZX\n%ZX\n%d %d %d\n", N, R, lN2, length, lengthR);
+
+
+
+  int yAvg, zAvg;//time average for each ciphertext set
+  int emp = 200;//empirical value to determine the significant difference between y and z time
+  int tY, tZ;
+  mpz_t mY;mpz_init(mY);
+  mpz_t mZ;mpz_init(mZ);
+  int cNum = 10;//number of ciphertexts in the set
+  int endFlag = 0;
+  int dj = 0;//each bit value
+  //Loop for finding entire key d1-n
+  while(endFlag != 0)//change to until reach the last bit
+  {
+    //Range generation
+    //Y^3< N
+    if (mpz_root(Y, N, 3) != 0){
+      mpz_sub_ui(Y, Y, 1);
+    }
+
+    //Z^2 < N < Z^3
+    mpz_sqrt(Z2, N);
+    if (mpz_root(Z3, N, 3) != 0){
+      mpz_add_ui(Z3, Z3, 1);
+    }
+    //initiate average y and z
+    yAvg = 0; zAvg = 0;
+    //Loop for statistics
+    for (int count = 0;count< cNum;count++){
+      //Generate Y and Z ciphertext
+      gmp_randstate_t state;//要改良
+      gmp_randinit_mt(state);
+      mpz_urandomm(cY, state, Y);
+      mpz_set_ui(cZ, 0);
+      while(mpz_cmp(cZ, Z3)<=0){
+        gmp_randinit_mt(state);
+        mpz_urandomm(cZ, state, Z2);
+      }
+      gmp_printf("%d %d %d\n%ZX\n%ZX\n", mpz_cmp(cY, Y), mpz_cmp(cZ, Z2), mpz_cmp(cZ, Z3), cY, cZ);
+      //Should print negative, negative, positive
+
+
+      tY = 0; tZ = 0;
+      //Send Y to oracle
+      interact(&tY, mY, cY);
+      yAvg = yAvg + tZ;
+      //Send Z to oracle
+      interact(&tZ, mZ, cZ);
+      zAvg = zAvg + tZ;
+    }
+    //Analysis: take average y and z, dj = 1? 0?
+    yAvg = yAvg / cNum;
+    zAvg = zAvg / cNum;
+    printf("d bit: %d Avg Y time: %d\n", count, yAvg);
+    printf("d bit: %d Avg Z time: %d\n", count, zAvg);
+    if (zAvg > yAvg + emp) {
+        mpz_mul_ui(dFinal, dFinal, 2);
+        mpz_add_ui(dFinal, dFinal, 1);
+    }
+    else mpz_mul_ui(dFinal, dFinal, 2);
+    //Update j index value?
   }
-int endFlag = 0;
-while (endFlag != 1){
+/*while (endFlag != 1){
   //Send c, N and key hypothsis d,
   //Receive time taken and decrypted message
   interact_R(&r_R, m_R, c, N, d_R1);
@@ -228,15 +269,10 @@ while (endFlag != 1){
   }
   mpz_set(d_R0, d_R1);
   mpz_add(d_R1, d_R1, tmp);
-}
-
-
-
-
-
+}*/
 
 //END
-gmp_printf("Target Material : %ZX\n", m);
+gmp_printf("Target Material : %ZX\n", dFinal);
 gmp_printf("Total Number of Interaction: %d\n", interaction);
 
 mpz_clear(N);
@@ -247,15 +283,13 @@ mpz_clear(d_R1);
 mpz_clear(d_R0);
 mpz_clear(d);
 mpz_clear(m_R);
-mpz_clear(f2);
-mpz_clear(f3);
-mpz_clear(mmin);
-mpz_clear(mmax);
-mpz_clear(ftmp);
+mpz_clear(Y);
+mpz_clear(Z2);
+mpz_clear(Z3);
+mpz_clear(cY);
+mpz_clear(cZ);
+mpz_clear(dFinal);
 
-mpz_clear(send);
-mpz_clear(tmp);
-mpz_clear(tmp2);
 }
 void cleanup( int s ){
   // Close the   buffered communication handles.
