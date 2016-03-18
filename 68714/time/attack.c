@@ -222,7 +222,7 @@ void attack() {
   int tY, tZ;
   mpz_t mY;mpz_init(mY);
   mpz_t mZ;mpz_init(mZ);
-  int cNum = 10;//number of ciphertexts in the set
+  int cNum = 20;//number of ciphertexts in the set
   int endFlag = 0;
   int j = 1;    //bit number
 
