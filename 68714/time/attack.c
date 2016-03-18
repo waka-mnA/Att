@@ -121,7 +121,6 @@ void attack() {
   mpz_t cZ;mpz_init(cZ);
   mpz_t dFinal;mpz_init(dFinal);mpz_set_ui(dFinal, 1);
 
-  int lN2 = mpz_sizeinbase(N, 2);//N bit size
   int r = 0;
   int r_R = 0;
 
@@ -137,6 +136,7 @@ void attack() {
   //Choose the set of ciphertexts
   mpz_set_ui(c, 12312901293102931);
 
+  int lN2 = mpz_sizeinbase(N, 2);//N bit size
 
   //Guess the size of the key
   int size = 1;
