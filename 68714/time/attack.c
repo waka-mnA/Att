@@ -22,61 +22,9 @@ FILE* R_in  = NULL; // buffered attack R output stream
 FILE* data_in  = NULL; //.conf file
 
 int interaction= 0;
-char N2[256];
-char e2[256];
-char lString[256];
-char cString[256];
-
-//Convert integer to octet string
-char* int2oct(const mpz_t i){
-  char* octet;
-
-  int l = mpz_sizeinbase(i, 16);
-  int size;
-  if (l % 2 != 0) size = l+1;
-  else size = l;
-
-  octet = malloc(size+1);
-
-  char* tmpStr = NULL;
-  tmpStr = mpz_get_str(tmpStr, 16, i);
-
-  octet[0] =toupper(tmpStr[size-2]);
-  octet[1] =toupper(tmpStr[size-1]);
-
-  for (int k = 2;k<size;k = k+2){
-    octet[k] = toupper(tmpStr[size-k-2]);
-    if ((size != l)&& (k == (size-2))) octet[k+1] = '0';
-    else octet[k+1] = toupper(tmpStr[size-k-1]);
-  }
-  octet[size] = '\0';
-  return octet;
-}
-
-//Convert octet string to integer
-void oct2int(mpz_t i, const char* string){
-  int size = strlen(string);
-  mpz_set_ui(i, 0);
-  mpz_t tmp;mpz_init(tmp);
-  mpz_t tmp2;mpz_init(tmp2);
-  mpz_t two;mpz_init(two);mpz_set_ui(two, 2);
-  char octet[3] = {'\0'};
-  for (int k = 0;k<size;k = k+2){
-    octet[0] = string[k];
-    octet[1] = string[k+1];
-    mpz_set_str(tmp, octet, 16);
-    mpz_pow_ui(tmp2, two, 4*k);
-    mpz_mul(tmp, tmp, tmp2);
-    mpz_add(i, i, tmp);
-  }
-  mpz_clear(tmp);
-  mpz_clear(tmp2);
-  mpz_clear(two);
-}
 
 void interact( int* t, mpz_t m, const mpz_t c){
   //Send c
-  //fprintf( target_in, "%s\n", c );  fflush( target_in );
   gmp_fprintf(target_in, "%ZX\n", c); fflush(target_in);
   //Receive execution time and plaintext from target
   if ( 1 != fscanf(target_out, "%d", t)){
@@ -114,7 +62,6 @@ void find_R(mpz_t R, const mpz_t N){
 //N * NR = -1 MOD R
 void find_N2(mpz_t N2, mpz_t rInv, const mpz_t N, const mpz_t R){
   mpz_t tmp; mpz_init(tmp);
-
   mpz_gcdext(tmp, rInv, N2, R, N);
   mpz_mul_si(N2, N2, -1);
   mpz_clear(tmp);
@@ -185,9 +132,6 @@ void attack() {
   }
   fclose(data_in);
 
-  //Choose the set of ciphertexts
-  mpz_set_ui(c, 12312901293102931);
-
   //Guess the size of the key
   /*int size = 1;
   mpz_set_ui(d_R1, 1);
@@ -248,8 +192,7 @@ void attack() {
       mpz_urandomm(c, state, N);
       gmp_randclear(state);
 
-      //get Ctmp
-      printf("%d %d\n", mpz_sizeinbase(dFinal, 2), j);
+      //get Ctmp = (c^j)^2
       interact_R(&r_R, cTmp, c, N, dFinal);
       mpz_mul(cTmp, cTmp, cTmp);
       mpz_mul(cTmpC, cTmp, c);
