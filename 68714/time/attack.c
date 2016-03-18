@@ -164,7 +164,7 @@ void attack() {
     gmp_randinit_mt(state);
     mpz_urandomm(cZ, state, Z2);
   }
-  gmp_printf("%d %d %d\n", mpz_cmp(cY, Y), mpz_cmp(cZ, Z2), mpz_cmp(cZ, Z3));
+  gmp_printf("%d %d %d\n%ZX\n%ZX\n", mpz_cmp(cY, Y), mpz_cmp(cZ, Z2), mpz_cmp(cZ, Z3), cY, cZ);
   //Should print negative, negative, positive
 
   //Guess the size of the key
