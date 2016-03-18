@@ -150,6 +150,10 @@ int monPro(const mpz_t a, const mpz_t b, const mpz_t N, const mpz_t N2, const mp
 
 //mpz_t N, e, ...
 void attack() {
+  //Empirical value
+  //Determine the significant difference in time
+  int emp = 200;
+
   mpz_t N;mpz_init(N);
   mpz_t e;mpz_init(e);
   mpz_t m;mpz_init(m);
@@ -158,19 +162,18 @@ void attack() {
   mpz_t d_R0; mpz_init(d_R0);
   mpz_t d; mpz_init(d);
   mpz_t m_R;mpz_init(m_R);
-
   mpz_t Y;mpz_init(Y);
   mpz_t Z2;mpz_init(Z2);
   mpz_t Z3;mpz_init(Z3);
   mpz_t cY;mpz_init(cY);
   mpz_t cZ;mpz_init(cZ);
   mpz_t dFinal;mpz_init(dFinal);mpz_set_ui(dFinal, 1);
-
-mpz_t R;mpz_init(R);
+  mpz_t R;mpz_init(R);
   mpz_t N2;mpz_init(N2);
-    mpz_t rInv;mpz_init(rInv);
+  mpz_t rInv;mpz_init(rInv);
+  mpz_t cTmp;mpz_init(cTmp);  //mtmp
+  mpz_t cTmpC;mpz_init(cTmpC);//mtmp * m
 
-  int r = 0;
   int r_R = 0;
 
   //Read N and e from conf file
@@ -214,37 +217,19 @@ mpz_t R;mpz_init(R);
   //Find N'
   find_N2(N2,rInv, N, R);
 
-
-  mpz_t cTmp;mpz_init(cTmp);  //mtmp
-  mpz_t cTmpC;mpz_init(cTmpC);//mtmp * m
-
-
-  int yAvg1, zAvg1, yAvg2, zAvg2;//time average for each ciphertext set
-  int yNum1, zNum1, yNum2, zNum2;
-  int emp = 200;//empirical value to determine the significant difference between y and z time
+  int yAvg1, zAvg1, yAvg2, zAvg2; //time average for each ciphertext set
+  int yNum1, zNum1, yNum2, zNum2; //number of ciphertexts in each set
   int tY, tZ;
   mpz_t mY;mpz_init(mY);
   mpz_t mZ;mpz_init(mZ);
   int cNum = 5;//number of ciphertexts in the set
   int endFlag = 0;
   int j = 1;    //bit number
-  //Loop for finding entire key d1-n
 
   srand(time(NULL));
+  //Loop for finding entire key d1-n
   while(endFlag != 1)//change to until reach the last bit
   {
-/*    //Range generation
-    //Y^3< N
-    if (mpz_root(Y, N, 3) != 0){
-      mpz_sub_ui(Y, Y, 1);
-    }
-    //Z^2 < N < Z^3
-    mpz_sqrt(Z2, N);
-    if (mpz_root(Z3, N, 3) != 0){
-      mpz_add_ui(Z3, Z3, 1);
-    }
-*/
-
     //initiate average time
     yAvg1 = 0; zAvg1 = 0;
     yAvg2 = 0; zAvg2 = 0;
@@ -253,38 +238,20 @@ mpz_t R;mpz_init(R);
     int o1_flag = 0, o2_flag = 0;
     //Loop for statistics
     while(!((yNum1 >cNum) &&(yNum2 > cNum) && (zNum1>cNum)&&(zNum2>cNum))){
-
-  /*    gmp_randstate_t state;//要改良
-      srand(time(NULL));
-      int random = rand();
-      gmp_randseed_ui(state, random);
-      mpz_urandomm(cY, state, Y);
-      gmp_printf("cY %ZX\n", cY);
-      gmp_randclear(state);
-
-      mpz_set_ui(cZ, 0);
-      while(mpz_cmp(cZ, Z3)<=0){
-        random = rand();
-        printf("%d\n", random);
-        gmp_randseed_ui(state, random);
-        mpz_urandomm(cZ, state, Z2);
-        gmp_randclear(state);
-
-      }*/
+      //Choose random C
       int random = rand();
       gmp_randstate_t state;
       gmp_randinit_default(state);
       gmp_randseed_ui(state, random);
       mpz_urandomm(c, state, N);
       gmp_randclear(state);
-      gmp_printf("c %ZX\n", c);
-      //Choose random C
 
       //get Ctmp
       interact_R(&r_R, cTmp, c, N, dFinal);
       mpz_mul(cTmp, cTmp, cTmp);
       mpz_mul(cTmpC, cTmp, c);
 
+      //Check whether it will go through reduction
       if (monPro(cTmpC, cTmpC, N, N2, R)) {
         mpz_set(cY, c);
         o1_flag = 1;
@@ -292,7 +259,6 @@ mpz_t R;mpz_init(R);
         mpz_set(cY, c);
         o1_flag = 0;
       }
-
       if (monPro(cTmp, cTmp, N, N2, R)){
         mpz_set(cZ, c);
         o2_flag = 1;
@@ -301,33 +267,28 @@ mpz_t R;mpz_init(R);
         o2_flag = 0;
       }
 
-      gmp_printf("%d %d\n", o1_flag, o2_flag);
-      //Should print negative, negative, positive
-
       tY = 0; tZ = 0;
       //Send Y to oracle
       interact(&tY, mY, cY);
-
       //Send Z to oracle
       interact(&tZ, mZ, cZ);
+
       if (o1_flag == 1) {
         yNum1++;
         yAvg1 += tY;
-      }
-      else {
+      } else {
         yNum2++;
         yAvg2 += tY;
       }
       if (o2_flag == 1) {
         zNum1++;
         zAvg1 += tZ;
-      }
-      else {
+      } else {
         zNum2++;
         zAvg2 += tZ;
       }
     }
-    //Analysis: take average y and z, dj = 1? 0?
+    //Analysis: take average y1, y2, z1 and z2, dj = 1? 0?
     yAvg1 = yAvg1 / yNum1;
     yAvg2 = yAvg2 / yNum2;
     zAvg1 = zAvg1 / zNum1;
@@ -336,7 +297,7 @@ mpz_t R;mpz_init(R);
     printf("d bit: %d Avg (dj = 1)&&!(REDC) time: %d\n", j, yAvg2);
     printf("d bit: %d Avg (dj = 0)&& (REDC) time: %d\n", j, zAvg1);
     printf("d bit: %d Avg (dj = 0)&&!(REDC) time: %d\n", j, zAvg2);
-    if (yAvg1 > yAvg2 + emp) {
+    if ((yAvg1 - yAvg2) > (zAvg1 - zAvg2)) {
         mpz_mul_ui(dFinal, dFinal, 2);
         mpz_add_ui(dFinal, dFinal, 1);
     }
@@ -366,7 +327,11 @@ mpz_clear(Z3);
 mpz_clear(cY);
 mpz_clear(cZ);
 mpz_clear(dFinal);
-
+mpz_clear(R);
+mpz_clear(N2);
+mpz_clear(rInv);
+mpz_clear(cTmp);
+mpz_clear(cTmpC);
 }
 void cleanup( int s ){
   // Close the   buffered communication handles.
