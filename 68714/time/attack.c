@@ -113,25 +113,11 @@ void find_R(mpz_t R, const mpz_t N){
 //N * NR = -1 MOD R
 void find_N2(mpz_t N2, const mpz_t N, const mpz_t R){
   mpz_t tmp; mpz_init(tmp);
-  mpz_t a; mpz_init(a);
-  mpz_t b; mpz_init(b);
+  mpz_t rInv; mpz_init(rInv);
 
-  mpz_set_ui(N2, 0);// N2 = 0
-  mpz_set_ui(a, 0); // a = 0
-  mpz_set_ui(b, 1); // b = 1
-  int l = mpz_sizeinbase (R, 2) - 1; //l = binary size of N - 1
-
-  while(l > 0){
-    mpz_mod_ui(tmp, a, 2);
-    if (mpz_cmp_ui(tmp, 0) == 0){//if (a&1)==0
-      mpz_add(a, a, R);//a = a + N
-
-      mpz_add(N2, N2, b);//N2 = N2 + b
-    }
-    mpz_div_2exp(a, a, 1);//a= a / 2
-    mpz_mul_2exp(b, b, 1);//b= b * 2;
-    l--;
-  }
+  mpz_gcdext(tmp, N2, rInv, N, R);
+  mpz_clear(tmp);
+  mpz_clear(rInv);
 }
 
 
