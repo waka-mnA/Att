@@ -216,15 +216,18 @@ mpz_t R;mpz_init(R);
     for (int count = 0;count< cNum;count++){
       //Generate Y and Z ciphertext
       gmp_randstate_t state;//要改良
-      gmp_randinit_mt(state);
+      srand(time(NULL));
+      unsigned long int random = rand();
+      printf("%d\n", random);
+      gmp_randseed_ui(state, random);
       mpz_urandomm(cY, state, Y);
       gmp_randclear(state);
       mpz_set_ui(cZ, 0);
       while(mpz_cmp(cZ, Z3)<=0){
-        gmp_randinit_mt(state);
-
+        random = rand();
+        printf("%d\n", random);
+        gmp_randseed_ui(state, random);
         mpz_urandomm(cZ, state, Z2);
-        gmp_randclear(state);
       }
       gmp_printf("cY %ZX\n", cY);
       gmp_printf("cZ %ZX\n", cZ);
