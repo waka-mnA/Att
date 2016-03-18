@@ -229,6 +229,8 @@ mpz_t R;mpz_init(R);
   int endFlag = 0;
   int j = 1;    //bit number
   //Loop for finding entire key d1-n
+
+  srand(time(NULL));
   while(endFlag != 1)//change to until reach the last bit
   {
 /*    //Range generation
@@ -269,7 +271,6 @@ mpz_t R;mpz_init(R);
         gmp_randclear(state);
 
       }*/
-      srand(time(NULL));
       int random = rand();
       gmp_randstate_t state;
       gmp_randinit_default(state);
