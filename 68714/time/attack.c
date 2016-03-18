@@ -105,7 +105,7 @@ void interact_R( int* t, mpz_t m, const mpz_t c, const mpz_t N, const mpz_t d){
 
 void find_R(mpz_t R, const mpz_t N){
   mpz_set_ui(R, 1);
-  int length = lN2;
+  int length = mpz_sizeinbase(N, 2);//N bit size
   int lengthR = lN2%64;
   if (lengthR!= 0) length= length +(64 - lengthR)-1;
   mpz_mul_2exp(R, R, length);
@@ -170,7 +170,6 @@ mpz_t R;mpz_init(R);
   //Choose the set of ciphertexts
   mpz_set_ui(c, 12312901293102931);
 
-  int lN2 = mpz_sizeinbase(N, 2);//N bit size
 
   //Guess the size of the key
   int size = 1;
