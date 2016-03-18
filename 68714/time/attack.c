@@ -213,7 +213,7 @@ mpz_t R;mpz_init(R);
   mpz_mul(tmpN, N2, N);
   mpz_mod(tmpN, tmpN, R);
   mpz_sub(tmpN, tmpN, R);
-  gmp_printf("N' %Zd\n", N);
+  gmp_printf("N' %Zd\n", tmpN);
 
 
   int yAvg, zAvg;//time average for each ciphertext set
