@@ -217,8 +217,8 @@ mpz_t R;mpz_init(R);
       //Generate Y and Z ciphertext
       gmp_randstate_t state;//要改良
       srand(time(NULL));
-      unsigned long int random = rand();
-      printf("%lu\n", random);
+      int random = rand();
+      printf("%d\n", random);
       gmp_randseed_ui(state, random);
       printf("test\n");
       mpz_urandomm(cY, state, Y);
@@ -227,7 +227,7 @@ mpz_t R;mpz_init(R);
       mpz_set_ui(cZ, 0);
       while(mpz_cmp(cZ, Z3)<=0){
         random = rand();
-        printf("%lu\n", random);
+        printf("%d\n", random);
         gmp_randseed_ui(state, random);
         mpz_urandomm(cZ, state, Z2);
         gmp_randclear(state);
