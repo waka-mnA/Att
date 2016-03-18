@@ -224,6 +224,7 @@ mpz_t R;mpz_init(R);
       gmp_randclear(state);
       mpz_set_ui(cZ, 0);
       while(mpz_cmp(cZ, Z3)<=0){
+        srand(time(NULL));
         random = rand();
         printf("%lu\n", random);
         gmp_randseed_ui(state, random);
