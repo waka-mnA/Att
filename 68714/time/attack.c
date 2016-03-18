@@ -117,9 +117,9 @@ void find_N2(mpz_t N2, const mpz_t N, const mpz_t R){
   mpz_t tmp2; mpz_init(tmp2);
   mpz_t tmp3; mpz_init(tmp3);
 
-  mpz_gcdext(tmp, N2, rInv, N, R);
-  mpz_mul(tmp2, rInv, R);
-  mpz_mul(tmp3, N2, N);
+  mpz_gcdext(tmp, rInv, N2, R, N);
+  mpz_mul(tmp2, R, rInv);
+  mpz_mul(tmp3, N, N2);
   mpz_sub(tmp2, tmp2, tmp3);
   gmp_printf("gcd %ZX\n%ZX\n", tmp, tmp2);
   mpz_clear(tmp);
