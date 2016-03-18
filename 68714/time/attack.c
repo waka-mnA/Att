@@ -222,7 +222,7 @@ void attack() {
   int tY, tZ;
   mpz_t mY;mpz_init(mY);
   mpz_t mZ;mpz_init(mZ);
-  int cNum = 5;//number of ciphertexts in the set
+  int cNum = 10;//number of ciphertexts in the set
   int endFlag = 0;
   int j = 1;    //bit number
 
@@ -289,10 +289,10 @@ void attack() {
       }
     }
     //Analysis: take average y1, y2, z1 and z2, dj = 1? 0?
-    yAvg1 = yAvg1 / yNum1;
-    yAvg2 = yAvg2 / yNum2;
-    zAvg1 = zAvg1 / zNum1;
-    zAvg2 = zAvg2 / zNum2;
+    yAvg1 = yAvg1 / yNum1;  //dj = 1, with reduction
+    yAvg2 = yAvg2 / yNum2;  //dj = 1, without reduction
+    zAvg1 = zAvg1 / zNum1;  //dj = 0, with reduction
+    zAvg2 = zAvg2 / zNum2;  //dj = 0, without reduction
     printf("d bit: %d\nAvg (dj = 1) time difference: %d\n", j, yAvg1 - yAvg2);
     printf("Avg (dj = 1) time difference: %d\n", j, zAvg1-zAvg2);
     if ((yAvg1 - yAvg2) > (zAvg1 - zAvg2)) {
