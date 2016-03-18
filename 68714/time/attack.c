@@ -223,6 +223,8 @@ mpz_t R;mpz_init(R);
         gmp_randinit_mt(state);
         mpz_urandomm(cZ, state, Z2);
       }
+      gmp_printf("cY %ZX\n", cY);
+      gmp_printf("cZ %ZX\n", cZ);
       //gmp_printf("%d %d %d\n%ZX\n%ZX\n", mpz_cmp(cY, Y), mpz_cmp(cZ, Z2), mpz_cmp(cZ, Z3), cY, cZ);
       //Should print negative, negative, positive
 
