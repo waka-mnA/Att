@@ -220,7 +220,8 @@ mpz_t R;mpz_init(R);
       unsigned long int random = rand();
       printf("%lu\n", random);
       gmp_randseed_ui(state, random);
-      //mpz_urandomm(cY, state, Y);
+      mpz_urandomm(cY, state, Y);
+      gmp_printf("cY %ZX\n", cY);
       gmp_randclear(state);
       mpz_set_ui(cZ, 0);
       while(mpz_cmp(cZ, Z3)<=0){
@@ -231,7 +232,6 @@ mpz_t R;mpz_init(R);
         gmp_randclear(state);
 
       }
-      gmp_printf("cY %ZX\n", cY);
       gmp_printf("cZ %ZX\n", cZ);
       //gmp_printf("%d %d %d\n%ZX\n%ZX\n", mpz_cmp(cY, Y), mpz_cmp(cZ, Z2), mpz_cmp(cZ, Z3), cY, cZ);
       //Should print negative, negative, positive
