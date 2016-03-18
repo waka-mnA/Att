@@ -293,10 +293,8 @@ void attack() {
     yAvg2 = yAvg2 / yNum2;
     zAvg1 = zAvg1 / zNum1;
     zAvg2 = zAvg2 / zNum2;
-    printf("d bit: %d Avg (dj = 1)&& (REDC) time: %d\n", j, yAvg1);
-    printf("d bit: %d Avg (dj = 1)&&!(REDC) time: %d\n", j, yAvg2);
-    printf("d bit: %d Avg (dj = 0)&& (REDC) time: %d\n", j, zAvg1);
-    printf("d bit: %d Avg (dj = 0)&&!(REDC) time: %d\n", j, zAvg2);
+    printf("d bit: %d\nAvg (dj = 1) time difference: %d\n", j, yAvg1 - yAvg2);
+    printf("Avg (dj = 1) time difference: %d\n", j, zAvg1-zAvg2);
     if ((yAvg1 - yAvg2) > (zAvg1 - zAvg2)) {
         mpz_mul_ui(dFinal, dFinal, 2);
         mpz_add_ui(dFinal, dFinal, 1);
