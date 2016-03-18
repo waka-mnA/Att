@@ -226,6 +226,8 @@ void attack() {
   int endFlag = 0;
   int j = 1;    //bit number
 
+  char dChar[1024];
+  dChar[0]='1';
   srand(time(NULL));
   //Loop for finding entire key d1-n
   while(endFlag != 1)//change to until reach the last bit
@@ -298,11 +300,17 @@ void attack() {
     if ((yAvg1 - yAvg2) > (zAvg1 - zAvg2)) {
         mpz_mul_ui(dFinal, dFinal, 2);
         mpz_add_ui(dFinal, dFinal, 1);
+
+        dChar[j] = '1';
     }
-    else mpz_mul_ui(dFinal, dFinal, 2);
+    else {
+      mpz_mul_ui(dFinal, dFinal, 2);
+      dChar[j] = '0';
+    }
+
     //Update j index value
     j++;
-    gmp_printf("d: %ZX\n", dFinal);
+    gmp_printf("d: %ZX\n%s\n", dFinal, dChar);
   }
 
 //GUESS THE LAST bit
