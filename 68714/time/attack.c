@@ -222,7 +222,7 @@ void attack() {
   int tY, tZ;
   mpz_t mY;mpz_init(mY);
   mpz_t mZ;mpz_init(mZ);
-  int cNum = 30;//number of ciphertexts in the set
+  int cNum = 20;//number of ciphertexts in the set
   int endFlag = 0;
   int j = 1;    //bit number
 
@@ -249,6 +249,7 @@ void attack() {
       gmp_randclear(state);
 
       //get Ctmp
+      printf("%d %d\n", mpz_sizeinbase(dFinal, 2), j);
       interact_R(&r_R, cTmp, c, N, dFinal);
       mpz_mul(cTmp, cTmp, cTmp);
       mpz_mul(cTmpC, cTmp, c);
