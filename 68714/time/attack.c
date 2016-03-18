@@ -343,6 +343,7 @@ mpz_t R;mpz_init(R);
     else mpz_mul_ui(dFinal, dFinal, 2);
     //Update j index value
     j++;
+    gmp_printf("d: %ZX\n", dFinal);
   }
 
 //GUESS THE LAST bit
