@@ -255,7 +255,7 @@ void attack() {
     j++;
     gmp_printf("d: %ZX\n%s\n", dFinal, dChar);
     interact_R(&r_R, m_R, c, N, dFinal);
-    interact(&r, m, c);
+    interact(&tY, m, c);
     if (mpz_cmp(m_R, m) == 0) endFlag = 1;
     gmp_printf("R %ZX\nD %ZX\n", m_R, m);
   }
