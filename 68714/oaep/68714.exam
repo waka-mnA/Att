@@ -2,7 +2,46 @@ Q.1 Consider an example where N = 551, e = 5, d = 101 and c = 243.  Using
     your own words, briefly explain and illustrate the working principle of
     this attack (i.e., how and why it works).
 
-A.1
+A.1 This attack is called Manger's attack and using the error code, it finds
+    multiple f values which f*m lies in the certain range.  The error code
+    used is that whether decrypted plaintext is less than a certain value B,
+    or not.
+    let k = byte length of N and B = 2^(8*(k-1)),
+    so k = 2 and B = 256 with given example.
+    The attacker choose f and send f^e * c mod N to the oracle and get the
+    error code.  If the plaintext decrypted is bigger than or equal to B,
+    it will return error code 1. If it is less than B, then it will return
+    the error code 2.
+    There are three f values that need to be chosen in this attack.
+    First, f1 is chosen from multiples of 2. We try from 2 and if the plaintext
+    is less than B, we keep multiplying by 2, until we get plaintext bigger
+    than B.
+    With given example, f1^5 * 243 mod 551 will be sent to oracle.
+    if f1 = 2, 7776 mod 551 = 62
+    if f1 = 4, 248832 mod 551 = 331 > 256
+    therefore, f1 = 4.
+    Next, we need to find f2 such that f2*m is just less than (N + B)
+    We start with f2 = floor((N+B)/B)* f1/2.
+    With given example, f2 = 3 * 4/2 = 6
+    if f2^5 *243 mod 552 is greater than B, we add f1/2 to f2 and keep trying.
+    f2^5 * 243 mod 551 = 189
+    therefore, f2 = 6
+    Then, we find f3 such that f3 * m is in the range of 2B wide and spans
+    single boundary point.
+    We also find possible minimum and maximum plaintext value.
+    let m_min = ceil(N/f2), m_max = floor((N+B)/f2)
+    so m_min = 92, m_max = 134
+    By choosing ftmp, we also select a boundary point, i*N+B
+    so, ftmp = floor(2B/(m_max - m_min)) = 12
+    i = floor(ftmp * m_min / N) = 2
+    f3*m spans a single boundary point at i*N+B
+    so, f3 = ceil(i*N/m_min) = 12
+    f3^5 * 243 mod 551 = 538
+    if this is bigger than or equal to B, update m_min.
+      m_min = ceil((i*N+B)/f3) and calculate ftmp and so on...
+    if it is less than B, update m_max
+      m_max = floor((i*N+B)/f3) and calculate ftmp and so on...
+    we keep doing this until m_min = m_max, which is the target material.
 
 
 Q.2 To prevent the attack, the vendor suggests altering the software: the

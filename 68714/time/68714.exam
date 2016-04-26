@@ -2,12 +2,60 @@ Q.1 The vendor of the attack target is concerned that news of this attack
     could scare off potential customers; they will make any alteration
     necessary (in software or hardware) to prevent the attack.  Explain the
     options they have, and which one you would recommend.
+
+A.1 This attack assumes that the oracle is using square and multiply with
+    Montgomery multiplication.  Most simple option is to change the Montgomery
+    reduction algorithm so that it always carry out the reduction step.
+    Also, it does not work on the system using Chinese Remainder Theorem.
+    Therefore, it is possible to defeat this attack by changing the decryption
+    method to use CRT.
+
 Q.2 Let n denote the number of simulated clock cycles required to execute a
     Montgomery multiplication on the attack target.  Estimate the value of
     n (as accurately as you can) and explain how you did so.
+
+A.2 Assume single addition takes 1 clock cycle and single multiplication takes
+    3 clock cycle and also we assume values N' and RInv are pre-calculated, so
+    ignore their calculations.
+    modulus r = a%b is equivalent to r = a - b*(a/b), so takes 7 clock cycle
+    Montgomery Algorithm is as follows.
+
+    result = MonMul(a, b)
+    1. a' = a*R mod N             3 + 7   = 10
+    2. b' = b*R mod N             3 + 7   = 10
+    3. t = a' * b'                3       = 3
+    4. tmp = t* N' mod R          3 + 7   = 10
+    5. tmp = tmp * N              3       = 3
+    6. tmp = tmp + t              1       = 1
+    7. u = tmp / R                3       = 3
+    8. if (u>= N) then u =  u - N 1*2 + 1 = 3
+    9. result = u*RInv mod N      3 + 7   = 10
+    10. return result
+
+    Therefore, n = 4*10 + 3 * 4 + 1 * 1 = 53 clock cycle.
+    However this is ignoring how large R and N and others are.
+
 Q.4 Given that you selected one particular statistical test within your
     implementation of this attack, explain what other options you had.
     What advantages and disadvantages does the option selected have?
+
+A.4 In this attack, hypothesis testing is used.  Other statistical test
+    option could be Chi-squared test.  It can be applied when there are two
+    variables from single population to compare the association between those
+    variables. Chi-square is easy to compute and good at finding difference
+    between two variables, which in this case, would be appropriate. However,
+    it should be applied to independent variables. Montgomery multiplication
+    is not independent if the modulus is a constant and hence the test would
+    be biased.
+
 Q.6 You were provided with a replica of the attack target.  If you used it,
     explain how; if not, explain why, and how you could do so given more
     time.
+
+A.6 In this attack, replica is mainly used to get the temporary ciphertext in
+    the exponentiation calculation.  More specifically, to find a certain binary
+    digit of the key dj of d = d0d1...dn, and we know d0...dj-1, we can calulate
+    c^(d0d1...dj-1) mod N and use it to find dj.  Replica will take c, N, d and calculate
+    m = c^d mod N and return m and time taken, therefore, c^(d0d1...dj-1) mod N can
+    be calculated by replica, which makes the program execution faster and reliable,
+    since replica calculation is exactly the same as the oracle.
