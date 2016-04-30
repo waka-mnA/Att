@@ -105,7 +105,7 @@ void attack() {
   char dChar[1024];
   dChar[0]='1';
   srand(time(NULL));
-  //Loop for finding entire key d1-n
+/*  //Loop for finding entire key d1-n
   while(endFlag != 1)//change to until reach the last bit
   {
     //initiate average time
@@ -200,6 +200,7 @@ void attack() {
 
     if (j == 1023) endFlag = 1;
   }
+  */
   //END
   gmp_printf("Target Material : %ZX\n", dFinal);
   gmp_printf("Total Number of Interaction: %d\n", interaction);
