@@ -88,11 +88,36 @@ void step1(mpz_t c, mpz_t m){
   mpz_t cF;
   mpz_init(cF);
   //induce a fault into a byte of the statematrix, which is the input to the eighth round
-  char* fault = faultSpec(8, 1, 1, 0, 0);
+  char* fault = faultSpec(8, 0, 0, 0, 0);
   interact(cF, fault, m);
   gmp_printf("%s\n", fault);
-  gmp_printf("S1: %ZX\n", cF);
-  gmp_printf("S1: %ZX\n", c);
+  gmp_printf("1 S1: %ZX\n", cF);
+  gmp_printf("1 S1: %ZX\n", c);
+  fault = faultSpec(8, 0, 1, 0, 0);
+  interact(cF, fault, m);
+  gmp_printf("%s\n", fault);
+  gmp_printf("2 S1: %ZX\n", cF);
+  gmp_printf("2 S1: %ZX\n", c);
+  fault = faultSpec(8, 1, 0, 0, 0);
+ interact(cF, fault, m);
+ gmp_printf("%s\n", fault);
+ gmp_printf("3 S1: %ZX\n", cF);
+ gmp_printf("3 S1: %ZX\n", c);
+ fault = faultSpec(8, 1, 1, 0, 0);
+interact(cF, fault, m);
+gmp_printf("%s\n", fault);
+gmp_printf("4 S1: %ZX\n", cF);
+gmp_printf("4 S1: %ZX\n", c);
+fault = faultSpec(8, 2, 0, 0, 0);
+interact(cF, fault, m);
+gmp_printf("%s\n", fault);
+gmp_printf("5 S1: %ZX\n", cF);
+gmp_printf("5 S1: %ZX\n", c);
+fault = faultSpec(8, 2, 1, 0, 0);
+interact(cF, fault, m);
+gmp_printf("%s\n", fault);
+gmp_printf("6 S1: %ZX\n", cF);
+gmp_printf("6 S1: %ZX\n", c);
   mpz_clear(cF);
 }
 
