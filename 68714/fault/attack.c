@@ -18,9 +18,7 @@ FILE* data_in  = NULL; //.conf file
 
 int interaction= 0;
 //Function to generate fault specification
-//if first argument is negative, it means no fault induced
 char* faultSpec( const int r, const int f, const int p, const int i, const int j){
-  if (r < 0) return "";
   int size = 9;
   if (r > 9) size++;
   char* result= malloc(sizeof(char)*size);
@@ -112,13 +110,14 @@ void attack() {
 
 
   char* pt ="3243F6A8885A308D313198A2E0370734";
-  mpz_t test; mpz_init(test);
-  oct2int(test, pt);
-  gmp_printf("TEST %ZX\n", test);
-  gmp_printf("TEST %Zd\n", test);
+  oct2int(m, pt);
+  //gmp_printf("TEST %ZX\n", test);
+  //gmp_printf("TEST %Zd\n", test);
 
-  srand(time(NULL));
+  //srand(time(NULL));
 
+  //Get fault free ciphertexts
+  interact(c, "", m);
 /*  //Loop for finding entire key d1-n
   while(endFlag != 1)//change to until reach the last bit
   {
@@ -216,7 +215,7 @@ void attack() {
   }
   */
   //END
-  gmp_printf("Target Material : %ZX\n", dFinal);
+  gmp_printf("Target Material : %ZX\n", c);
   gmp_printf("Total Number of Interaction: %d\n", interaction);
 
   mpz_clear(m);
