@@ -98,12 +98,12 @@ void step1(mpz_t c, mpz_t m){
   gmp_printf("%s\n", fault);
   gmp_printf("2 S1: %ZX\n", cF);
   gmp_printf("2 S1: %ZX\n", c);
-  fault = faultSpec(8, 3, 0, 0, 0);
- interact(cF, fault, m);
- gmp_printf("%s\n", fault);
- gmp_printf("3 S1: %ZX\n", cF);
- gmp_printf("3 S1: %ZX\n", c);
  fault = faultSpec(8, 3, 1, 0, 0);
+interact(cF, fault, m);
+gmp_printf("%s\n", fault);
+gmp_printf("4 S1: %ZX\n", cF);
+gmp_printf("4 S1: %ZX\n", c);
+fault = faultSpec(8, 1, 0, 0, 0);
 interact(cF, fault, m);
 gmp_printf("%s\n", fault);
 gmp_printf("4 S1: %ZX\n", cF);
