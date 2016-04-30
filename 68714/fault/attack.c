@@ -103,7 +103,7 @@ interact(cF, fault, m);
 gmp_printf("%s\n", fault);
 gmp_printf("4 S1: %ZX\n", cF);
 gmp_printf("4 S1: %ZX\n", c);
-fault = faultSpec(8, 1, 0, 0, 0);
+fault = faultSpec(9, 1, 0, 0, 0);
 interact(cF, fault, m);
 gmp_printf("%s\n", fault);
 gmp_printf("4 S1: %ZX\n", cF);
