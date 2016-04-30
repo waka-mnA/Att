@@ -352,7 +352,7 @@ int main( int argc, char* argv[] ) {
           }
           if ((data_in = fopen(argv[2], "r"))== NULL){
             abort();
-          }
+          }//
           // Execute a function representing the attacker.
           attack();
 
