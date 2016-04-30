@@ -23,14 +23,16 @@ char* faultSpec( const int r, const int f, const int p, const int i, const int j
   if (r < 0) return "";
   int size = 9;
   if (r > 9) size++;
-  char result[size];
+  char result= malloc(sizeof(char)*size);
   char sub[7];
   if (r > 9) {
     result[0]='1';
     result[1]='0';
+    result[2]='\0';
   }
   else{
     result[0] = r+'0';
+    result[1]='\0';
   }
   sub[0] = f+'0';
   sub[1] = ',';
@@ -221,7 +223,6 @@ void attack() {
   mpz_clear(e);
   mpz_clear(m);
   mpz_clear(c);
-  mpz_clear(m_R);
   mpz_clear(cY);
   mpz_clear(cZ);
   mpz_clear(dFinal);
