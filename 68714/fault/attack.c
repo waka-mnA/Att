@@ -24,11 +24,23 @@ char* faultSpec( const int r, const int f, const int p, const int i, const int j
   int size = 9;
   if (r > 9) size++;
   char result[size];
-  strcpy(result, r+'0'); //r = {0-10}
-  strcat(result, (char) f); //f = {0-3}
-  strcat(result, (char) p); //p = {0,1}
-  strcat(result, (char) i); //i = {0-3}
-  strcat(result, (char) j); //j = {0-3}
+  char sub[7];
+  if (r > 9) {
+    result[0]='1';
+    result[1]='0';
+  }
+  else{
+    result[0] = r+'0';
+  }
+  sub[0] = f+'0';
+  sub[1] = ',';
+  sub[2] = p+'0';
+  sub[3] = ',';
+  sub[4] = i+'0';
+  sub[5] = ',';
+  sub[6] = j+'0';
+  sub[7] = '\0';
+  strcat(result, sub);
   return result;
 }
 void interact(  mpz_t c, const char* spec, const mpz_t m){
