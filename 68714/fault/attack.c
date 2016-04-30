@@ -248,7 +248,6 @@ void cleanup( int s ){
   if( pid > 0 ) {
     kill( pid, SIGKILL );
   }
-
   // Forcibly terminate the attacker      process.
   exit( 1 );
 }
@@ -274,7 +273,6 @@ int main( int argc, char* argv[] ) {
         // The fork failed; reason is stored in errno, but we'll just abort.
         abort();
       }
-
       case +0 : {
         // (Re)connect standard input and output to pipes.
         close( STDOUT_FILENO );
@@ -289,7 +287,6 @@ int main( int argc, char* argv[] ) {
         // Break and clean-up once finished.
         break;
       }
-
       default : {
           // Construct handles to attack target standard input and output.
           if( ( target_out = fdopen( attack_raw[ 0 ], "r" ) ) == NULL ) {
@@ -305,8 +302,8 @@ int main( int argc, char* argv[] ) {
         // Break and clean-up once finished.
         break;
       }
-      }
     }
+  
     // Clean up any resources we've hung on to.
     cleanup( SIGINT );
     return 0;
