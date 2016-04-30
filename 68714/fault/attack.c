@@ -29,11 +29,13 @@ char* faultSpec( const int r, const int f, const int p, const int i, const int j
   if (r > 9) {
     result[0]='1';
     result[1]='0';
-    result[2]='\0';
+    result[2]=',';
+    result[3]='\0';
   }
   else{
     result[0] = r+'0';
-    result[1]='\0';
+    result[1]=',';
+    result[2]='\0';
   }
   sub[0] = f+'0';
   sub[1] = ',';
