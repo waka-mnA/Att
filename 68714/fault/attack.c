@@ -88,6 +88,7 @@ void step1(mpz_t c, mpz_t m){
   //induce a fault into a byte of the statematrix, which is the input to the eighth round
   char* fault = faultSpec(8, 1, 0, 0, 0);
   interact(cF, fault, m);
+  gmp_printf("%s\n", fault);
   gmp_printf("S1: %ZX\n", cF);
   gmp_printf("S1: %ZX\n", c);
   mpz_clear(cF);
