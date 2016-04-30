@@ -116,9 +116,9 @@ void attack() {
   oct2int(test, pt);
   gmp_printf("TEST %ZX\n", test);
   gmp_printf("TEST %Zd\n", test);
-  char dChar[1024];
-  dChar[0]='1';
+
   srand(time(NULL));
+
 /*  //Loop for finding entire key d1-n
   while(endFlag != 1)//change to until reach the last bit
   {
@@ -218,11 +218,13 @@ void attack() {
   //END
   gmp_printf("Target Material : %ZX\n", dFinal);
   gmp_printf("Total Number of Interaction: %d\n", interaction);
-  mpz_clear(dTmp);
-  mpz_clear(N);
-  mpz_clear(e);
+
   mpz_clear(m);
   mpz_clear(c);
+  mpz_clear(cF);
+  /*mpz_clear(dTmp);
+  mpz_clear(N);
+  mpz_clear(e);
   mpz_clear(cY);
   mpz_clear(cZ);
   mpz_clear(dFinal);
@@ -230,7 +232,7 @@ void attack() {
   mpz_clear(N2);
   mpz_clear(rInv);
   mpz_clear(cTmp);
-  mpz_clear(cTmpC);
+  mpz_clear(cTmpC);*/
 }
 
 void cleanup( int s ){
@@ -303,7 +305,7 @@ int main( int argc, char* argv[] ) {
         break;
       }
     }
-  
+
     // Clean up any resources we've hung on to.
     cleanup( SIGINT );
     return 0;
