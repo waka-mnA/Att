@@ -23,7 +23,7 @@ char* faultSpec( const int r, const int f, const int p, const int i, const int j
   if (r < 0) return "";
   int size = 9;
   if (r > 9) size++;
-  char result= malloc(sizeof(char)*size);
+  char* result= malloc(sizeof(char)*size);
   char sub[7];
   if (r > 9) {
     result[0]='1';
