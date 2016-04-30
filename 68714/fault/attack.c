@@ -17,6 +17,9 @@ FILE* target_in  = NULL; // buffered attack target output stream
 FILE* data_in  = NULL; //.conf file
 
 int interaction= 0;
+//saple plaintext
+char* pt ="3243F6A8885A308D313198A2E0370734";
+
 //Function to generate fault specification
 char* faultSpec( const int r, const int f, const int p, const int i, const int j){
   int size = 9;
@@ -79,8 +82,22 @@ void oct2int(mpz_t i, const char* string){
   mpz_set_str(i, string, 16);
 }
 
+void step1(mpz_t c, mpz_t m){
+  mpz_t cF;
+  mpz_init(cF);
+  //induce a fault into a byte of the statematrix, which is the input to the eighth round
+  char* fault = faultSpec(8, 1, 0, 0, 0);
+  interact(cf, fault, m);
+  gmp_printf("S1: %ZX\n", cf);
+  gmp_printf("S1: %ZX\n", c);
+  mpz_clear(cF);
+}
 
 //mpz_t N, e, ...
+//r = {0-10} the round in which the fault occurs, #
+//f = {0-3} 0 = addround, 1=subbytes, 2=shiftrows, 3=mixcolumns
+//p = 0 fault before the round function, 1 after
+//i, j  = row and column of state matrix fault occurs
 void attack() {
   mpz_t m;      mpz_init(m);
   mpz_t c;      mpz_init(c);
@@ -109,7 +126,6 @@ void attack() {
   int j = 1;    //bit number
 
 
-  char* pt ="3243F6A8885A308D313198A2E0370734";
   oct2int(m, pt);
   //gmp_printf("TEST %ZX\n", test);
   //gmp_printf("TEST %Zd\n", test);
@@ -118,6 +134,9 @@ void attack() {
 
   //Get fault free ciphertexts
   interact(c, "", m);
+  gmp_printf("i: %d ,Fault free ciphertext : %ZX\n",interaction, c);
+
+  step1(c, m);
 /*  //Loop for finding entire key d1-n
   while(endFlag != 1)//change to until reach the last bit
   {
