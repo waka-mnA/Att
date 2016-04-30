@@ -24,7 +24,7 @@ char* faultSpec( const int r, const int f, const int p, const int i, const int j
   int size = 9;
   if (r > 9) size++;
   char result[size];
-  strcpy(result, (char) r); //r = {0-10}
+  strcpy(result, r+'0'); //r = {0-10}
   strcat(result, (char) f); //f = {0-3}
   strcat(result, (char) p); //p = {0,1}
   strcat(result, (char) i); //i = {0-3}
@@ -219,6 +219,7 @@ void attack() {
   mpz_clear(cTmp);
   mpz_clear(cTmpC);
 }
+
 void cleanup( int s ){
   // Close the   buffered communication handles.
   fclose( target_in  );
@@ -293,7 +294,6 @@ int main( int argc, char* argv[] ) {
       }
       }
     }
-
     // Clean up any resources we've hung on to.
     cleanup( SIGINT );
     return 0;
