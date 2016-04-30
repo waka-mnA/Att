@@ -98,7 +98,6 @@ void attack() {
 
 
   char* pt ="3243F6A8885A308D313198A2E0370734";
-
   mpz_t test; mpz_init(test);
   oct2int(test, pt);
   gmp_printf("TEST %ZX\n", test);
