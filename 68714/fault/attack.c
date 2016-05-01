@@ -132,7 +132,7 @@ gmp_printf("4 S1: %ZX\n", c);
 
   char* ct = int2oct(c);
   char* ctF = int2oct(cF);
-  int k1, k8, k11, k14;
+  int k1=0, k8=0, k11=0, k14=0;
   int x1=0, x8=0, x11=0, x14=0;
   int y1=0, y8=0, y11=0, y14=0;
   for (int i = 0;i<strlen(ct);i=i+2){
