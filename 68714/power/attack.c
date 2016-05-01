@@ -30,7 +30,7 @@ void interact( char* p, mpz_t c, const mpz_t m){
   interaction++;
 }
 
-void separateTrace(int& l, int* consumption, char* trace){
+void separateTrace(int &l, int* consumption, char* trace){
 int i = 0;
 //get length
   while(trace[i]!='\0'){
