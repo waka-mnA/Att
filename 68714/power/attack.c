@@ -25,7 +25,7 @@ void interact( char* p, mpz_t c, const mpz_t m){
   //Send c
   gmp_fprintf(target_in, "%ZX\n",m); fflush(target_in);
   //Receive execution time and plaintext from target
-  if ( gmp_fscanf(target_out, "%s", p) == 0) { abort(); }
+  if ( 1 != fscanf(target_out, "%s", p)){ abort(); }
   if (gmp_fscanf(target_out, "%ZX", c) == 0) { abort(); }
   interaction++;
 }
@@ -75,7 +75,7 @@ void interact_R( char* p, mpz_t c, const mpz_t m, const mpz_t k){
   gmp_fprintf(R_in, "%ZX\n", m); fflush(R_in);
   gmp_fprintf(R_in, "%ZX\n", k); fflush(R_in);
   //Receive execution time and plaintext from target
-  if ( gmp_fscanf(R_out, "%s", p) == 0) { abort(); }
+  if ( 1 != fscanf(R_out, "%s", p)){ abort(); }
   if (gmp_fscanf(R_out, "%ZX", c) == 0) { abort(); }
   interaction++;
 }
@@ -289,22 +289,18 @@ int main( int argc, char* argv[] ) {
     // Create pipes to/from attack target; if it fails the reason is stored
     // in errno, but we'll just abort.
     if( pipe( target_raw ) == -1 ) {
-      gmp_printf("test1 \n");
       abort();
     }
     if( pipe( attack_raw ) == -1 ) {
-      gmp_printf("test2 \n");
       abort();
     }
 
     switch( pid = fork() ) {
       case -1 : {
         // The fork failed; reason is stored in errno, but we'll just abort.
-
-          gmp_printf("test3 \n");abort();
+        abort();
       }
       case +0 : {
-        gmp_printf("test4 \n");
         // (Re)connect standard input and output to pipes.
         close( STDOUT_FILENO );
         if( dup2( attack_raw[ 1 ], STDOUT_FILENO ) == -1 ) {
@@ -320,21 +316,17 @@ int main( int argc, char* argv[] ) {
       }
       default : {
         if( pipe( target_R_raw ) == -1 ) {
-          gmp_printf("test5 \n");
           abort();
         }
         if( pipe( attack_R_raw ) == -1 ) {
-          gmp_printf("test6 \n");
           abort();
         }
         switch(pid_R = fork()){
           case -1 : {
-            gmp_printf("test8 \n");
             // The fork failed; reason is stored in errno, but we'll just abort.
             abort();
           }
           case +0 : {
-            gmp_printf("test9 \n");
             // (Re)connect standard input and output to pipes.
             close( STDOUT_FILENO );
             close(  STDIN_FILENO );
@@ -352,7 +344,6 @@ int main( int argc, char* argv[] ) {
           }
 
         default : {
-          gmp_printf("test10 \n");
           // Construct handles to attack target standard input and output.
           if( ( target_out = fdopen( attack_raw[ 0 ], "r" ) ) == NULL ) {
             abort();
@@ -366,7 +357,6 @@ int main( int argc, char* argv[] ) {
           if( ( R_in  = fdopen( target_R_raw[ 1 ], "w" ) ) == NULL ) {
             abort();
           }
-          gmp_printf("TEST\n");
           // Execute a function representing the attacker.
           attack();
 
