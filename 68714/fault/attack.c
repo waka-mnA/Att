@@ -45,7 +45,7 @@ char* faultSpec( const int r, const int f, const int p, const int i, const int j
   int size = 9;
   if (r > 9) size++;
   char* result= malloc(sizeof(char)*size);
-  char sub[7];
+  char sub[8];
   if (r > 9) {
     result[0]='1';
     result[1]='0';
@@ -133,8 +133,8 @@ gmp_printf("4 S1: %ZX\n", c);
   char* ct = int2oct(c);
   char* ctF = int2oct(cF);
   int k1, k8, k11, k14;
-  int x1, x8, x11, x14;
-  int y1, y8, y11, y14;
+  int x1=0, x8=0, x11=0, x14=0;
+  int y1=0, y8=0, y11=0, y14=0;
   for (int i = 0;i<strlen(ct);i=i+2){
     if (i==0){
       x1=(int)ct[i]*16+(int)ct[i+1];
