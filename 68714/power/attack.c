@@ -30,7 +30,7 @@ void interact( char* p, mpz_t c, const mpz_t m){
   interaction++;
 }
 //call by seprateTrace(&v, consumption, trace)
-void separateTrace(int* l, int* consumption, char* trace){
+int separateTrace( int* consumption, char* trace){
 int i = 0;
 int length = 0;
 //get length
@@ -67,7 +67,7 @@ int length = 0;
     }
     k++;
   }
-  l = length;
+  return length;
 }
 
 void interact_R( char* p, mpz_t c, const mpz_t m, const mpz_t k){
@@ -80,12 +80,38 @@ void interact_R( char* p, mpz_t c, const mpz_t m, const mpz_t k){
   interaction++;
 }
 
+//Convert integer to octet string
+char* int2oct(const mpz_t i){
+  char* octet = NULL;
+  int size = 32;
+  //int size = mpz_sizeinbase(N, 16);
+  int l = mpz_sizeinbase(i, 16);
+  octet = malloc(size+1);
+
+  char* tmpStr = NULL;
+  tmpStr = mpz_get_str(tmpStr, 16, i);
+  int index = 0;
+  for (index = 0; index<=(size-l) ;index++){
+    octet[index] = '0';
+  }
+  int m = 0;
+  for (int k = index-1;k<size;k = k+1){
+    octet[k] = toupper(tmpStr[m]);
+    m++;
+  }
+  octet[size] = '\0';
+  return octet;
+}
+
+//Convert octet string to integer
+void oct2int(mpz_t i, const char* string){
+  mpz_set_str(i, string, 16);
+}
 //mpz_t N, e, ...
 void attack() {
   mpz_t N;      mpz_init(N);
   mpz_t e;      mpz_init(e);
-  mpz_t m;      mpz_init(m);
-  mpz_t c;      mpz_init(c);
+
   mpz_t m_R;    mpz_init(m_R);
   mpz_t cY;     mpz_init(cY);
   mpz_t cZ;     mpz_init(cZ);
@@ -99,7 +125,20 @@ void attack() {
   mpz_t dTmp;   mpz_init(dTmp);
   int r_R = 0;
 
-srand(time(NULL));
+  mpz_t m;      mpz_init(m);
+  mpz_t c;      mpz_init(c);
+
+  char* pt = "";
+  oct2int(m, pt);
+  char* trace;
+  interact(trace, c, m);
+  gmp_printf("trace: %s\ncipher: %ZX\n", c);
+  int * consumption;
+  int l = separateTrace(consumption, trace);
+  for (int i = 0;i<l;i++){
+    gmp_printf("%d \n", consumption[i]);
+  }
+//srand(time(NULL));
   //Loop for finding entire key d1-n
 /*  while(endFlag != 1)//change to until reach the last bit
   {
