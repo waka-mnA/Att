@@ -111,7 +111,7 @@ void oct2int(mpz_t i, const char* string){
 void attack() {
   mpz_t N;      mpz_init(N);
   mpz_t e;      mpz_init(e);
-
+/*
   mpz_t m_R;    mpz_init(m_R);
   mpz_t cY;     mpz_init(cY);
   mpz_t cZ;     mpz_init(cZ);
@@ -124,7 +124,7 @@ void attack() {
   mpz_t cTmpC;  mpz_init(cTmpC);//mtmp * m
   mpz_t dTmp;   mpz_init(dTmp);
   int r_R = 0;
-
+*/
   mpz_t m;      mpz_init(m);
   mpz_t c;      mpz_init(c);
 
@@ -289,19 +289,22 @@ int main( int argc, char* argv[] ) {
     // Create pipes to/from attack target; if it fails the reason is stored
     // in errno, but we'll just abort.
     if( pipe( target_raw ) == -1 ) {
+      gmp_printf("test1 \n");
       abort();
     }
     if( pipe( attack_raw ) == -1 ) {
+      gmp_printf("test2 \n");
       abort();
     }
 
     switch( pid = fork() ) {
       case -1 : {
         // The fork failed; reason is stored in errno, but we'll just abort.
-        abort();
-      }
 
+          gmp_printf("test3 \n");abort();
+      }
       case +0 : {
+        gmp_printf("test4 \n");
         // (Re)connect standard input and output to pipes.
         close( STDOUT_FILENO );
         if( dup2( attack_raw[ 1 ], STDOUT_FILENO ) == -1 ) {
@@ -315,29 +318,29 @@ int main( int argc, char* argv[] ) {
         // Break and clean-up once finished.
         break;
       }
-
       default : {
         if( pipe( target_R_raw ) == -1 ) {
+          gmp_printf("test5 \n");
           abort();
         }
         if( pipe( attack_R_raw ) == -1 ) {
+          gmp_printf("test6 \n");
           abort();
         }
-
         switch(pid_R = fork()){
           case -1 : {
+            gmp_printf("test8 \n");
             // The fork failed; reason is stored in errno, but we'll just abort.
             abort();
           }
-
           case +0 : {
+            gmp_printf("test9 \n");
             // (Re)connect standard input and output to pipes.
             close( STDOUT_FILENO );
             close(  STDIN_FILENO );
             if( dup2( attack_R_raw[ 1 ], STDOUT_FILENO ) == -1 ) {
               abort();
             }
-
             if( dup2( target_R_raw[ 0 ],  STDIN_FILENO ) == -1 ) {
               abort();
             }
@@ -349,6 +352,7 @@ int main( int argc, char* argv[] ) {
           }
 
         default : {
+          gmp_printf("test10 \n");
           // Construct handles to attack target standard input and output.
           if( ( target_out = fdopen( attack_raw[ 0 ], "r" ) ) == NULL ) {
             abort();
