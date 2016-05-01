@@ -182,7 +182,6 @@ gmp_printf("4 S1: %ZX\n", c);
     i=0;
     while(i<256){
       int delta1 =inv_s[x[0]^i]^inv_s[y[0]^i];
-      gmp_printf("%d, %d\n", delta1, delta);
       j=0;
       while((delta1 == delta*2)&& j<256){
       gmp_printf("%d, %d\n", delta1, delta);
