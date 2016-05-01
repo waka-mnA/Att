@@ -183,7 +183,7 @@ gmp_printf("4 S1: %ZX\n", c);
   int i = 0, j = 0, z = 0, l = 0, delta=1;
   while(solved == 0 && delta <256){
     while(solved == 0 && i<256){
-      int delta1 =sboxInv(x[0]^i), NULL, 16)^sboxInv(y[0]^i);
+      int delta1 =sboxInv(x[0]^i)^sboxInv(y[0]^i);
       gmp_printf("1 %d\n", delta1);
       while((delta1 == delta*2)&&(solved == 0) && j<256){
         int delta11 = sboxInv(x[10]^j)^sboxInv(y[10]^j);
