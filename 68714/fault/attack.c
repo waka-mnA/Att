@@ -178,7 +178,7 @@ gmp_printf("4 S1: %ZX\n", c);
   int index = 0;
   int k1[256], k8[256], k11[256], k14[256];
   int i = 0, j = 0, z = 0, l = 0, delta=1;
-  while(solved == 0 && delta <86){
+  while(solved == 0 && delta <256){
     i=0;
     while(i<256){
       int delta1 =inv_s[x[0]^i]^inv_s[y[0]^i];
