@@ -211,7 +211,7 @@ gmp_printf("4 S1: %ZX\n", c);
   }
 
   for (int i = 0;i<index;i++){
-    gmp_printf("index %d %d %d %d %d\n", i, k1[i], k8[i], k11[i], k14[i]);
+    gmp_printf("index %d %d %d %d %d\n", deltaArray[i], k1[i], k8[i], k11[i], k14[i]);
 
   }
 
