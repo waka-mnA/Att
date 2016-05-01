@@ -39,19 +39,20 @@ int i = 0;
       for(int j = 0;j<i;j++){
         sub[j] = trace[j];
       }
-      l = strtol(sub, (char**)NULL, 10);
+      l = strtol(sub, NULL, 10);
       break;
     }
-    i++
+    i++;
   }
   consumption = malloc(sizeof(int)*l);
   char subStr[3];
   int index = 0;
   int indexC = 0;
+  int k  = 0;
   while(trace[k]!='\0'){
     if (k<i) {k++;continue;}
     if (trace[k]==','){
-      consumption[indexC]= strtol(subStr, (char**)NULL, 10);
+      consumption[indexC]= strtol(subStr, NULL, 10);
       gmp_printf("Check consumption: %d\n", consumption[indexC]);
       memset(subStr, 0, sizeof(subStr));
       indexC++;
