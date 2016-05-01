@@ -109,7 +109,7 @@ int sboxInv(int x){
   unsigned char a = inv_s[x];
   char c[1];
   c[0] = a;
-  gmp_printf("sbox %x %x %d\n", a, c, strtol(c, NULL, 0));
+  gmp_printf("sbox %x %s %d\n", a, c, strtol((char[]){c, a}, NULL, 0));
   return strtol(c, NULL, 0);
 }
 void step1(mpz_t c, mpz_t m){
