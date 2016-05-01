@@ -107,9 +107,8 @@ void oct2int(mpz_t i, const char* string){
 
 int sboxInv(int x){
   unsigned char a = inv_s[x];
-  char c[2];
+  char c[1];
   c[0] = a;
-  c[1] = '\0';
   gmp_printf("sbox %x %x %d\n", a, c, strtol(c, NULL, 0));
   return strtol(c, NULL, 0);
 }
