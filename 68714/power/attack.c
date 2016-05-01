@@ -39,12 +39,12 @@ int i = 0;
       for(int j = 0;j<i;j++){
         sub[j] = trace[j];
       }
-      l = (int)strtol(sub, NULL, 10);
+      &l = (int)strtol(sub, NULL, 10);
       break;
     }
     i++;
   }
-  consumption = malloc(sizeof(int)*l);
+  consumption = malloc(sizeof(int)*&l);
   char subStr[3];
   int index = 0;
   int indexC = 0;
