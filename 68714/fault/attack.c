@@ -118,7 +118,7 @@ void compareKeys(int index, int index2, int* correct, int* k1, int* k2, int* k3,
     correct[1] = k2[i];
     correct[2] = k3[i];
     correct[3] = k4[i];
-    gmp_printf("%d %d %d %d\n", correct[0], correct[1], correct[2], correct[3]);
+    gmp_printf("compare %d %d %d %d\n", correct[0], correct[1], correct[2], correct[3]);
     return;
   }
 }
@@ -163,8 +163,8 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
       y[(i/2)]=(int)strtol(tmp, NULL, 16);
     }
   }
-  gmp_printf("%d %d %d %d\n", x[0], x[10], x[7], x[13]);
-  gmp_printf("%d %d %d %d\n",y[0], y[10], y[7], y[13]);
+  //gmp_printf("%d %d %d %d\n", x[0], x[10], x[7], x[13]);
+  //gmp_printf("%d %d %d %d\n",y[0], y[10], y[7], y[13]);
   int solved = 0;
   int deltaArray[256];
   int index = 0;
@@ -226,7 +226,7 @@ gmp_printf("4 S1: %ZX\n", cF);
 gmp_printf("4 S1: %ZX\n", c);*/
 fault = faultSpec(9, 1, 0, 0, 0);
 interact(cF, fault, m);
-gmp_printf("%s\n", fault);
+//gmp_printf("%s\n", fault);
 gmp_printf("4 S1: %ZX\n", cF);
 gmp_printf("4 S1: %ZX\n", c);
 
@@ -237,7 +237,7 @@ gmp_printf("4 S1: %ZX\n", c);
 
 
   interact(cF2, fault, m2);
-  gmp_printf("%s\n", fault);
+//  gmp_printf("%s\n", fault);
   gmp_printf("4 S1: %ZX\n", cF2);
   gmp_printf("4 S1: %ZX\n", c2);
 
@@ -245,8 +245,6 @@ gmp_printf("4 S1: %ZX\n", c);
     char* ctF2 = int2oct(cF2);
     int k1_2[256], k8_2[256], k11_2[256], k14_2[256];
     int index2 = findKeyHypothesis(k1_2, k8_2, k11_2, k14_2, ct2, ctF2);
-
-
 
   /*for (int i = 0;i<index;i++){
     gmp_printf("index %d %d %d %d %d\n", deltaArray[i], k1[i], k8[i], k11[i], k14[i]);
