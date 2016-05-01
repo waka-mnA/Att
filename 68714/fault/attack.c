@@ -145,19 +145,30 @@ gmp_printf("4 S1: %ZX\n", c);
       tmp[0] = ctF[i];
       tmp[1] = ctF[i+1];
       y[i]=(int) strtol(tmp, NULL, 16);
-      gmp_printf("%c %d %c %d\n", ct[i], y[i], ctF[0],x[0]);
     }
     else if (i==14){
-      x[(i/2)]=(int)ct[i]*16+(int)ct[i+1];
-      y[(i/2)]=(int)ctF[i]*16+(int)ctF[i+1];
+      tmp[0] = ct[i];
+      tmp[1] = ct[i+1];
+      x[(i/2)]=(int)strtol(tmp, NULL, 16);
+      tmp[0] = ctF[i];
+      tmp[1] = ctF[i+1];
+      y[(i/2)]=(int)strtol(tmp, NULL, 16);
     }
     else if (i==20){
-      x[(i/2)]=(int)ct[i]*16+(int)ct[i+1];
-      y[(i/2)]=(int)ctF[i]*16+(int)ctF[i+1];
+      tmp[0] = ct[i];
+      tmp[1] = ct[i+1];
+      x[(i/2)]=(int)strtol(tmp, NULL, 16);
+      tmp[0] = ctF[i];
+      tmp[1] = ctF[i+1];
+      y[(i/2)]=(int)strtol(tmp, NULL, 16);
     }
     else if (i==26){
-      x[(i/2)]=(int)ct[i]*16+(int)ct[i+1];
-      y[(i/2)]=(int)ctF[i]*16+(int)ctF[i+1];
+      tmp[0] = ct[i];
+      tmp[1] = ct[i+1];
+      x[(i/2)]=(int)strtol(tmp, NULL, 16);
+      tmp[0] = ctF[i];
+      tmp[1] = ctF[i+1];
+      y[(i/2)]=(int)strtol(tmp, NULL, 16);
     }
   }
   gmp_printf("%d %d %d %d\n", x[0], x[10], x[7], x[13]);
