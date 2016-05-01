@@ -132,44 +132,44 @@ gmp_printf("4 S1: %ZX\n", c);
 
   char* ct = int2oct(c);
   char* ctF = int2oct(cF);
-  int k1=0, k8=0, k11=0, k14=0;
-  int x1=0, x8=0, x11=0, x14=0;
-  int y1=0, y8=0, y11=0, y14=0;
+  int k[16] = {0};
+  int x[16] = {0};
+  int y[16] = {0};
   for (int i = 0;i<strlen(ct);i=i+2){
     if (i==0){
-      x1=(int)ct[i]*16+(int)ct[i+1];
-      y1=(int)ctF[i]*16+(int)ctF[i+1];
+      x[i]=(int)ct[i]*16+(int)ct[i+1];
+      y[0]=(int)ctF[i]*16+(int)ctF[i+1];
     }
     else if (i==14){
-      x8=(int)ct[i]*16+(int)ct[i+1];
-      y8=(int)ctF[i]*16+(int)ctF[i+1];
+      x[(i/2)]=(int)ct[i]*16+(int)ct[i+1];
+      y[(i/2)]=(int)ctF[i]*16+(int)ctF[i+1];
     }
     else if (i==20){
-      x11=(int)ct[i]*16+(int)ct[i+1];
-      y11=(int)ctF[i]*16+(int)ctF[i+1];
+      x[(i/2)]=(int)ct[i]*16+(int)ct[i+1];
+      y[(i/2)]=(int)ctF[i]*16+(int)ctF[i+1];
     }
     else if (i==26){
-      x14=(int)ct[i]*16+(int)ct[i+1];
-      y14=(int)ctF[i]*16+(int)ctF[i+1];
+      x[(i/2)]=(int)ct[i]*16+(int)ct[i+1];
+      y[(i/2)]=(int)ctF[i]*16+(int)ctF[i+1];
     }
   }
 
   int solved = 0;
-  int i = 0, j = 0, k = 0, l = 0, delta=1;
+  int i = 0, j = 0, z = 0, l = 0, delta=1;
   while(solved == 0 || delta <256){
     while(solved == 0 || i<256){
-      int delta1 =inv_s[x1^i]^inv_s[y1^i];
+      int delta1 =inv_s[x[0]^i]^inv_s[y[0]^i];
       while((delta1 == delta*2)&&(solved == 0 || j<256)){
-        int delta11 = inv_s[x11^j]^inv_s[y11^j];
-          while((delta11 == delta)&&(solved == 0 || k<256)){
-            int delta14 = inv_s[x14^k]^inv_s[y14^k];
+        int delta11 = inv_s[x[10]^j]^inv_s[y[10]^j];
+          while((delta11 == delta)&&(solved == 0 || z<256)){
+            int delta14 = inv_s[x[13]^z]^inv_s[y[13]^z];
               while((delta14 == delta)&&(solved==0 || l<256)){
-                int delta8 = inv_s[x8^l]^inv_s[y8^l];
+                int delta8 = inv_s[x[7]^l]^inv_s[y[8]^l];
                 if (delta8 ==delta * 3){
-                  k1 = i;
-                  k8 = l;
-                  k11= j;
-                  k14 = k;
+                  k[0] = i;
+                  k[7] = l;
+                  k[10]= j;
+                  k[13] = k;
                   solved = 1;
                 }
                 l++;
@@ -183,7 +183,7 @@ gmp_printf("4 S1: %ZX\n", c);
     delta++;
   }
 
-  gmp_printf("%d %d %d %d\n", k1, k8, k11, k14);
+  gmp_printf("%d %d %d %d %d\n", delta, k[0], k[7], k[10], k[13]);
 
   mpz_clear(cF);
 }
