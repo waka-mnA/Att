@@ -175,6 +175,7 @@ gmp_printf("4 S1: %ZX\n", c);
   int solved = 0;
   int deltaArray[256];
   int index = 0;
+  int k1[256], k8[256], k11[256], k14[256];
   int i = 0, j = 0, z = 0, l = 0, delta=1;
   while(solved == 0 && delta <256){
     i=0;
@@ -190,10 +191,10 @@ gmp_printf("4 S1: %ZX\n", c);
               while((delta14 == delta)&&(solved==0) && l<256){
                 int delta8 = inv_s[x[7]^l]^inv_s[y[8]^l];
                 if (delta8 ==delta * 3){
-                  k[0] = i;
-                  k[7] = l;
-                  k[10]= j;
-                  k[13] = z;
+                  k1[index] = i;
+                  k8[index] = l;
+                  k11[index]= j;
+                  k14[index] = z;
                   deltaArray[index]= delta;
                   index++;
                   //solved = 1;
@@ -209,7 +210,10 @@ gmp_printf("4 S1: %ZX\n", c);
     delta++;
   }
 
-  gmp_printf("%d %d %d %d %d\n", index, k[0], k[7], k[10], k[13]);
+  for (int i = 0;i<index;i++){
+    gmp_printf("index %d %d %d %d %d\n", i, k1[i], k8[i], k11[i], k14[i]);
+
+  }
 
   mpz_clear(cF);
 }
