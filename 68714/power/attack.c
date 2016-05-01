@@ -235,8 +235,8 @@ void attack() {
     if (j == 1023) endFlag = 1;
   }*/
   //END
-  gmp_printf("Target Material : %ZX\n", dFinal);
-  gmp_printf("Total Number of Interaction: %d\n", interaction);
+  //gmp_printf("Target Material : %ZX\n", dFinal);
+  //gmp_printf("Total Number of Interaction: %d\n", interaction);
   /*mpz_clear(dTmp);
   mpz_clear(N);
   mpz_clear(e);
