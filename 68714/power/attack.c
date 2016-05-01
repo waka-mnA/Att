@@ -32,6 +32,7 @@ void interact( char* p, mpz_t c, const mpz_t m){
 //call by seprateTrace(&v, consumption, trace)
 void separateTrace(int* l, int* consumption, char* trace){
 int i = 0;
+int length = 0;
 //get length
   while(trace[i]!='\0'){
     if (trace[i]==','){
@@ -39,12 +40,12 @@ int i = 0;
       for(int j = 0;j<i;j++){
         sub[j] = trace[j];
       }
-      &l = (int)strtol(sub, NULL, 10);
+      length = (int)strtol(sub, NULL, 10);
       break;
     }
     i++;
   }
-  consumption = malloc(sizeof(int)*&l);
+  consumption = malloc(sizeof(int)*length);
   char subStr[3];
   int index = 0;
   int indexC = 0;
@@ -66,6 +67,7 @@ int i = 0;
     }
     k++;
   }
+  l = length;
 }
 
 void interact_R( char* p, mpz_t c, const mpz_t m, const mpz_t k){
