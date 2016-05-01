@@ -130,7 +130,7 @@ void attack() {
   oct2int(m, pt);
   char* trace;
   interact(trace, c, m);
-  gmp_printf("trace: %s\ncipher: %ZX\n",trace c);
+  gmp_printf("trace: %s\ncipher: %ZX\n",trace, c);
   int * consumption;
   int l = separateTrace(consumption, trace);
   for (int i = 0;i<l;i++){
