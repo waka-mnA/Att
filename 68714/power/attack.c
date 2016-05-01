@@ -39,7 +39,7 @@ int i = 0;
       for(int j = 0;j<i;j++){
         sub[j] = trace[j];
       }
-      l = strtol(sub, NULL, 10);
+      l = (int)strtol(sub, NULL, 10);
       break;
     }
     i++;
@@ -52,7 +52,7 @@ int i = 0;
   while(trace[k]!='\0'){
     if (k<i) {k++;continue;}
     if (trace[k]==','){
-      consumption[indexC]= strtol(subStr, NULL, 10);
+      consumption[indexC]= (int)strtol(subStr, NULL, 10);
       gmp_printf("Check consumption: %d\n", consumption[indexC]);
       memset(subStr, 0, sizeof(subStr));
       indexC++;
