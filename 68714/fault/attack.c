@@ -88,7 +88,7 @@ char* int2oct(const mpz_t i){
   char* tmpStr = NULL;
   tmpStr = mpz_get_str(tmpStr, 16, i);
   int index = 0;
-  for (index = 0; index<size ;index++){
+  for (index = 0; index<=(size-l) ;index++){
     octet[index] = '0';
   }
   int m = 0;
@@ -130,8 +130,8 @@ gmp_printf("%s\n", fault);
 gmp_printf("4 S1: %ZX\n", cF);
 gmp_printf("4 S1: %ZX\n", c);
 
-  char* ct = int2oct(c, 32);
-  char* ctF = int2oct(cF, 32);
+  char* ct = int2oct(c);
+  char* ctF = int2oct(cF);
   int k1, k8, k11, k14;
   int x1, x8, x11, x14;
   int y1, y8, y11, y14;
@@ -159,11 +159,11 @@ gmp_printf("4 S1: %ZX\n", c);
   while(solved == 0 || delta <256){
     while(solved == 0 || i<256){
       int delta1 =inv_s[x1^i]^inv_s[y1^i];
-      while(solved == 0 || j<256){
+      while((delta1 == delta*2)&&(solved == 0 || j<256)){
         int delta11 = inv_s[x11^j]^inv_s[y11^j];
-          while((delta1 == delta*2)&&(solved == 0 || k<256)){
+          while((delta11 == delta)&&(solved == 0 || k<256)){
             int delta14 = inv_s[x14^k]^inv_s[y14^k];
-              while((delta11 == delta)&&(solved==0 || l<256)){
+              while((delta14 == delta)&&(solved==0 || l<256)){
                 int delta8 = inv_s[x8^l]^inv_s[y8^l];
                 if (delta8 ==delta * 3){
                   k1 = i;
@@ -174,9 +174,7 @@ gmp_printf("4 S1: %ZX\n", c);
                 }
                 l++;
               }
-            }
             k++;
-          }
         }
         j++;
       }
