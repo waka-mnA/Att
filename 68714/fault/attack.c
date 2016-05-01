@@ -19,6 +19,8 @@ FILE* data_in  = NULL; //.conf file
 int interaction= 0;
 //saple plaintext
 char* pt ="3243F6A8885A308D313198A2E0370734";
+char* pt2 = "00112233445566778899AABBCCDDEEFF";
+
 
 //inverse S-box
 int inv_s[256] =
@@ -105,33 +107,20 @@ void oct2int(mpz_t i, const char* string){
   mpz_set_str(i, string, 16);
 }
 
-void step1(mpz_t c, mpz_t m){
-  mpz_t cF;
-  mpz_init(cF);
-  //induce a fault into a byte of the statematrix, which is the input to the eighth round
-  char* fault = faultSpec(8, 0, 0, 0, 0);
-  interact(cF, fault, m);
-  gmp_printf("%s\n", fault);
-  gmp_printf("1 S1: %ZX\n", cF);
-  gmp_printf("1 S1: %ZX\n", c);
-  fault = faultSpec(8, 0, 1, 0, 0);
-  interact(cF, fault, m);
-  gmp_printf("%s\n", fault);
-  gmp_printf("2 S1: %ZX\n", cF);
-  gmp_printf("2 S1: %ZX\n", c);
- fault = faultSpec(8, 3, 1, 0, 0);
-interact(cF, fault, m);
-gmp_printf("%s\n", fault);
-gmp_printf("4 S1: %ZX\n", cF);
-gmp_printf("4 S1: %ZX\n", c);
-fault = faultSpec(9, 1, 0, 0, 0);
-interact(cF, fault, m);
-gmp_printf("%s\n", fault);
-gmp_printf("4 S1: %ZX\n", cF);
-gmp_printf("4 S1: %ZX\n", c);
-
-  char* ct = int2oct(c);
-  char* ctF = int2oct(cF);
+void compareKeys(int index,int[] correct, int[] k1, int[] k2, int[] k3, int[] k4, int[] l1, int[] l2, int[] l3, int[] l4){
+  for(int i = 0;i<index;i++){
+    if (k1[i] != l1[i]) continue;
+    if (k2[i] != l2[i]) continue;
+    if (k3[i] != l3[i]) continue;
+    if (k4[i] != l4[i]) continue;
+    correct[0] = k1[i];
+    correct[1] = k2[i];
+    correct[2] = k3[i];
+    correct[3] = k4[i];
+    return;
+  }
+}
+int findKeyHypothesis(int[] k1, int[] k8, int[] k11, int[] k14, char* ct, char* ctF){
   int k[16] = {0};
   int x[16] = {0};
   int y[16] = {0};
@@ -178,24 +167,20 @@ gmp_printf("4 S1: %ZX\n", c);
   int index = 0;
   int k1[256], k8[256], k11[256], k14[256];
   int i = 0, j = 0, z = 0, l = 0, delta=1;
-  while(solved == 0 && delta <256){
+  while(solved == 0 && delta < 256/3){
     i=0;
     while(i<256){
       int delta1 =inv_s[x[0]^i]^inv_s[y[0]^i];
       j=0;
       while((delta1 == delta*2)&& j<256){
-      gmp_printf("%d, %d\n", delta1, delta);
         int delta11 = inv_s[x[10]^j]^inv_s[y[10]^j];
         z=0;
           while((delta11 == delta)&& z<256){
-          gmp_printf("%d, %d\n", delta11, delta);
             int delta14 = inv_s[x[13]^z]^inv_s[y[13]^z];
             l=0;
               while((delta14 == delta)&& l<256){
-              gmp_printf("%d, %d\n", delta14, delta);
                 int delta8 = inv_s[x[7]^l]^inv_s[y[7]^l];
                 if (delta8 == delta*3){
-                gmp_printf("%d, %d\n", delta8, delta);
                   k1[index] = i;
                   k8[index] = l;
                   k11[index]= j;
@@ -214,10 +199,59 @@ gmp_printf("4 S1: %ZX\n", c);
     delta++;
   }
 
-  for (int i = 0;i<index;i++){
-    gmp_printf("index %d %d %d %d %d\n", deltaArray[i], k1[i], k8[i], k11[i], k14[i]);
+  return index;
+}
+void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
+  mpz_t cF;
+  mpz_init(cF);
+  mpz_t cF2;
+  mpz_init(cF2);
+  //induce a fault into a byte of the statematrix, which is the input to the eighth round
+  char* fault = faultSpec(8, 0, 0, 0, 0);
+  /*interact(cF, fault, m);
+  gmp_printf("%s\n", fault);
+  gmp_printf("1 S1: %ZX\n", cF);
+  gmp_printf("1 S1: %ZX\n", c);
+  fault = faultSpec(8, 0, 1, 0, 0);
+  interact(cF, fault, m);
+  gmp_printf("%s\n", fault);
+  gmp_printf("2 S1: %ZX\n", cF);
+  gmp_printf("2 S1: %ZX\n", c);
+ fault = faultSpec(8, 3, 1, 0, 0);
+interact(cF, fault, m);
+gmp_printf("%s\n", fault);
+gmp_printf("4 S1: %ZX\n", cF);
+gmp_printf("4 S1: %ZX\n", c);*/
+fault = faultSpec(9, 1, 0, 0, 0);
+interact(cF, fault, m);
+gmp_printf("%s\n", fault);
+gmp_printf("4 S1: %ZX\n", cF);
+gmp_printf("4 S1: %ZX\n", c);
 
-  }
+  char* ct = int2oct(c);
+  char* ctF = int2oct(cF);
+  int k1[256], k8[256], k11[256], k14[256];
+  int index = findKeyHypothesis(k1, k8, k11, k14, ct, ctF);
+
+
+  interact(cF2, fault, m2);
+  gmp_printf("%s\n", fault);
+  gmp_printf("4 S1: %ZX\n", cF2);
+  gmp_printf("4 S1: %ZX\n", c2);
+
+    char* ct2 = int2oct(c2);
+    char* ctF2 = int2oct(cF2);
+    int k1_2[256], k8_2[256], k11_2[256], k14_2[256];
+    int index = findKeyHypothesis(k1_2, k8_2, k11_2, k14_2, ct2, ctF2);
+
+
+
+  /*for (int i = 0;i<index;i++){
+    gmp_printf("index %d %d %d %d %d\n", deltaArray[i], k1[i], k8[i], k11[i], k14[i]);
+  }*/
+  int correctKeys[4];
+  compareKeys(index, correctKeys, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
+
 
   mpz_clear(cF);
 }
@@ -230,6 +264,8 @@ gmp_printf("4 S1: %ZX\n", c);
 void attack() {
   mpz_t m;      mpz_init(m);
   mpz_t c;      mpz_init(c);
+  mpz_t m2;      mpz_init(m2);
+  mpz_t c2;      mpz_init(c2);
   //mpz_t cF;      mpz_init(cF);//with fault
 
   //Unused variables
@@ -256,6 +292,7 @@ void attack() {
 
 */
   oct2int(m, pt);
+  oct2int(m2, pt2);
   //gmp_printf("TEST %ZX\n", test);
   //gmp_printf("TEST %Zd\n", test);
 
@@ -264,10 +301,12 @@ void attack() {
   //Get fault free ciphertexts
   interact(c, "", m);
   gmp_printf("i: %d ,Fault free ciphertext : %ZX\n",interaction, c);
+  interact(c2, "", m2);
+  gmp_printf("i: %d ,Fault free ciphertext : %ZX\n",interaction, c2);
 
-  step1(c, m);
-/*  //Loop for finding entire key d1-n
-  while(endFlag != 1)//change to until reach the last bit
+  step1(c, m, c2, m2);
+    //Loop for finding entire key d1-n
+  /*while(endFlag != 1)//change to until reach the last bit
   {
     //initiate average time
     yAvg1 = 0; zAvg1 = 0;
