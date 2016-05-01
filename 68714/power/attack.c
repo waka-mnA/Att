@@ -109,8 +109,6 @@ void oct2int(mpz_t i, const char* string){
 }
 //mpz_t N, e, ...
 void attack() {
-  mpz_t N;      mpz_init(N);
-  mpz_t e;      mpz_init(e);
 /*
   mpz_t m_R;    mpz_init(m_R);
   mpz_t cY;     mpz_init(cY);
@@ -132,108 +130,13 @@ void attack() {
   oct2int(m, pt);
   char* trace;
   interact(trace, c, m);
-  gmp_printf("trace: %s\ncipher: %ZX\n", c);
+  gmp_printf("trace: %s\ncipher: %ZX\n",trace c);
   int * consumption;
   int l = separateTrace(consumption, trace);
   for (int i = 0;i<l;i++){
     gmp_printf("%d \n", consumption[i]);
   }
-//srand(time(NULL));
-  //Loop for finding entire key d1-n
-/*  while(endFlag != 1)//change to until reach the last bit
-  {
-    //initiate average time
-    yAvg1 = 0; zAvg1 = 0;
-    yAvg2 = 0; zAvg2 = 0;
-    yNum1 = 0; zNum1 = 0;
-    yNum2 = 0; zNum2 = 0;
-    int o1_flag = 0, o2_flag = 0;
-    //Loop for statistics
-    while(!((yNum1 >cNum) &&(yNum2 > cNum) && (zNum1>cNum)&&(zNum2>cNum))){
-      //Choose random C
-      int random = rand();
-      gmp_randstate_t state;
-      gmp_randinit_default(state);
-      gmp_randseed_ui(state, random);
-      mpz_urandomm(c, state, N);
-      gmp_randclear(state);
 
-      //get Ctmp = (c^j)^2
-      interact_R(&r_R, cTmp, c, N, dFinal);
-      mpz_mul(cTmp, cTmp, cTmp);
-      mpz_mul(cTmpC, cTmp, c);
-
-      //Check whether it will go through reduction
-      //dj = 1, (Ctmp * C)^2
-      if (monPro(cTmpC, cTmpC, N, N2, R)) {  o1_flag = 1; }
-      else { o1_flag = 0; }
-      //dj = 0, (Ctmp)^2
-      if (monPro(cTmp, cTmp, N, N2, R)){  o2_flag = 1; }
-      else { o2_flag = 0; }
-      mpz_set(cY, c);
-      mpz_set(cZ, c);
-
-      //Send Y and Z to oracle
-      interact(&tY, mY, cY);
-      interact(&tZ, mZ, cZ);
-
-      if (o1_flag == 1) {
-        yNum1++;
-        yAvg1 += tY;
-      } else {
-        yNum2++;
-        yAvg2 += tY;
-      }
-      if (o2_flag == 1) {
-        zNum1++;
-        zAvg1 += tZ;
-      } else {
-        zNum2++;
-        zAvg2 += tZ;
-      }
-    }
-    //Analysis: take average y1, y2, z1 and z2, dj = 1? 0?
-    yAvg1 = yAvg1 / yNum1;  //dj = 1, with reduction
-    yAvg2 = yAvg2 / yNum2;  //dj = 1, without reduction
-    zAvg1 = zAvg1 / zNum1;  //dj = 0, with reduction
-    zAvg2 = zAvg2 / zNum2;  //dj = 0, without reduction
-    printf("d bit: %d\nAvg (dj = 1) time difference: %d\n", j, yAvg1 - yAvg2);
-    printf("Avg (dj = 0) time difference: %d\n",zAvg1-zAvg2);
-    if ((yAvg1 - yAvg2) > (zAvg1 - zAvg2)) {
-        mpz_mul_ui(dFinal, dFinal, 2);
-        mpz_add_ui(dFinal, dFinal, 1);
-        dChar[j] = '1';
-    }
-    else {
-      mpz_mul_ui(dFinal, dFinal, 2);
-        dChar[j] = '0';
-    }
-    dChar[j+1] = '\0';
-    //Update j index value
-    j++;
-    //Print hexadecimal and binary key
-    gmp_printf("d_x: %ZX\nd_b: %s\n", dFinal, dChar);
-
-    //Guess the last bit
-    //Test with last bit = 0
-    mpz_mul_ui(dTmp, dFinal, 2);
-    interact_R(&r_R, m_R, c, N, dTmp);
-    interact(&tY, m, c);
-    if (mpz_cmp(m_R, m) == 0) {
-      endFlag = 1;
-      mpz_mul_ui(dFinal, dFinal, 2);
-    }
-    //Test with last bit = 1
-    mpz_add_ui(dTmp, dTmp, 1);
-    interact_R(&r_R, m_R, c, N, dTmp);
-    if (mpz_cmp(m_R, m) == 0) {
-      endFlag = 1;
-      mpz_mul_ui(dFinal, dFinal, 2);
-      mpz_add_ui(dFinal, dFinal, 1);
-    }
-
-    if (j == 1023) endFlag = 1;
-  }*/
   //END
   //gmp_printf("Target Material : %ZX\n", dFinal);
   //gmp_printf("Total Number of Interaction: %d\n", interaction);
