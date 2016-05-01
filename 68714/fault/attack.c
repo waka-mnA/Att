@@ -161,6 +161,7 @@ gmp_printf("4 S1: %ZX\n", c);
       int delta1 =inv_s[x[0]^i]^inv_s[y[0]^i];
       while((delta1 == delta*2)&&(solved == 0) && j<256){
         int delta11 = inv_s[x[10]^j]^inv_s[y[10]^j];
+        gmp_printf("%d %d\n", delta1, delta11);
           while((delta11 == delta)&&(solved == 0) && z<256){
             int delta14 = inv_s[x[13]^z]^inv_s[y[13]^z];
               while((delta14 == delta)&&(solved==0) && l<256){
