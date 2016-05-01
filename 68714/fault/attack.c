@@ -118,6 +118,7 @@ void compareKeys(int index, int index2, int* correct, int* k1, int* k2, int* k3,
     correct[1] = k2[i];
     correct[2] = k3[i];
     correct[3] = k4[i];
+    gmp_printf("%d %d %d %d\n", correct[0], correct[1], correct[2], correct[3]);
     return;
   }
 }
@@ -250,7 +251,7 @@ gmp_printf("4 S1: %ZX\n", c);
   /*for (int i = 0;i<index;i++){
     gmp_printf("index %d %d %d %d %d\n", deltaArray[i], k1[i], k8[i], k11[i], k14[i]);
   }*/
-  int correctKeys[4];
+  int correctKeys[4] = {0};
   compareKeys(index, index2, correctKeys, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
 
   gmp_printf("%d %d %d %d\n", correctKeys[0], correctKeys[1], correctKeys[2], correctKeys[3]);
