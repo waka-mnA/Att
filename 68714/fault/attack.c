@@ -107,12 +107,13 @@ void oct2int(mpz_t i, const char* string){
   mpz_set_str(i, string, 16);
 }
 
-void compareKeys(int index,int[] correct, int[] k1, int[] k2, int[] k3, int[] k4, int[] l1, int[] l2, int[] l3, int[] l4){
+void compareKeys(int index, int index2, int* correct, int* k1, int* k2, int* k3, int* k4, int* l1, int* l2, int* l3, int* l4){
   for(int i = 0;i<index;i++){
-    if (k1[i] != l1[i]) continue;
-    if (k2[i] != l2[i]) continue;
-    if (k3[i] != l3[i]) continue;
-    if (k4[i] != l4[i]) continue;
+    for(int j = 0;j<index2;j++){
+    if (k1[i] != l1[j]) continue;
+    if (k2[i] != l2[j]) continue;
+    if (k3[i] != l3[j]) continue;
+    if (k4[i] != l4[j]) continue;
     correct[0] = k1[i];
     correct[1] = k2[i];
     correct[2] = k3[i];
@@ -120,7 +121,8 @@ void compareKeys(int index,int[] correct, int[] k1, int[] k2, int[] k3, int[] k4
     return;
   }
 }
-int findKeyHypothesis(int[] k1, int[] k8, int[] k11, int[] k14, char* ct, char* ctF){
+}
+int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF){
   int k[16] = {0};
   int x[16] = {0};
   int y[16] = {0};
@@ -242,7 +244,7 @@ gmp_printf("4 S1: %ZX\n", c);
     char* ct2 = int2oct(c2);
     char* ctF2 = int2oct(cF2);
     int k1_2[256], k8_2[256], k11_2[256], k14_2[256];
-    int index = findKeyHypothesis(k1_2, k8_2, k11_2, k14_2, ct2, ctF2);
+    int index2 = findKeyHypothesis(k1_2, k8_2, k11_2, k14_2, ct2, ctF2);
 
 
 
@@ -250,7 +252,7 @@ gmp_printf("4 S1: %ZX\n", c);
     gmp_printf("index %d %d %d %d %d\n", deltaArray[i], k1[i], k8[i], k11[i], k14[i]);
   }*/
   int correctKeys[4];
-  compareKeys(index, correctKeys, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
+  compareKeys(index, index2, correctKeys, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
 
 
   mpz_clear(cF);
