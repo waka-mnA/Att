@@ -29,8 +29,8 @@ void interact( char* p, mpz_t c, const mpz_t m){
   if (gmp_fscanf(target_out, "%ZX", c) == 0) { abort(); }
   interaction++;
 }
-
-void separateTrace(int &l, int* consumption, char* trace){
+//call by seprateTrace(&v, consumption, trace)
+void separateTrace(int* l, int* consumption, char* trace){
 int i = 0;
 //get length
   while(trace[i]!='\0'){
