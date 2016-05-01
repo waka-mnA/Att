@@ -110,7 +110,7 @@ int sboxInv(int x){
   //char c[1];
   //c[0] = a;
 
-  gmp_printf("sbox %x %d\n", a, a;
+  gmp_printf("sbox %x %d\n", a, a);
   return a;
 }
 void step1(mpz_t c, mpz_t m){
