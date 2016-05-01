@@ -138,7 +138,7 @@ gmp_printf("4 S1: %ZX\n", c);
   for (int i = 0;i<strlen(ct);i=i+2){
     if (i==0){
       x[i]=(int)ct[i]*16+(int)ct[i+1];
-      y[0]=(int)ctF[i]*16+(int)ctF[i+1];
+      y[i]=(int)ctF[i]*16+(int)ctF[i+1];
     }
     else if (i==14){
       x[(i/2)]=(int)ct[i]*16+(int)ct[i+1];
@@ -153,7 +153,7 @@ gmp_printf("4 S1: %ZX\n", c);
       y[(i/2)]=(int)ctF[i]*16+(int)ctF[i+1];
     }
   }
-
+  gmp_printf("%d %d %d %d\n", x[0], x[10], x[7], x[13]);
   int solved = 0;
   int i = 0, j = 0, z = 0, l = 0, delta=1;
   while(solved == 0 && delta <256){
