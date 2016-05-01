@@ -128,7 +128,7 @@ void attack() {
   mpz_t m;      mpz_init(m);
   mpz_t c;      mpz_init(c);
 
-  char* pt = "";
+  char* pt ="3243F6A8885A308D313198A2E0370734";
   oct2int(m, pt);
   char* trace;
   interact(trace, c, m);
