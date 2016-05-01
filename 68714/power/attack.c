@@ -27,7 +27,7 @@ void interact( char* p, mpz_t c, const mpz_t m){
   //Receive execution time and plaintext from target
 //  if ( 1 != fscanf(target_out, "%s", p)){ abort(); }
 
-  if (gmp_fscanf(target_out, "%s", p) == 0) { abort(); }
+  if( 1 != fscanf( target_out, "%s", p ) ) { abort();}
   if (gmp_fscanf(target_out, "%ZX", c) == 0) { abort(); }
   interaction++;
 }
@@ -131,7 +131,7 @@ void attack() {
   char* pt ="3243F6A8885A308D313198A2E0370734";
   oct2int(m, pt);
   char* trace;
-  interact(&trace, c, m);
+  interact(trace, c, m);
   gmp_printf("trace: %s\ncipher: %ZX\n",trace, c);
   int * consumption ={0};
   //int l = separateTrace(consumption, trace);
