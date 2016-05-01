@@ -253,7 +253,7 @@ gmp_printf("4 S1: %ZX\n", c);
   int correctKeys[4];
   compareKeys(index, index2, correctKeys, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
 
-
+  gmp_printf("%d %d %d %d\n", correctKeys[0], correctKeys[1], correctKeys[2], correctKeys[3]);
   mpz_clear(cF);
 }
 
