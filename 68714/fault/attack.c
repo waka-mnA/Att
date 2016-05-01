@@ -139,6 +139,7 @@ gmp_printf("4 S1: %ZX\n", c);
     if (i==0){
       x[i]=(int)ct[i]*16+(int)ct[i+1];
       y[i]=(int)ctF[i]*16+(int)ctF[i+1];
+      gmp_printf("%c %d %c %d\n", ct[i], (int)ct[i], ctF[0], (int)ctF[0]);
     }
     else if (i==14){
       x[(i/2)]=(int)ct[i]*16+(int)ct[i+1];
