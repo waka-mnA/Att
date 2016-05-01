@@ -21,7 +21,7 @@ int interaction= 0;
 char* pt ="3243F6A8885A308D313198A2E0370734";
 
 //inverse S-box
-unsigned char inv_s[256] =
+int inv_s[256] =
  {
     0x52, 0x09, 0x6A, 0xD5, 0x30, 0x36, 0xA5, 0x38, 0xBF, 0x40, 0xA3, 0x9E, 0x81, 0xF3, 0xD7, 0xFB,
     0x7C, 0xE3, 0x39, 0x82, 0x9B, 0x2F, 0xFF, 0x87, 0x34, 0x8E, 0x43, 0x44, 0xC4, 0xDE, 0xE9, 0xCB,
@@ -106,11 +106,12 @@ void oct2int(mpz_t i, const char* string){
 }
 
 int sboxInv(int x){
-  unsigned char a = inv_s[x];
-  char c[1];
-  c[0] = a;
-  gmp_printf("sbox %x %s %d\n", a, c, strtol((char[]){c, a}, NULL, 0));
-  return strtol(c, NULL, 0);
+  int a = inv_s[x];
+  //char c[1];
+  //c[0] = a;
+
+  gmp_printf("sbox %x %d\n", a, a;
+  return a;
 }
 void step1(mpz_t c, mpz_t m){
   mpz_t cF;
