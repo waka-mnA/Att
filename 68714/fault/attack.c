@@ -110,7 +110,7 @@ int sboxInv(int x){
   char c[2];
   c[0] = a;
   c[1] = '\0';
-  return strtol(c, NULL, 16);
+  return strtol(c, NULL, 0);
 }
 void step1(mpz_t c, mpz_t m){
   mpz_t cF;
