@@ -105,14 +105,6 @@ void oct2int(mpz_t i, const char* string){
   mpz_set_str(i, string, 16);
 }
 
-int sboxInv(int x){
-  int a = inv_s[x];
-  //char c[1];
-  //c[0] = a;
-
-  gmp_printf("sbox %d %d\n", x, a);
-  return a;
-}
 void step1(mpz_t c, mpz_t m){
   mpz_t cF;
   mpz_init(cF);
@@ -184,16 +176,15 @@ gmp_printf("4 S1: %ZX\n", c);
   int i = 0, j = 0, z = 0, l = 0, delta=1;
   while(solved == 0 && delta <256){
     while(solved == 0 && i<256){
-      int delta1 =sboxInv(x[0]^i)^sboxInv(y[0]^i);
-      gmp_printf("1 %d %d %d %d\n", x[0]^i, sboxInv(x[0]^i), sboxInv(y[0]^i) ,delta1);
+      int delta1 =inv_s[x[0]^i]^inv_s[y[0]^i];
       while((delta1 == delta*2)&&(solved == 0) && j<256){
-        int delta11 = sboxInv(x[10]^j)^sboxInv(y[10]^j);
+        int delta11 = inv_s[x[10]^j]^inv_s[y[10]^j];
         gmp_printf("11 %d\n", delta11);
           while((delta11 == delta)&&(solved == 0) && z<256){
-            int delta14 = sboxInv(x[13]^z)^sboxInv(y[13]^z);
+            int delta14 = inv_s[x[13]^z]^inv_s[y[13]^z];
             gmp_printf("14 %d\n", delta14);
               while((delta14 == delta)&&(solved==0) && l<256){
-                int delta8 = sboxInv(x[7]^l)^sboxInv(y[8]^l);
+                int delta8 = inv_s[x[7]^l]^inv_s[y[8]^l];
                 gmp_printf("8 %d\n", delta8);
                 if (delta8 ==delta * 3){
                   k[0] = i;
