@@ -362,6 +362,7 @@ int main( int argc, char* argv[] ) {
           if( ( R_in  = fdopen( target_R_raw[ 1 ], "w" ) ) == NULL ) {
             abort();
           }
+          gmp_printf("TEST\n");
           // Execute a function representing the attacker.
           attack();
 
