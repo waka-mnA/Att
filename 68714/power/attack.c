@@ -130,8 +130,8 @@ void attack() {
 
   char* pt ="3243F6A8885A308D313198A2E0370734";
   oct2int(m, pt);
-  char* trace="";
-  interact(trace, c, m);
+  char* trace;
+  interact(&trace, c, m);
   gmp_printf("trace: %s\ncipher: %ZX\n",trace, c);
   int * consumption ={0};
   //int l = separateTrace(consumption, trace);
