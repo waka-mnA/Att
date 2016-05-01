@@ -167,7 +167,6 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
   int solved = 0;
   int deltaArray[256];
   int index = 0;
-  int k1[256], k8[256], k11[256], k14[256];
   int i = 0, j = 0, z = 0, l = 0, delta=1;
   while(solved == 0 && delta < 256/3){
     i=0;
