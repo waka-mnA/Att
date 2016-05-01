@@ -159,7 +159,7 @@ gmp_printf("4 S1: %ZX\n", c);
   while(solved == 0 && delta <256){
     while(solved == 0 && i<256){
       int delta1 =inv_s[x[0]^i]^inv_s[y[0]^i];
-      gmp_printf("%d %d\n", delta1, delta);
+      gmp_printf("%d %d %d\n", x[0], i, x[0]^i);
       while((delta1 == delta*2)&&(solved == 0) && j<256){
         int delta11 = inv_s[x[10]^j]^inv_s[y[10]^j];
           while((delta11 == delta)&&(solved == 0) && z<256){
