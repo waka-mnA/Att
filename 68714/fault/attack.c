@@ -135,11 +135,17 @@ gmp_printf("4 S1: %ZX\n", c);
   int k[16] = {0};
   int x[16] = {0};
   int y[16] = {0};
+  char tmp[3];
+  tmp[2] = '\0';
   for (int i = 0;i<strlen(ct);i=i+2){
     if (i==0){
-      x[i]=(int)ct[i]*16+(int)ct[i+1];
-      y[i]=(int)ctF[i]*16+(int)ctF[i+1];
-      gmp_printf("%c %d %c %d\n", ct[i], (int)ct[i], ctF[0], (int)ctF[0]);
+      tmp[0] = ct[i];
+      tmp[1] = ct[i+1];
+      x[i]=(int) strtol(tmp, NULL, 16);
+      tmp[0] = ctF[i];
+      tmp[1] = ctF[i+1];
+      y[i]=(int) strtol(tmp, NULL, 16);
+      gmp_printf("%c %d %c %d\n", ct[i], y[i], ctF[0],x[0]);
     }
     else if (i==14){
       x[(i/2)]=(int)ct[i]*16+(int)ct[i+1];
