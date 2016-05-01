@@ -201,6 +201,9 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
     delta++;
   }
 
+    for (int i = 0;i<index;i++){
+      gmp_printf("index %d %d %d %d %d\n", deltaArray[i], k1[i], k8[i], k11[i], k14[i]);
+    }
   return index;
 }
 void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
@@ -245,6 +248,7 @@ gmp_printf("4 S1: %ZX\n", c);
     char* ctF2 = int2oct(cF2);
     int k1_2[256], k8_2[256], k11_2[256], k14_2[256];
     int index2 = findKeyHypothesis(k1_2, k8_2, k11_2, k14_2, ct2, ctF2);
+
 
   /*for (int i = 0;i<index;i++){
     gmp_printf("index %d %d %d %d %d\n", deltaArray[i], k1[i], k8[i], k11[i], k14[i]);
