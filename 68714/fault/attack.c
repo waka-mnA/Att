@@ -78,16 +78,17 @@ void interact(  mpz_t c, const char* spec, const mpz_t m){
 }
 
 //Convert integer to octet string
-char* int2oct(const mpz_t i, const mpz_t N){
+char* int2oct(const mpz_t i){
   char* octet = NULL;
-  int size = mpz_sizeinbase(N, 16);
+  int size = 32;
+  //int size = mpz_sizeinbase(N, 16);
   int l = mpz_sizeinbase(i, 16);
   octet = malloc(size+1);
 
   char* tmpStr = NULL;
   tmpStr = mpz_get_str(tmpStr, 16, i);
   int index = 0;
-  for (index = 0; index<=(size - l) ;index++){
+  for (index = 0; index<size ;index++){
     octet[index] = '0';
   }
   int m = 0;
@@ -129,8 +130,8 @@ gmp_printf("%s\n", fault);
 gmp_printf("4 S1: %ZX\n", cF);
 gmp_printf("4 S1: %ZX\n", c);
 
-  char* ct = int2oct(c);
-  char* ctF = int2oct(cF);
+  char* ct = int2oct(c, 32);
+  char* ctF = int2oct(cF, 32);
   int k1, k8, k11, k14;
   int x1, x8, x11, x14;
   int y1, y8, y11, y14;
@@ -157,7 +158,7 @@ gmp_printf("4 S1: %ZX\n", c);
   int i = 0, j = 0, k = 0, l = 0, delta=1;
   while(solved == 0 || delta <256){
     while(solved == 0 || i<256){
-      int delta1 =inv_s[x1^i]^inv_s[y1i];
+      int delta1 =inv_s[x1^i]^inv_s[y1^i];
       while(solved == 0 || j<256){
         int delta11 = inv_s[x11^j]^inv_s[y11^j];
           while((delta1 == delta*2)&&(solved == 0 || k<256)){
@@ -197,10 +198,10 @@ gmp_printf("4 S1: %ZX\n", c);
 void attack() {
   mpz_t m;      mpz_init(m);
   mpz_t c;      mpz_init(c);
-  mpz_t cF;      mpz_init(cF);//with fault
+  //mpz_t cF;      mpz_init(cF);//with fault
 
   //Unused variables
-  mpz_t N;      mpz_init(N);
+  /*mpz_t N;      mpz_init(N);
   mpz_t e;      mpz_init(e);
   mpz_t cY;     mpz_init(cY);
   mpz_t cZ;     mpz_init(cZ);
@@ -221,7 +222,7 @@ void attack() {
   int endFlag = 0;
   int j = 1;    //bit number
 
-
+*/
   oct2int(m, pt);
   //gmp_printf("TEST %ZX\n", test);
   //gmp_printf("TEST %Zd\n", test);
@@ -335,7 +336,7 @@ void attack() {
 
   mpz_clear(m);
   mpz_clear(c);
-  mpz_clear(cF);
+//  mpz_clear(cF);
   /*mpz_clear(dTmp);
   mpz_clear(N);
   mpz_clear(e);
