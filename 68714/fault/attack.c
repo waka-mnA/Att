@@ -21,7 +21,7 @@ int interaction= 0;
 char* pt ="3243F6A8885A308D313198A2E0370734";
 
 //inverse S-box
-char inv_s[256] =
+unsigned char inv_s[256] =
  {
     0x52, 0x09, 0x6A, 0xD5, 0x30, 0x36, 0xA5, 0x38, 0xBF, 0x40, 0xA3, 0x9E, 0x81, 0xF3, 0xD7, 0xFB,
     0x7C, 0xE3, 0x39, 0x82, 0x9B, 0x2F, 0xFF, 0x87, 0x34, 0x8E, 0x43, 0x44, 0xC4, 0xDE, 0xE9, 0xCB,
@@ -176,7 +176,7 @@ gmp_printf("4 S1: %ZX\n", c);
   int i = 0, j = 0, z = 0, l = 0, delta=1;
   while(solved == 0 && delta <256){
     while(solved == 0 && i<256){
-      int delta1 =inv_s[x[0]^i]^inv_s[y[0]^i];
+      int delta1 =(int) strtol(inv_s[x[0]^i], NULL, 16)^(int) strtol(inv_s[y[0]^i], NULL, 16);
       gmp_printf("1 %d\n", delta1);
       while((delta1 == delta*2)&&(solved == 0) && j<256){
         int delta11 = inv_s[x[10]^j]^inv_s[y[10]^j];
