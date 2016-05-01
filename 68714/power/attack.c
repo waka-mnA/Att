@@ -128,14 +128,14 @@ void attack() {
 
   char* pt ="3243F6A8885A308D313198A2E0370734";
   oct2int(m, pt);
-  char* trace;
-  interact(trace, c, m);
+  char* trace ="";
+  //interact(trace, c, m);
   gmp_printf("trace: %s\ncipher: %ZX\n",trace, c);
-  int * consumption;
-  int l = separateTrace(consumption, trace);
-  for (int i = 0;i<l;i++){
-    gmp_printf("%d \n", consumption[i]);
-  }
+  int * consumption ={0};
+  //int l = separateTrace(consumption, trace);
+//  for (int i = 0;i<l;i++){
+    //gmp_printf("%d \n", consumption[i]);
+  //}
 
   //END
   //gmp_printf("Target Material : %ZX\n", dFinal);
