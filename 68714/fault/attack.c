@@ -169,7 +169,7 @@ gmp_printf("4 S1: %ZX\n", c);
                   k[0] = i;
                   k[7] = l;
                   k[10]= j;
-                  k[13] = k;
+                  k[13] = z;
                   solved = 1;
                 }
                 l++;
