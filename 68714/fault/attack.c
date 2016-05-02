@@ -239,9 +239,9 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
 int* reduceKeySpace(int* k){
   int store = k[0];
   int index = 1;
-  int* list = malloc(sizeof(int)*(sizeof(k)/sizeof(k[0])));
+  int* list = malloc(sizeof(int)*(sizeof(k)));
   list[0] = store;
-  printf("test %d ", (sizeof(k)/sizeof(k[0])));
+  printf("test %d ", (sizeof(k)));
   for(int i = 1;i<(sizeof(k)/sizeof(k[0]));i++){
       if (k[i-1] != k[i]){
         printf("test %d ", k[i]);
