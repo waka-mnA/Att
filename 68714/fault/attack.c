@@ -246,7 +246,7 @@ void reduceKeySpace(int* list, int* k){
   int flag = 0;
   list[0] = store;
   int i = 1;
-  while(k[i]!='\0'){
+  while(k[i]!=NULL){
     flag = 0;
     for(int j = 0;j<(index);j++){
       if (k[i] == list[j]){
@@ -313,8 +313,8 @@ gmp_printf("4 S1: %ZX\n", c);
   }
   int correctKeys[4] = {0};
   //compareKeys(index, index2, correctKeys, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
-  int a[256]={-1}, a1[256]={-1}, a2[256]={-1}, a3[256]={-1};
-  int a4[256]={-1}, a5[256]={-1}, a6[256]={-1}, a7[256]={-1};
+  int a[256], a1[256], a2[256], a3[256];
+  int a4[256], a5[256], a6[256], a7[256];
   reduceKeySpace(a, k1);
   int i = 0;
   printf("k1 ");
