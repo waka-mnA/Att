@@ -248,7 +248,7 @@ int* reduceKeySpace(int* k){
   list[0] = store;
   for(int i = 1;i<(256);i++){
     flag = 0;
-    for(int j = 1;j<(index);j++){
+    for(int j = 0;j<(index);j++){
       if (k[i] == list[j]){
         flag =1;
         break;
@@ -258,9 +258,6 @@ int* reduceKeySpace(int* k){
       printf("test %d\n", k[i]);
       list[index] = k[i];
       index++;
-    }
-    else{
-      flag = 0;
     }
   }
   list[index] = '\0';
