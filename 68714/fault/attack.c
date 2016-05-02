@@ -249,8 +249,7 @@ void reduceKeySpace(int* list, int* k){
   for(i = 1;i<256;i++){
     flag = 0;
     for(int j = 0;j<(index);j++){
-      if (k[i] == list[j]){
-        if (k[i]==0)printf("%d %d\n", k[i], list[j]);
+      if ((k[i]!=0) && (k[i] == list[j])){
         flag =1;
         break;
       }
