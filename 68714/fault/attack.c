@@ -193,7 +193,7 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
   x[7] = 59;//15;//59;
   x[10] =210; //165;//210;
   x[13] = 181;//113;//181;
-  y[0] =47; //92;//47;
+  y[0] = 47; //92;//47;
   y[7] = 149;//27;//149;
   y[10] = 120;//251;//120;
   y[13] = 255;//161;//255;
@@ -202,13 +202,13 @@ printf("%d %d %d %d %d %d %d %d\n", s[195],s[209],s[112],s[244],s[2],s[127],s[21
     for (int i14 = 0;i14<256;i14++){
       int lhs1 = inv_s[x[0]^i1]^inv_s[y[0]^i1];
       int rhs1 = inv_s[x[13]^i14]^inv_s[y[13]^i14];
-      if (lhs1 == 2*rhs1){
+      if (2*lhs1 == rhs1){
         for (int i11 = 0;i11<256;i11++){
           int rhs2 = inv_s[x[10]^i11]^inv_s[y[10]^i11];
           if (rhs1 == rhs2){
             for (int i8 = 0;i8<256;i8++){
               int lhs2 = inv_s[x[7]^i8]^inv_s[y[7]^i8];
-              if (lhs2 == 3*rhs1){
+              if (3*lhs2 == rhs1){
                 k1[index] = i1;
                 k8[index] = i8;
                 k11[index] = i11;
