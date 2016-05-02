@@ -222,6 +222,8 @@ for (int i1 = 0;i1<256;i1++){
       int lhs1 = (inv_s[(x[0]^i1)])^(inv_s[(y[0]^i1)]);
       int rhs1 = (inv_s[(x[13]^i14)])^(inv_s[(y[13]^i14)]);
       if (lhs1 == mul(2, rhs1)){
+        int test2 = mul(1, lhs1);
+        printf("test2 %d %d\n", test2, lhs1);
         for (int i11 = 0;i11<256;i11++){
           int rhs2 = (inv_s[(x[10]^i11)])^(inv_s[(y[10]^i11)]);
           if (rhs1 == rhs2){
