@@ -244,7 +244,6 @@ void reduceKeySpace(int* list, int* k){
   int store = k[0];
   int index = 1;
   int flag = 0;
-  //int* list = malloc(sizeof(int)*(256));
   list[0] = store;
   int i = 1;
   while(k[i]!='\0'){
@@ -256,15 +255,12 @@ void reduceKeySpace(int* list, int* k){
       }
     }
     if (flag != 1){
-      printf("%d %d\n", index,k[i]);
       list[index] = k[i];
       index++;
     }
     i++;
   }
-  printf("TEST %d\n", list[index-1]);
   list[index] = '\0';
-  //return list;
 }
 
 void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
@@ -321,28 +317,24 @@ gmp_printf("4 S1: %ZX\n", c);
   reduceKeySpace(a, k1);
   int i = 0;
   while(a[i]!='\0'){
-    printf("%d ", a[i]);
-    i++;
+    printf("%d ", a[i]); i++;
   }
   i = 0;
   reduceKeySpace(a, k8);
   while(a[i]!='\0'){
-    printf("%d ", a[i]);
-    i++;
+    printf("%d ", a[i]); i++;
   }
   i = 0;
   printf("\n");
   reduceKeySpace(a,  k11);
   while(a[i]!='\0'){
-    printf("%d ", a[i]);
-    i++;
+    printf("%d ", a[i]); i++;
   }
   i = 0;
   printf("\n");
   reduceKeySpace(a,  k14);
   while(a[i]!='\0'){
-    printf("%d ", a[i]);
-    i++;
+    printf("%d ", a[i]); i++;
   }
   i = 0;
   printf("\n");
