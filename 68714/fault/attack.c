@@ -227,10 +227,7 @@ for (int i1 = 0;i1<256;i1++){
           int rhs2 = (inv_s[(x[10]^i11)])^(inv_s[(y[10]^i11)]);
           if (rhs1 == rhs2){
             for (int i8 = 0;i8<256;i8++){
-
-
-
-              int lhs2 = inv_s[x[7]^i8]^inv_s[y[7]^i8)];
+              int lhs2 = inv_s[x[7]^i8]^inv_s[y[7]^i8];
               if (lhs2 == mul(3, rhs1)){
                 k1[index] = i1;
                 k8[index] = i8;
