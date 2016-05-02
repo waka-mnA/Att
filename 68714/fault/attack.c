@@ -317,7 +317,7 @@ gmp_printf("4 S1: %ZX\n", c);
   }*/
   int correctKeys[4] = {0};
   //compareKeys(index, index2, correctKeys, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
-  int a[256];
+  int a[256] = {'\0'};
   reduceKeySpace(a, k1);
   for (int i = 0;i<sizeof(a)/sizeof(a[0]);i++) printf("%d ", a[i]);
   printf("\n");
