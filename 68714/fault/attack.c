@@ -295,9 +295,9 @@ gmp_printf("4 S1: %ZX\n", c);
   int k1[256]={0}, k8[256]={0}, k11[256]={0}, k14[256]={0};
   int index = findKeyHypothesis(k1, k8, k11, k14, ct, ctF);
 
-  for (int i = 0;i<index;i++){
-    gmp_printf("index %d %d %d %d\n", k1[i], k8[i], k11[i], k14[i]);
-  }
+  //for (int i = 0;i<index;i++){
+  //  gmp_printf("index %d %d %d %d\n", k1[i], k8[i], k11[i], k14[i]);
+  //}
 
   interact(cF2, fault, m2);
   gmp_printf("4 S1: %ZX\n", cF2);
@@ -308,9 +308,9 @@ gmp_printf("4 S1: %ZX\n", c);
   int k1_2[256]={0}, k8_2[256]={0}, k11_2[256]={0}, k14_2[256]={0};
   int index2 = findKeyHypothesis(k1_2, k8_2, k11_2, k14_2, ct2, ctF2);
 
-  /*for (int i = 0;i<index2;i++){
+  for (int i = 0;i<index2;i++){
     gmp_printf("index %d %d %d %d\n", k1_2[i], k8_2[i], k11_2[i], k14_2[i]);
-  }*/
+  }
   int correctKeys[4] = {0};
   //compareKeys(index, index2, correctKeys, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
   int a[256];
@@ -342,29 +342,25 @@ gmp_printf("4 S1: %ZX\n", c);
   printf("\nk1 ");
   reduceKeySpace(a,  k1_2);
   while(a[i]!='\0'){
-    printf("%d ", a[i]);
-    i++;
+    printf("%d ", a[i]); i++;
   }
   i = 0;
   printf("\nk8 ");
   reduceKeySpace(a,  k8_2);
   while(a[i]!='\0'){
-    printf("%d ", a[i]);
-    i++;
+    printf("%d ", a[i]); i++;
   }
   i = 0;
   printf("\nk11 ");
   reduceKeySpace(a,  k11_2);
   while(a[i]!='\0'){
-    printf("%d ", a[i]);
-    i++;
+    printf("%d ", a[i]); i++;
   }
   i = 0;
   printf("\nk14 ");
   reduceKeySpace(a,  k14_2);
   while(a[i]!='\0'){
-    printf("%d ", a[i]);
-    i++;
+    printf("%d ", a[i]); i++;
   }
   i = 0;
   printf("\n");
