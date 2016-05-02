@@ -108,6 +108,7 @@ void oct2int(mpz_t i, const char* string){
 }
 
 void compareKeys(int index, int index2, int* correct, int* k1, int* k2, int* k3, int* k4, int* l1, int* l2, int* l3, int* l4){
+
   for(int i = 0;i<index;i++){
     for(int j = 0;j<index2;j++){
     if (k1[i] != l1[j]) continue;
@@ -122,6 +123,15 @@ void compareKeys(int index, int index2, int* correct, int* k1, int* k2, int* k3,
     return;
   }
 }
+}
+
+int compareKey(int* a, int*b){
+  for (int i = 0;i<(sizeof a/sizeof a[0]);i++){
+    for (int j = 0;j<(sizeof b/sizeof b[0]);j++){
+        if (a[i] == b[j]) return a[i];
+    }
+  }
+  return -1;
 }
 int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF){
   //int k[16] = {0};
@@ -241,10 +251,11 @@ int findElement(int * k, int x){
 
   false;
 }
+//Reduce the overlapped key hypothesis
+//ind: number of elements in k array
 void reduceKeySpace(int ind, int* list, int* k){
   int index = 1;
   int flag = 0;
-  int zero = 0;
   list[0] = k[0];
   int i = 1;
   for(i = 1;i<ind;i++){
@@ -255,17 +266,10 @@ void reduceKeySpace(int ind, int* list, int* k){
         break;
       }
     }
-    if (flag == 1 && k[i]==0){
-      zero = 1;
-    }
     if (flag != 1){
       list[index] = k[i];
       index++;
     }
-  }
-  if (zero == 1){
-    //list[index]=0;
-    //index++;
   }
   list[index] = -1;
 }
@@ -315,9 +319,9 @@ gmp_printf("4 S1: %ZX\n", c);
   int k1_2[256]={0}, k8_2[256]={0}, k11_2[256]={0}, k14_2[256]={0};
   int index2 = findKeyHypothesis(k1_2, k8_2, k11_2, k14_2, ct2, ctF2);
 
-  for (int i = 0;i<index2;i++){
+  /*for (int i = 0;i<index2;i++){
     gmp_printf("index %d %d %d %d\n", k1_2[i], k8_2[i], k11_2[i], k14_2[i]);
-  }
+  }*/
   int correctKeys[4] = {0};
   //compareKeys(index, index2, correctKeys, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
   int a[256], a1[256], a2[256], a3[256];
@@ -372,6 +376,14 @@ gmp_printf("4 S1: %ZX\n", c);
   }
   i = 0;
   printf("\n");
+  int result = compareKey(a, a4);
+  printf("%d\n", result);
+  result = compareKey(a2, a5);
+  printf("%d\n", result);
+  result = compareKey(a3, a6);
+  printf("%d\n", result);
+  result = compareKey(a4, a7);
+  printf("%d\n", result);
   //gmp_printf("%d %d %d %d\n", correctKeys[0], correctKeys[1], correctKeys[2], correctKeys[3]);
   mpz_clear(cF);
 }
