@@ -319,49 +319,49 @@ gmp_printf("4 S1: %ZX\n", c);
   int i = 0;
   printf("k1 ");
   while(a[i]!='\0'){
-    printf("%d ", a[i]); i++;
+    printf("%3d ", a[i]); i++;
   }
   i = 0;
   printf("\nk8 ");
   reduceKeySpace(a1, k8);
   while(a1[i]!='\0'){
-    printf("%d ", a1[i]); i++;
+    printf("%3d ", a1[i]); i++;
   }
   i = 0;
   printf("\nk11 ");
   reduceKeySpace(a2,  k11);
   while(a2[i]!='\0'){
-    printf("%d ", a2[i]); i++;
+    printf("%3d ", a2[i]); i++;
   }
   i = 0;
   printf("\nk14 ");
   reduceKeySpace(a3,  k14);
   while(a3[i]!='\0'){
-    printf("%d ", a3[i]); i++;
+    printf("%3d ", a3[i]); i++;
   }
   i = 0;
   printf("\nk1 ");
   reduceKeySpace(a4,  k1_2);
   while(a4[i]!='\0'){
-    printf("%d ", a4[i]); i++;
+    printf("%3d ", a4[i]); i++;
   }
   i = 0;
   printf("\nk8 ");
   reduceKeySpace(a5,  k8_2);
   while(a5[i]!='\0'){
-    printf("%d ", a5[i]); i++;
+    printf("%3d ", a5[i]); i++;
   }
   i = 0;
   printf("\nk11 ");
   reduceKeySpace(a6,  k11_2);
   while(a6[i]!='\0'){
-    printf("%d ", a6[i]); i++;
+    printf("%3d ", a6[i]); i++;
   }
   i = 0;
   printf("\nk14 ");
   reduceKeySpace(a7,  k14_2);
   while(a7[i]!='\0'){
-    printf("%d ", a7[i]); i++;
+    printf("%3d ", a7[i]); i++;
   }
   i = 0;
   printf("\n");
