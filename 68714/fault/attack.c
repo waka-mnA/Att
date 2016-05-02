@@ -163,10 +163,43 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
       y[(i/2)]=(int)strtol(tmp, NULL, 16);
     }
   }
-  int solved = 0;
+
   int deltaArray[256];
   int index = 0;
   int i = 0, j = 0, z = 0, l = 0, delta=1;
+  for(int w = 0;w<16;w++){
+    printf("%x ", x[w]);
+    if (w%4 == 3) printf("\n");
+  }
+  for(int w = 0;w<16;w++){
+    printf("%x ", y[w]);
+    if (w%4 == 3) printf("\n");
+  }
+  //guess k1 and k14
+  for (int i1 = 0;i1<256;i1++){
+    for (int i14 = 0;i14<256;i14++){
+      int lhs1 = inv_s[x[0]^i1]^inv_s[y[0]^i1];
+      int rhs1 = inv_s[x[13]^i14]^inv_s[y[13]^i14];
+      if (lhs1 == 2* rhs1){
+        for (int i11 = 0;i11<256;i11++){
+          int rhs2 = inv_s[x[10]^i11]^inv_s[y[10]^i11];
+          if (rhs1 == rhs2){
+            for (int i8 = 0;i8<256;i8++){
+              int lhs2 = inv_s[x[7]^i8]^inv_s[y[7]^i8];
+              if (lhs2 == 3* rhs1){
+                k1[index] = i1;
+                k8[index] = i8;
+                k11[index] = i11;
+                k14[index] = i14;
+                index++;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  /*
   while(solved == 0 && delta < 256/3){
     i=0;
     while(i<256){
@@ -198,6 +231,7 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
     }
     delta++;
   }
+  */
   return index;
 }
 void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
