@@ -128,6 +128,7 @@ void oct2int(mpz_t i, const char* string){
 
 
 int compareKey(int* a, int*b){
+  printf("%d %d\n", (sizeof a/sizeof a[0]), (sizeof b/sizeof b[0]));
   for (int i = 0;i<(sizeof a/sizeof a[0]);i++){
     for (int j = 0;j<(sizeof b/sizeof b[0]);j++){
         if (a[i] == b[j]) return a[i];
@@ -221,40 +222,6 @@ for (int i1 = 0;i1<256;i1++){
       }
     }
   }
-
-  /*
-  while(solved == 0 && delta < 256/3){
-    i=0;
-    while(i<256){
-      int delta1 =inv_s[x[0]^i]^inv_s[y[0]^i];
-      j=0;
-      while((delta1 == delta*2)&& j<256){
-        int delta11 = inv_s[x[10]^j]^inv_s[y[10]^j];
-        z=0;
-          while((delta11 == delta)&& z<256){
-            int delta14 = inv_s[x[13]^z]^inv_s[y[13]^z];
-            l=0;
-              while((delta14 == delta)&& l<256){
-                int delta8 = inv_s[x[7]^l]^inv_s[y[7]^l];
-                if (delta8 == delta*3){
-                  k1[index] = i;
-                  k8[index] = l;
-                  k11[index]= j;
-                  k14[index] = z;
-                  deltaArray[index]= delta;
-                  index++;
-                }
-                l++;
-              }
-            z++;
-        }
-        j++;
-      }
-      i++;
-    }
-    delta++;
-  }
-  */
   return index;
 }
 
@@ -303,8 +270,8 @@ gmp_printf("%s\n", fault);
 gmp_printf("4 S1: %ZX\n", cF);
 gmp_printf("4 S1: %ZX\n", c);*/
 interact(cF, fault, m);
-gmp_printf("4 S1: %ZX\n", cF);
 gmp_printf("4 S1: %ZX\n", c);
+gmp_printf("4 S1: %ZX\n", cF);
 
   char* ct = int2oct(c);
   char* ctF = int2oct(cF);
@@ -316,8 +283,8 @@ gmp_printf("4 S1: %ZX\n", c);
   //}
 
   interact(cF2, fault, m2);
-  gmp_printf("4 S1: %ZX\n", cF2);
   gmp_printf("4 S1: %ZX\n", c2);
+  gmp_printf("4 S1: %ZX\n", cF2);
 
   char* ct2 = int2oct(c2);
   char* ctF2 = int2oct(cF2);
