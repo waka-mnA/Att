@@ -324,49 +324,57 @@ gmp_printf("4 S1: %ZX\n", c);
   reduceKeySpace(a, k1);
   int i = 0;
   printf("k1  ");
-  while(a[i]!=NULL){
+  for (i = 0;i<(sizeof a/sizeof a[0]);i++){
+//  while(a[i]!=NULL){
     printf("%3d ", a[i]); i++;
   }
   i = 0;
   printf("\nk8  ");
   reduceKeySpace(a1, k8);
-  while(a1[i]!=NULL){
+  for (i = 0;i<(sizeof a1/sizeof a1[0]);i++){
+//  while(a1[i]!=NULL){
     printf("%3d ", a1[i]); i++;
   }
   i = 0;
   printf("\nk11 ");
   reduceKeySpace(a2,  k11);
-  while(a2[i]!=NULL){
+  for (i = 0;i<(sizeof a2/sizeof a2[0]);i++){
+// while(a2[i]!=NULL){
     printf("%3d ", a2[i]); i++;
   }
   i = 0;
   printf("\nk14 ");
   reduceKeySpace(a3,  k14);
-  while(a3[i]!=NULL){
+  for (i = 0;i<(sizeof a3/sizeof a3[0]);i++){
+//  while(a3[i]!=NULL){
     printf("%3d ", a3[i]); i++;
   }
   i = 0;
   printf("\nk1  ");
   reduceKeySpace(a4,  k1_2);
-  while(a4[i]!=NULL){
+  for (i = 0;i<(sizeof a4/sizeof a4[0]);i++){
+//    while(a4[i]!=NULL){
     printf("%3d ", a4[i]); i++;
   }
   i = 0;
   printf("\nk8  ");
   reduceKeySpace(a5,  k8_2);
-  while(a5[i]!=NULL){
+  for (i = 0;i<(sizeof a5/sizeof a5[0]);i++){
+//    while(a5[i]!=NULL){
     printf("%3d ", a5[i]); i++;
   }
   i = 0;
   printf("\nk11 ");
   reduceKeySpace(a6,  k11_2);
-  while(a6[i]!=NULL){
+  for (i = 0;i<(sizeof a6/sizeof a6[0]);i++){
+//    while(a6[i]!=NULL){
     printf("%3d ", a6[i]); i++;
   }
   i = 0;
   printf("\nk14 ");
   reduceKeySpace(a7,  k14_2);
-  while(a7[i]!=NULL){
+  for (i = 0;i<(sizeof a7/sizeof a7[0]);i++){
+//    while(a7[i]!=NULL){
     printf("%3d ", a7[i]); i++;
   }
   i = 0;
