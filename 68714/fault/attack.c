@@ -242,11 +242,10 @@ int* reduceKeySpace(int* k){
   int* list = malloc(sizeof(int)*(sizeof(k)/sizeof(k[0])));
   list[0] = store;
   for(int i = 1;i<(sizeof(k)/sizeof(k[0]));i++){
-      if (store != k[i]){
+      if (k[i-1] != k[i]){
         list[index] = k[i];
         index++;
       }
-      store = k[i];
   }
   list[index] = '\0';
   return list;
