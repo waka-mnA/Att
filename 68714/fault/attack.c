@@ -125,18 +125,18 @@ void oct2int(mpz_t i, const char* string){
   mpz_set_str(i, string, 16);
 }
 
-void compareKey(int* result, int iA, int iB, int* a, int*b){
+void compareKey(int* result, int iA, int iB, int* a, int* b){
   int index = 0;
   for (int i = 0;i<iA;i++){
     for (int j = 0;j<iB;j++){
         if (a[i] == b[j]) {
-          result[index] = a[i];
+          //result[index] = a[i];
           index++;
         }
     }
   }
   if (index >255) index--;
-  result[index]=-1;
+  //result[index]=-1;
 }
 
 int add(int a, int b){
@@ -373,7 +373,7 @@ gmp_printf("4 S1: %ZX\n", cF);
   }
   printf("\n");
   int result[256]={0};
-  //compareKey(result, 256, 256, a, a4);
+  compareKey(result, 256, 256, a, a4);
   /*while(result[i]!=-1){printf("%d\n", result[i]);i++;} i=0;
   int result2[256]={0};
   compareKey(result2, 256, 256, a1, a5);
