@@ -240,13 +240,14 @@ int findElement(int * k, int x){
 
   false;
 }
-int* reduceKeySpace(int* k){
+void reduceKeySpace(int* a, int* k){
   int store = k[0];
   int index = 1;
   int flag = 0;
   int* list = malloc(sizeof(int)*(256));
   list[0] = store;
-  for(int i = 1;i<(256);i++){
+  int i = 1;
+  while(k[i]!='\0'){
     flag = 0;
     for(int j = 0;j<(index);j++){
       if (k[i] == list[j]){
@@ -259,7 +260,9 @@ int* reduceKeySpace(int* k){
       list[index] = k[i];
       index++;
     }
+    i++;
   }
+  printf("TEST %d\n", list[index-1]);
   list[index] = '\0';
   return list;
 }
@@ -314,28 +317,29 @@ gmp_printf("4 S1: %ZX\n", c);
   }*/
   int correctKeys[4] = {0};
   //compareKeys(index, index2, correctKeys, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
-  int* a = reduceKeySpace(k1);
+  int a[256];
+  reduceKeySpace(a, k1);
   for (int i = 0;i<sizeof(a)/sizeof(a[0]);i++) printf("%d ", a[i]);
   printf("\n");
-  a = reduceKeySpace(k8);
+  reduceKeySpace(a, k8);
   for (int i = 0;i<sizeof(a)/sizeof(a[0]);i++) printf("%d ", a[i]);
   printf("\n");
-  a = reduceKeySpace(k11);
+  reduceKeySpace(a,  k11);
   for (int i = 0;i<sizeof(a)/sizeof(a[0]);i++) printf("%d ", a[i]);
   printf("\n");
-  a = reduceKeySpace(k14);
+  reduceKeySpace(a,  k14);
   for (int i = 0;i<sizeof(a)/sizeof(a[0]);i++) printf("%d ", a[i]);
   printf("\n");
-  a = reduceKeySpace(k1_2);
+  reduceKeySpace(a,  k1_2);
   for (int i = 0;i<sizeof(a)/sizeof(a[0]);i++) printf("%d ", a[i]);
   printf("\n");
-  a = reduceKeySpace(k8_2);
+  reduceKeySpace(a,  k8_2);
   for (int i = 0;i<sizeof(a)/sizeof(a[0]);i++) printf("%d ", a[i]);
   printf("\n");
-  a = reduceKeySpace(k11_2);
+  reduceKeySpace(a,  k11_2);
   for (int i = 0;i<sizeof(a)/sizeof(a[0]);i++) printf("%d ", a[i]);
   printf("\n");
-  a = reduceKeySpace(k14_2);
+  reduceKeySpace(a,  k14_2);
   for (int i = 0;i<sizeof(a)/sizeof(a[0]);i++) printf("%d ", a[i]);
   printf("\n");
   //gmp_printf("%d %d %d %d\n", correctKeys[0], correctKeys[1], correctKeys[2], correctKeys[3]);
