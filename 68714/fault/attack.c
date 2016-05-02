@@ -209,7 +209,7 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
     if (w%4 == 3) printf("\n");
   }
   //guess k1 and k14
-printf("test %d\n", mul(0x53, 0xca));
+printf("test %d\n", mul(83, 202));
   /*x[0] =238;//13;// 238;
   x[7] = 59;//15;//59;
   x[10] =210; //165;//210;
