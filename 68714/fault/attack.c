@@ -261,7 +261,7 @@ void reduceKeySpace(int* list, int* k){
     }
     //i++;
   }
-  list[index] = '\0';
+  list[index] = NULL;
 }
 
 void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
