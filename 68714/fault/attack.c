@@ -200,6 +200,7 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
       }
     }
   }
+
   /*
   while(solved == 0 && delta < 256/3){
     i=0;
@@ -240,14 +241,14 @@ int findElement(int * k, int x){
 
   false;
 }
-void reduceKeySpace(int* list, int* k){
+void reduceKeySpace(int ind, int* list, int* k){
   int store = k[0];
   int index = 1;
   int flag = 0;
   int zero = 0;
   list[0] = store;
   int i = 1;
-  for(i = 1;i<256;i++){
+  for(i = 1;i<ind;i++){
     flag = 0;
     for(int j = 0;j<(index);j++){
       if (k[i] == list[j]){
@@ -263,7 +264,7 @@ void reduceKeySpace(int* list, int* k){
       index++;
     }
   }
-  if (zero ==1){
+  if (zero == 1){
     list[index]=0;
     index++;
   }
@@ -322,7 +323,7 @@ gmp_printf("4 S1: %ZX\n", c);
   //compareKeys(index, index2, correctKeys, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
   int a[256], a1[256], a2[256], a3[256];
   int a4[256], a5[256], a6[256], a7[256];
-  reduceKeySpace(a, k1);
+  reduceKeySpace(index, a, k1);
   int i = 0;
   printf("k1  ");
   while(a[i]!=-1){
@@ -330,43 +331,43 @@ gmp_printf("4 S1: %ZX\n", c);
   }
   i = 0;
   printf("\nk8  ");
-  reduceKeySpace(a1, k8);
+  reduceKeySpace(index, a1, k8);
   while(a1[i]!= -1){
     printf("%3d ", a1[i]); i++;
   }
   i = 0;
   printf("\nk11 ");
-  reduceKeySpace(a2,  k11);
+  reduceKeySpace(index, a2,  k11);
    while(a2[i]!=-1){
     printf("%3d ", a2[i]); i++;
   }
   i = 0;
   printf("\nk14 ");
-  reduceKeySpace(a3,  k14);
+  reduceKeySpace(index, a3,  k14);
     while(a3[i]!=-1){
     printf("%3d ", a3[i]); i++;
   }
   i = 0;
   printf("\nk1  ");
-  reduceKeySpace(a4,  k1_2);
+  reduceKeySpace(index2, a4,  k1_2);
       while(a4[i]!=-1){
     printf("%3d ", a4[i]); i++;
   }
   i = 0;
   printf("\nk8  ");
-  reduceKeySpace(a5,  k8_2);
+  reduceKeySpace(index2,a5,  k8_2);
       while(a5[i]!=-1){
     printf("%3d ", a5[i]); i++;
   }
   i = 0;
   printf("\nk11 ");
-  reduceKeySpace(a6,  k11_2);
+  reduceKeySpace(index2,a6,  k11_2);
       while(a6[i]!=-1){
     printf("%3d ", a6[i]); i++;
   }
   i = 0;
   printf("\nk14 ");
-  reduceKeySpace(a7,  k14_2);
+  reduceKeySpace(index2,a7,  k14_2);
       while(a7[i]!=-1){
     printf("%3d ", a7[i]); i++;
   }
