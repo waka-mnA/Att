@@ -135,6 +135,7 @@ void compareKey(int* result, int iA, int iB, int* a, int*b){
         }
     }
   }
+  if (index >255) index--;
   result[index]=-1;
 }
 
