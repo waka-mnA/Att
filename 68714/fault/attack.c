@@ -255,7 +255,7 @@ int* reduceKeySpace(int* k){
       }
     }
     if (flag != 1){
-      printf("test %d\n", k[i]);
+      printf("%d %d\n", index,k[i]);
       list[index] = k[i];
       index++;
     }
