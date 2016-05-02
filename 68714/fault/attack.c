@@ -246,7 +246,7 @@ void reduceKeySpace(int* list, int* k){
   int flag = 0;
   list[0] = store;
   int i = 1;
-  while(k[i]!=NULL){
+  for(i = 1;i<256;i++){
     flag = 0;
     for(int j = 0;j<(index);j++){
       if (k[i] == list[j]){
@@ -258,7 +258,7 @@ void reduceKeySpace(int* list, int* k){
       list[index] = k[i];
       index++;
     }
-    i++;
+    //i++;
   }
   list[index] = '\0';
 }
