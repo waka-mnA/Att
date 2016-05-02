@@ -242,11 +242,10 @@ int findElement(int * k, int x){
   false;
 }
 void reduceKeySpace(int ind, int* list, int* k){
-  int store = k[0];
   int index = 1;
   int flag = 0;
   int zero = 0;
-  list[0] = store;
+  list[0] = k[0];
   int i = 1;
   for(i = 1;i<ind;i++){
     flag = 0;
@@ -265,8 +264,8 @@ void reduceKeySpace(int ind, int* list, int* k){
     }
   }
   if (zero == 1){
-    list[index]=0;
-    index++;
+    //list[index]=0;
+    //index++;
   }
   list[index] = -1;
 }
