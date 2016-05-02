@@ -235,6 +235,23 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
   */
   return index;
 }
+
+int* reduceKeySpace(int* k){
+  int store = k[0];
+  int index = 1;
+  int* list = malloc(sizeof(int)*(sizeof(k)/sizeof(k[0])));
+  list[0] = store;
+  for(int i = 1;i<(sizeof(k)/sizeof(k[0]));i++){
+      if (store != k[i]){
+        list[index] = k[i];
+        index++;
+      }
+      store = k[i];
+  }
+  list[index] = '\0';
+  return list;
+}
+
 void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
   mpz_t cF;
   mpz_init(cF);
@@ -284,9 +301,32 @@ gmp_printf("4 S1: %ZX\n", c);
     gmp_printf("index %d %d %d %d\n", k1_2[i], k8_2[i], k11_2[i], k14_2[i]);
   }*/
   int correctKeys[4] = {0};
-  compareKeys(index, index2, correctKeys, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
-
-  gmp_printf("%d %d %d %d\n", correctKeys[0], correctKeys[1], correctKeys[2], correctKeys[3]);
+  //compareKeys(index, index2, correctKeys, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
+  int* a = reduceKeySpace(k1);
+  a = reduceKeySpace(k8);
+  a = reduceKeySpace(k11);
+  a = reduceKeySpace(k14);
+  a = reduceKeySpace(k1_2);
+  a = reduceKeySpace(k8_2);
+  a = reduceKeySpace(k11_2);
+  a = reduceKeySpace(k14_2);
+  for (int i = 0;i<sizeof(k1)/sizeof(k1[0]);i++) printf("%d ", k1[i]);
+  printf("\n");
+  for (int i = 0;i<sizeof(k8)/sizeof(k8[0]);i++) printf("%d ", k8[i]);
+  printf("\n");
+  for (int i = 0;i<sizeof(k11)/sizeof(k11[0]);i++) printf("%d ", k11[i]);
+  printf("\n");
+  for (int i = 0;i<sizeof(k14)/sizeof(k14[0]);i++) printf("%d ", k14[i]);
+  printf("\n");
+  for (int i = 0;i<sizeof(k1_2)/sizeof(k1_2[0]);i++) printf("%d ", k1_2[i]);
+  printf("\n");
+  for (int i = 0;i<sizeof(k8_2)/sizeof(k8_2[0]);i++) printf("%d ", k8_2[i]);
+  printf("\n");
+  for (int i = 0;i<sizeof(k11_2)/sizeof(k11_2[0]);i++) printf("%d ", k11_2[i]);
+  printf("\n");
+  for (int i = 0;i<sizeof(k14_2)/sizeof(k14_2[0]);i++) printf("%d ", k14_2[i]);
+  printf("\n");
+  //gmp_printf("%d %d %d %d\n", correctKeys[0], correctKeys[1], correctKeys[2], correctKeys[3]);
   mpz_clear(cF);
 }
 
@@ -339,102 +379,7 @@ void attack() {
   gmp_printf("i: %d ,Fault free ciphertext : %ZX\n",interaction, c2);
 
   step1(c, m, c2, m2);
-    //Loop for finding entire key d1-n
-  /*while(endFlag != 1)//change to until reach the last bit
-  {
-    //initiate average time
-    yAvg1 = 0; zAvg1 = 0;
-    yAvg2 = 0; zAvg2 = 0;
-    yNum1 = 0; zNum1 = 0;
-    yNum2 = 0; zNum2 = 0;
-    int o1_flag = 0, o2_flag = 0;
-    //Loop for statistics
-    while(!((yNum1 >cNum) &&(yNum2 > cNum) && (zNum1>cNum)&&(zNum2>cNum))){
-      //Choose random C
-      int random = rand();
-      gmp_randstate_t state;
-      gmp_randinit_default(state);
-      gmp_randseed_ui(state, random);
-      mpz_urandomm(c, state, N);
-      gmp_randclear(state);
 
-      //get Ctmp = (c^j)^2
-      interact_R(&r_R, cTmp, c, N, dFinal);
-      mpz_mul(cTmp, cTmp, cTmp);
-      mpz_mul(cTmpC, cTmp, c);
-
-      //Check whether it will go through reduction
-      //dj = 1, (Ctmp * C)^2
-      if (monPro(cTmpC, cTmpC, N, N2, R)) {  o1_flag = 1; }
-      else { o1_flag = 0; }
-      //dj = 0, (Ctmp)^2
-      if (monPro(cTmp, cTmp, N, N2, R)){  o2_flag = 1; }
-      else { o2_flag = 0; }
-      mpz_set(cY, c);
-      mpz_set(cZ, c);
-
-      //Send Y and Z to oracle
-      interact(&tY, mY, cY);
-      interact(&tZ, mZ, cZ);
-
-      if (o1_flag == 1) {
-        yNum1++;
-        yAvg1 += tY;
-      } else {
-        yNum2++;
-        yAvg2 += tY;
-      }
-      if (o2_flag == 1) {
-        zNum1++;
-        zAvg1 += tZ;
-      } else {
-        zNum2++;
-        zAvg2 += tZ;
-      }
-    }
-    //Analysis: take average y1, y2, z1 and z2, dj = 1? 0?
-    yAvg1 = yAvg1 / yNum1;  //dj = 1, with reduction
-    yAvg2 = yAvg2 / yNum2;  //dj = 1, without reduction
-    zAvg1 = zAvg1 / zNum1;  //dj = 0, with reduction
-    zAvg2 = zAvg2 / zNum2;  //dj = 0, without reduction
-    printf("d bit: %d\nAvg (dj = 1) time difference: %d\n", j, yAvg1 - yAvg2);
-    printf("Avg (dj = 0) time difference: %d\n",zAvg1-zAvg2);
-    if ((yAvg1 - yAvg2) > (zAvg1 - zAvg2)) {
-        mpz_mul_ui(dFinal, dFinal, 2);
-        mpz_add_ui(dFinal, dFinal, 1);
-        dChar[j] = '1';
-    }
-    else {
-      mpz_mul_ui(dFinal, dFinal, 2);
-        dChar[j] = '0';
-    }
-    dChar[j+1] = '\0';
-    //Update j index value
-    j++;
-    //Print hexadecimal and binary key
-    gmp_printf("d_x: %ZX\nd_b: %s\n", dFinal, dChar);
-
-    //Guess the last bit
-    //Test with last bit = 0
-    mpz_mul_ui(dTmp, dFinal, 2);
-    interact_R(&r_R, m_R, c, N, dTmp);
-    interact(&tY, m, c);
-    if (mpz_cmp(m_R, m) == 0) {
-      endFlag = 1;
-      mpz_mul_ui(dFinal, dFinal, 2);
-    }
-    //Test with last bit = 1
-    mpz_add_ui(dTmp, dTmp, 1);
-    interact_R(&r_R, m_R, c, N, dTmp);
-    if (mpz_cmp(m_R, m) == 0) {
-      endFlag = 1;
-      mpz_mul_ui(dFinal, dFinal, 2);
-      mpz_add_ui(dFinal, dFinal, 1);
-    }
-
-    if (j == 1023) endFlag = 1;
-  }
-  */
   //END
   gmp_printf("Target Material : %ZX\n", c);
   gmp_printf("Total Number of Interaction: %d\n", interaction);
