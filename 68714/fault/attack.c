@@ -239,10 +239,10 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
 int* reduceKeySpace(int* k){
   int store = k[0];
   int index = 1;
-  int* list = malloc(sizeof(int)*(sizeof(k)));
+  int* list = malloc(sizeof(int)*(256));
   list[0] = store;
   printf("test1 %d ", (sizeof k/sizeof k[0] ));
-  for(int i = 1;i<(sizeof k/sizeof k[0] );i++){
+  for(int i = 1;i<(256 );i++){
       if (k[i-1] != k[i]){
         printf("test2 %d ", k[i]);
         list[index] = k[i];
@@ -282,7 +282,7 @@ gmp_printf("4 S1: %ZX\n", c);
 
   char* ct = int2oct(c);
   char* ctF = int2oct(cF);
-  int k1[256], k8[256], k11[256], k14[256];
+  int k1[256]={0}, k8[256]={0}, k11[256]={0}, k14[256]={0};
   int index = findKeyHypothesis(k1, k8, k11, k14, ct, ctF);
 
   for (int i = 0;i<index;i++){
@@ -295,7 +295,7 @@ gmp_printf("4 S1: %ZX\n", c);
 
   char* ct2 = int2oct(c2);
   char* ctF2 = int2oct(cF2);
-  int k1_2[256], k8_2[256], k11_2[256], k14_2[256];
+  int k1_2[256]={0}, k8_2[256]={0}, k11_2[256]={0}, k14_2[256]={0};
   int index2 = findKeyHypothesis(k1_2, k8_2, k11_2, k14_2, ct2, ctF2);
 
   /*for (int i = 0;i<index2;i++){
