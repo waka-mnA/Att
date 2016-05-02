@@ -317,30 +317,62 @@ gmp_printf("4 S1: %ZX\n", c);
   }*/
   int correctKeys[4] = {0};
   //compareKeys(index, index2, correctKeys, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
-  int a[256] = {'\0'};
+  int a[256];
   reduceKeySpace(a, k1);
-  for (int i = 0;i<sizeof(a)/sizeof(a[0]);i++) printf("%d ", a[i]);
-  printf("\n");
+  int i = 0;
+  while(a[i]!='\0'){
+    printf("%d ", a[i]);
+    i++;
+  }
+  i = 0;
   reduceKeySpace(a, k8);
-  for (int i = 0;i<sizeof(a)/sizeof(a[0]);i++) printf("%d ", a[i]);
+  while(a[i]!='\0'){
+    printf("%d ", a[i]);
+    i++;
+  }
+  i = 0;
   printf("\n");
   reduceKeySpace(a,  k11);
-  for (int i = 0;i<sizeof(a)/sizeof(a[0]);i++) printf("%d ", a[i]);
+  while(a[i]!='\0'){
+    printf("%d ", a[i]);
+    i++;
+  }
+  i = 0;
   printf("\n");
   reduceKeySpace(a,  k14);
-  for (int i = 0;i<sizeof(a)/sizeof(a[0]);i++) printf("%d ", a[i]);
+  while(a[i]!='\0'){
+    printf("%d ", a[i]);
+    i++;
+  }
+  i = 0;
   printf("\n");
   reduceKeySpace(a,  k1_2);
-  for (int i = 0;i<sizeof(a)/sizeof(a[0]);i++) printf("%d ", a[i]);
+  while(a[i]!='\0'){
+    printf("%d ", a[i]);
+    i++;
+  }
+  i = 0;
   printf("\n");
   reduceKeySpace(a,  k8_2);
-  for (int i = 0;i<sizeof(a)/sizeof(a[0]);i++) printf("%d ", a[i]);
+  while(a[i]!='\0'){
+    printf("%d ", a[i]);
+    i++;
+  }
+  i = 0;
   printf("\n");
   reduceKeySpace(a,  k11_2);
-  for (int i = 0;i<sizeof(a)/sizeof(a[0]);i++) printf("%d ", a[i]);
+  while(a[i]!='\0'){
+    printf("%d ", a[i]);
+    i++;
+  }
+  i = 0;
   printf("\n");
   reduceKeySpace(a,  k14_2);
-  for (int i = 0;i<sizeof(a)/sizeof(a[0]);i++) printf("%d ", a[i]);
+  while(a[i]!='\0'){
+    printf("%d ", a[i]);
+    i++;
+  }
+  i = 0;
   printf("\n");
   //gmp_printf("%d %d %d %d\n", correctKeys[0], correctKeys[1], correctKeys[2], correctKeys[3]);
   mpz_clear(cF);
