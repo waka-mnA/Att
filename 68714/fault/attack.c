@@ -127,10 +127,10 @@ void oct2int(mpz_t i, const char* string){
 
 
 
-int compareKey(int* a, int*b){
-  printf("%d %d\n", (sizeof a/sizeof a[0]), (sizeof b/sizeof b[0]));
-  for (int i = 0;i<(sizeof a/sizeof a[0]);i++){
-    for (int j = 0;j<(sizeof b/sizeof b[0]);j++){
+int compareKey(int iA, int iB, int* a, int*b){
+  printf("%d %d\n", iA, iB);
+  for (int i = 0;i<iA;i++){
+    for (int j = 0;j<iB;j++){
         if (a[i] == b[j]) return a[i];
     }
   }
@@ -341,18 +341,17 @@ gmp_printf("4 S1: %ZX\n", cF);
   i = 0;
   printf("\nk14 ");
   reduceKeySpace(index2,a7,  k14_2);
-      while(a7[i]!=-1){
+  while(a7[i]!=-1){
     printf("%3d ", a7[i]); i++;
   }
-  i = 0;
   printf("\n");
-  int result = compareKey(a, a4);
+  int result = compareKey(256, 256, a, a4);
   printf("%d\n", result);
-  result = compareKey(a1, a5);
+  result = compareKey(256, 256, a1, a5);
   printf("%d\n", result);
-  result = compareKey(a2, a6);
+  result = compareKey(256, 256, a2, a6);
   printf("%d\n", result);
-  result = compareKey(a3, a7);
+  result = compareKey(256, 256, a3, a7);
   printf("%d\n", result);
   mpz_clear(cF);
 }
