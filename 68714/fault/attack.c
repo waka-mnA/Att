@@ -317,12 +317,12 @@ gmp_printf("4 S1: %ZX\n", c);
   int a4[256], a5[256], a6[256], a7[256];
   reduceKeySpace(a, k1);
   int i = 0;
-  printf("k1 ");
+  printf("k1  ");
   while(a[i]!='\0'){
     printf("%3d ", a[i]); i++;
   }
   i = 0;
-  printf("\nk8 ");
+  printf("\nk8  ");
   reduceKeySpace(a1, k8);
   while(a1[i]!='\0'){
     printf("%3d ", a1[i]); i++;
@@ -340,13 +340,13 @@ gmp_printf("4 S1: %ZX\n", c);
     printf("%3d ", a3[i]); i++;
   }
   i = 0;
-  printf("\nk1 ");
+  printf("\nk1  ");
   reduceKeySpace(a4,  k1_2);
   while(a4[i]!='\0'){
     printf("%3d ", a4[i]); i++;
   }
   i = 0;
-  printf("\nk8 ");
+  printf("\nk8  ");
   reduceKeySpace(a5,  k8_2);
   while(a5[i]!='\0'){
     printf("%3d ", a5[i]); i++;
