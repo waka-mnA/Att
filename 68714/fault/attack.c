@@ -127,13 +127,21 @@ void oct2int(mpz_t i, const char* string){
 
 
 
-int compareKey(int iA, int iB, int* a, int*b){
+int* compareKey(int iA, int iB, int* a, int*b){
+  int max = iA;
+  if (max<iB) max = iB;
+  int* result = malloc(sizeof(int)*max);
+  int index = 0;
   for (int i = 0;i<iA;i++){
     for (int j = 0;j<iB;j++){
-        if (a[i] == b[j]) return a[i];
+        if (a[i] == b[j]) {
+          result[index] = a[i];
+          index++;
+        }
     }
   }
-  return -1;
+  result[index]=-1;
+  return result;
 }
 
 int add(int a, int b){
@@ -369,14 +377,14 @@ gmp_printf("4 S1: %ZX\n", cF);
     printf("%3d ", a7[i]); i++;
   }
   printf("\n");
-  int result = compareKey(256, 256, a, a4);
-  printf("%d\n", result);
-  result = compareKey(256, 256, a1, a5);
-  printf("%d\n", result);
-  result = compareKey(256, 256, a2, a6);
-  printf("%d\n", result);
-  result = compareKey(256, 256, a3, a7);
-  printf("%d\n", result);
+  int* result = compareKey(256, 256, a, a4);
+  while(result[i]!=-1){printf("%d\n", result);i++} i=0;
+  int* result2 = compareKey(256, 256, a1, a5);
+  while(result2[i]!=-1){printf("%d\n", result2);i++} i=0;
+  int* result3 = compareKey(256, 256, a2, a6);
+  while(result3[i]!=-1){printf("%d\n", result3);i++} i=0;
+  int* result4 = compareKey(256, 256, a3, a7);
+  while(result4[i]!=-1){printf("%d\n", result4);i++} i=0;
   mpz_clear(cF);
 }
 
