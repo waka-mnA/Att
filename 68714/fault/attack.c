@@ -243,6 +243,7 @@ int* reduceKeySpace(int* k){
   list[0] = store;
   for(int i = 1;i<(sizeof(k)/sizeof(k[0]));i++){
       if (k[i-1] != k[i]){
+        printf("test %d ", k[i]);
         list[index] = k[i];
         index++;
       }
