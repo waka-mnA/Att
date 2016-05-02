@@ -313,7 +313,8 @@ gmp_printf("4 S1: %ZX\n", c);
   }
   int correctKeys[4] = {0};
   //compareKeys(index, index2, correctKeys, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
-  int a[256];
+  int a[256], a1[256], a2[256], a3[256];
+  int a4[256], a5[256], a6[256], a7[256];
   reduceKeySpace(a, k1);
   int i = 0;
   printf("k1 ");
@@ -322,45 +323,45 @@ gmp_printf("4 S1: %ZX\n", c);
   }
   i = 0;
   printf("\nk8 ");
-  reduceKeySpace(a, k8);
+  reduceKeySpace(a1, k8);
   while(a[i]!='\0'){
-    printf("%d ", a[i]); i++;
+    printf("%d ", a1[i]); i++;
   }
   i = 0;
   printf("\nk11 ");
-  reduceKeySpace(a,  k11);
+  reduceKeySpace(a2,  k11);
   while(a[i]!='\0'){
-    printf("%d ", a[i]); i++;
+    printf("%d ", a2[i]); i++;
   }
   i = 0;
   printf("\nk14 ");
-  reduceKeySpace(a,  k14);
+  reduceKeySpace(a3,  k14);
   while(a[i]!='\0'){
-    printf("%d ", a[i]); i++;
+    printf("%d ", a3[i]); i++;
   }
   i = 0;
   printf("\nk1 ");
-  reduceKeySpace(a,  k1_2);
+  reduceKeySpace(a4,  k1_2);
   while(a[i]!='\0'){
-    printf("%d ", a[i]); i++;
+    printf("%d ", a4[i]); i++;
   }
   i = 0;
   printf("\nk8 ");
-  reduceKeySpace(a,  k8_2);
+  reduceKeySpace(a5,  k8_2);
   while(a[i]!='\0'){
-    printf("%d ", a[i]); i++;
+    printf("%d ", a5[i]); i++;
   }
   i = 0;
   printf("\nk11 ");
-  reduceKeySpace(a,  k11_2);
+  reduceKeySpace(a6,  k11_2);
   while(a[i]!='\0'){
-    printf("%d ", a[i]); i++;
+    printf("%d ", a6[i]); i++;
   }
   i = 0;
   printf("\nk14 ");
-  reduceKeySpace(a,  k14_2);
+  reduceKeySpace(a7,  k14_2);
   while(a[i]!='\0'){
-    printf("%d ", a[i]); i++;
+    printf("%d ", a7[i]); i++;
   }
   i = 0;
   printf("\n");
