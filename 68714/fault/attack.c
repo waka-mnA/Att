@@ -130,8 +130,8 @@ void compareKey(int* result, int iA, int iB, int* a, int* b){
   for (int i = 0;i<iA;i++){
     for (int j = 0;j<iB;j++){
         if (a[i] == b[j]) {
-          printf("%d %d\n", i, j);
-          result[index] = 0;//a[i];
+          printf("%d %d %d\n", i, j, index);
+          result[index] = a[i];
           index++;
         }
     }
