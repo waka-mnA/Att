@@ -217,6 +217,8 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
   y[7] = 149;//27;//149;
   y[10] = 120;//251;//120;
   y[13] = 255;//161;//255;
+  printf("test %d\n", inv_s[238^45]^inv_s[47^45];);
+  printf("test %d\n", inv_s[59^234]^inv_s[149^234];);
   printf("test %d %d\n", mul(2, 224), mul(3, 224));
 for (int i1 = 0;i1<256;i1++){
     for (int i14 = 0;i14<256;i14++){
