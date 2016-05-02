@@ -179,7 +179,7 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
   int deltaArray[256];
   int index = 0;
   int i = 0, j = 0, z = 0, l = 0, delta=1;
-  /*print state matrix for each ct row-wise order
+  //print state matrix for each ct row-wise order
   for(int w = 0;w<16;w++){
     printf("%x ", x[w]);
     if (w%4 == 3) printf("\n");
@@ -187,7 +187,7 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
   for(int w = 0;w<16;w++){
     printf("%x ", y[w]);
     if (w%4 == 3) printf("\n");
-  }*/
+  }
   //guess k1 and k14
 
   /*x[0] =238;//13;// 238;
