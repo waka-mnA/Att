@@ -373,7 +373,7 @@ gmp_printf("4 S1: %ZX\n", cF);
   }
   printf("\n");
   int result[256]={0};
-  compareKey(result, 256, 256, a, a4);
+  //compareKey(result, 256, 256, a, a4);
   /*while(result[i]!=-1){printf("%d\n", result[i]);i++;} i=0;
   int result2[256]={0};
   compareKey(result2, 256, 256, a1, a5);
