@@ -247,6 +247,7 @@ int* reduceKeySpace(int* k){
   int* list = malloc(sizeof(int)*(256));
   list[0] = store;
   for(int i = 1;i<(256);i++){
+    flag = 0;
     for(int j = 1;j<(index);j++){
       if (k[i] == list[j]){
         flag =1;
