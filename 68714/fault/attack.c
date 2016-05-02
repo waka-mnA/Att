@@ -381,7 +381,7 @@ gmp_printf("4 S1: %ZX\n", cF);
   compareKey(result3, 256, 256, a2, a6);
   //while(result3[i]!=-1){printf("%d\n", result3[i]);i++;} i=0;
   int result4[256];
-  compareKey(256, 256, a3, a7);
+  compareKey(result4, 256, 256, a3, a7);
   //while(result4[i]!=-1){printf("%d\n", result4[i]);i++;} i=0;
   mpz_clear(cF);
 }
