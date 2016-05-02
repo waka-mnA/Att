@@ -375,16 +375,16 @@ gmp_printf("4 S1: %ZX\n", cF);
   printf("\n");
   int result[256]={0};
   compareKey(result, 256, 256, a, a4);
-  while(result[i]!=-1){printf("%d\n", result[i]);i++;} i=0;
+  while(result[i]!=-1){printf("%d ", result[i]);i++;} i=0;printf("\n");
   int result2[256]={0};
   compareKey(result2, 256, 256, a1, a5);
-  while(result2[i]!=-1){printf("%d\n", result2[i]);i++;} i=0;
+  while(result2[i]!=-1){printf("%d ", result2[i]);i++;} i=0;printf("\n");
   int result3[256]={0};
   compareKey(result3, 256, 256, a2, a6);
-  while(result3[i]!=-1){printf("%d\n", result3[i]);i++;} i=0;
+  while(result3[i]!=-1){printf("%d ", result3[i]);i++;} i=0;printf("\n");
   int result4[256]={0};
   compareKey(result4, 256, 256, a3, a7);
-  while(result4[i]!=-1){printf("%d\n", result4[i]);i++;} i=0;
+  while(result4[i]!=-1){printf("%d ", result4[i]);i++;} i=0;printf("\n");
   mpz_clear(cF);
 }
 
