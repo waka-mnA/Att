@@ -128,7 +128,9 @@ void oct2int(mpz_t i, const char* string){
 void compareKey(int* result, int iA, int iB, int* a, int* b){
   int index = 0;
   for (int i = 0;i<iA;i++){
+    if (a[i]==-1) break;
     for (int j = 0;j<iB;j++){
+        if (b[j]==-1) break;
         if (a[i] == b[j]) {
           printf("%d %d %d\n", i, j, index);
           result[index] = a[i];
