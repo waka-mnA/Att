@@ -107,23 +107,7 @@ void oct2int(mpz_t i, const char* string){
   mpz_set_str(i, string, 16);
 }
 
-void compareKeys(int index, int index2, int* correct, int* k1, int* k2, int* k3, int* k4, int* l1, int* l2, int* l3, int* l4){
 
-  for(int i = 0;i<index;i++){
-    for(int j = 0;j<index2;j++){
-    if (k1[i] != l1[j]) continue;
-    if (k2[i] != l2[j]) continue;
-    if (k3[i] != l3[j]) continue;
-    if (k4[i] != l4[j]) continue;
-    correct[0] = k1[i];
-    correct[1] = k2[i];
-    correct[2] = k3[i];
-    correct[3] = k4[i];
-    gmp_printf("compare %d %d %d %d\n", correct[0], correct[1], correct[2], correct[3]);
-    return;
-  }
-}
-}
 
 int compareKey(int* a, int*b){
   for (int i = 0;i<(sizeof a/sizeof a[0]);i++){
@@ -280,7 +264,7 @@ void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
   mpz_t cF2;
   mpz_init(cF2);
   //induce a fault into a byte of the statematrix, which is the input to the eighth round
-  char* fault = faultSpec(8, 0, 0, 0, 0);
+  char* fault =  faultSpec(9, 1, 0, 0, 0);
   /*interact(cF, fault, m);
   gmp_printf("%s\n", fault);
   gmp_printf("1 S1: %ZX\n", cF);
@@ -295,9 +279,7 @@ interact(cF, fault, m);
 gmp_printf("%s\n", fault);
 gmp_printf("4 S1: %ZX\n", cF);
 gmp_printf("4 S1: %ZX\n", c);*/
-fault = faultSpec(9, 1, 0, 0, 0);
 interact(cF, fault, m);
-//gmp_printf("%s\n", fault);
 gmp_printf("4 S1: %ZX\n", cF);
 gmp_printf("4 S1: %ZX\n", c);
 
@@ -310,7 +292,7 @@ gmp_printf("4 S1: %ZX\n", c);
   //  gmp_printf("index %d %d %d %d\n", k1[i], k8[i], k11[i], k14[i]);
   //}
 
-  interact(cF2, fault, m);
+  interact(cF2, fault, m2);
   gmp_printf("4 S1: %ZX\n", cF2);
   gmp_printf("4 S1: %ZX\n", c2);
 
@@ -322,8 +304,6 @@ gmp_printf("4 S1: %ZX\n", c);
   /*for (int i = 0;i<index2;i++){
     gmp_printf("index %d %d %d %d\n", k1_2[i], k8_2[i], k11_2[i], k14_2[i]);
   }*/
-  int correctKeys[4] = {0};
-  //compareKeys(index, index2, correctKeys, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
   int a[256], a1[256], a2[256], a3[256];
   int a4[256], a5[256], a6[256], a7[256];
   reduceKeySpace(index, a, k1);
@@ -384,7 +364,6 @@ gmp_printf("4 S1: %ZX\n", c);
   printf("%d\n", result);
   result = compareKey(a4, a7);
   printf("%d\n", result);
-  //gmp_printf("%d %d %d %d\n", correctKeys[0], correctKeys[1], correctKeys[2], correctKeys[3]);
   mpz_clear(cF);
 }
 
