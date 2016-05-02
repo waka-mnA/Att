@@ -249,7 +249,6 @@ void reduceKeySpace(int* list, int* k){
   for(i = 1;i<256;i++){
     flag = 0;
     for(int j = 0;j<(index);j++){
-
       if (k[i] == list[j]){
         flag =1;
         break;
@@ -259,9 +258,8 @@ void reduceKeySpace(int* list, int* k){
       list[index] = k[i];
       index++;
     }
-    //i++;
   }
-  list[index] = -1;
+  list[index-1] = -1;
 }
 
 void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
