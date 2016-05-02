@@ -128,9 +128,9 @@ void oct2int(mpz_t i, const char* string){
 void compareKey(int* result, int iA, int iB, int* a, int* b){
   int index = 0;
   for (int i = 0;i<iA;i++){
-    if (a[i]==-1) break;
+    if (a[i]== -1) break;
     for (int j = 0;j<iB;j++){
-        if (b[j]==-1) break;
+        if (b[j]== -1) break;
         if (a[i] == b[j]) {
           result[index] = a[i];
           index++;
@@ -373,9 +373,9 @@ gmp_printf("4 S1: %ZX\n", cF);
     printf("%3d ", a7[i]); i++;
   }
   printf("\n");
-  int result[256]={0};
+  int result1[256];
   compareKey(result, 256, 256, a, a4);
-  while(result[i]!=-1){printf("%d ", result[i]);i++;} i=0;printf("\n");
+  while(result1[i]!=-1){printf("%d ", result1[i]);i++;} i=0;printf("\n");
   int result2[256]={0};
   compareKey(result2, 256, 256, a1, a5);
   while(result2[i]!=-1){printf("%d ", result2[i]);i++;} i=0;printf("\n");
