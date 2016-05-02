@@ -241,10 +241,10 @@ int* reduceKeySpace(int* k){
   int index = 1;
   int* list = malloc(sizeof(int)*(sizeof(k)));
   list[0] = store;
-  printf("test %d ", (sizeof k/sizeof k[0] ));
+  printf("test1 %d ", (sizeof k/sizeof k[0] ));
   for(int i = 1;i<(sizeof k/sizeof k[0] );i++){
       if (k[i-1] != k[i]){
-        printf("test %d ", k[i]);
+        printf("test2 %d ", k[i]);
         list[index] = k[i];
         index++;
       }
