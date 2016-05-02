@@ -236,17 +236,30 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
   return index;
 }
 
+int findElement(int * k, int x){
+
+  false;
+}
 int* reduceKeySpace(int* k){
   int store = k[0];
   int index = 1;
+  int flag = 0;
   int* list = malloc(sizeof(int)*(256));
   list[0] = store;
   for(int i = 1;i<(256);i++){
-      if (k[i-1] != k[i]){
-        printf("%d ", k[i]);
-        list[index] = k[i];
-        index++;
+    for(int j = 1;j<(index);j++){
+      if (k[i] == list[j]){
+        flag =1;
+        break;
       }
+    }
+    if (flag != 1){
+      list[index ] = k[i];
+      index++;
+    }
+    else{
+      flag = 0;
+    }
   }
   list[index] = '\0';
   return list;
