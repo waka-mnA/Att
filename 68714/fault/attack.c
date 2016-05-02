@@ -299,7 +299,7 @@ gmp_printf("4 S1: %ZX\n", c);
   //  gmp_printf("index %d %d %d %d\n", k1[i], k8[i], k11[i], k14[i]);
   //}
 
-  interact(cF2, fault, m2);
+  interact(cF2, fault, m);
   gmp_printf("4 S1: %ZX\n", cF2);
   gmp_printf("4 S1: %ZX\n", c2);
 
