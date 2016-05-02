@@ -240,10 +240,6 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
   return index;
 }
 
-int findElement(int * k, int x){
-
-  false;
-}
 //Reduce the overlapped key hypothesis
 //ind: number of elements in k array
 void reduceKeySpace(int ind, int* list, int* k){
@@ -367,11 +363,11 @@ gmp_printf("4 S1: %ZX\n", c);
   printf("\n");
   int result = compareKey(a, a4);
   printf("%d\n", result);
-  result = compareKey(a2, a5);
+  result = compareKey(a1, a5);
   printf("%d\n", result);
-  result = compareKey(a3, a6);
+  result = compareKey(a2, a6);
   printf("%d\n", result);
-  result = compareKey(a4, a7);
+  result = compareKey(a3, a7);
   printf("%d\n", result);
   mpz_clear(cF);
 }
