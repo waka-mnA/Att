@@ -240,11 +240,11 @@ int findElement(int * k, int x){
 
   false;
 }
-void reduceKeySpace(int* a, int* k){
+void reduceKeySpace(int* list, int* k){
   int store = k[0];
   int index = 1;
   int flag = 0;
-  int* list = malloc(sizeof(int)*(256));
+  //int* list = malloc(sizeof(int)*(256));
   list[0] = store;
   int i = 1;
   while(k[i]!='\0'){
@@ -264,7 +264,7 @@ void reduceKeySpace(int* a, int* k){
   }
   printf("TEST %d\n", list[index-1]);
   list[index] = '\0';
-  return list;
+  //return list;
 }
 
 void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
