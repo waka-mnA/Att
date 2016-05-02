@@ -128,13 +128,32 @@ void oct2int(mpz_t i, const char* string){
 
 
 int compareKey(int iA, int iB, int* a, int*b){
-  printf("%d %d\n", iA, iB);
   for (int i = 0;i<iA;i++){
     for (int j = 0;j<iB;j++){
         if (a[i] == b[j]) return a[i];
     }
   }
   return -1;
+}
+
+int add(int a, int b){
+  return a^b;
+}
+int mul(int a, int b){
+  int p = 0;
+  while(b){
+    if (b & 1){
+      p = p^a;
+    }
+    if (a & 0x80){
+      a = (a<<1)^0x11b;
+    }
+    else {
+      a <<=1;
+    }
+    b >>= 1;
+  }
+  return p;
 }
 int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF){
   //int k[16] = {0};
@@ -203,13 +222,16 @@ for (int i1 = 0;i1<256;i1++){
     for (int i14 = 0;i14<256;i14++){
       int lhs1 = (inv_s[(x[0]^i1)])^(inv_s[(y[0]^i1)]);
       int rhs1 = (inv_s[(x[13]^i14)])^(inv_s[(y[13]^i14)]);
-      if (lhs1 == 2*rhs1){
+      if (lhs1 == mul(2, rhs1)){
         for (int i11 = 0;i11<256;i11++){
           int rhs2 = (inv_s[(x[10]^i11)])^(inv_s[(y[10]^i11)]);
           if (rhs1 == rhs2){
             for (int i8 = 0;i8<256;i8++){
-              int lhs2 = (inv_s[(x[7]^i8)])^(inv_s[(y[7]^i8)]);
-              if (lhs2 == 3*rhs1){
+
+
+
+              int lhs2 = inv_s[x[7]^i8]^inv_s[y[7]^i8)];
+              if (lhs2 == mul(3, rhs1)){
                 k1[index] = i1;
                 k8[index] = i8;
                 k11[index] = i11;
