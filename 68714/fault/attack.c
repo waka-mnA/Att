@@ -281,7 +281,7 @@ void clearArrays(int* a, int* b, int* c, int*d){
   memset(d, 0, sizeof(int)*256);
 }
 
-int findSolution(int* keyArray, int x1, int x2, int x3, int x4, int*x, int*y){
+int findSolution(int* keyArray, int x1, int x2, int x3, int x4, int*x, int*y, int* x_2, int* y_2){
     //Storage for first fault ciphertext
     int keySto1[256]={0}; //storage for byte 1,  12, 3, 10
     int keySto2[256]={0}; //storage for byte 8,  15, 6, 13
@@ -352,7 +352,7 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
 
   int test = 1;
 
-  test = test & (findSolution(keyArray, 0, 7, 10, 13, x, y));
+  test = test & (findSolution(keyArray, 0, 7, 10, 13, x, y, x_2, y_2));
   /*findK1(x[0], x[7], x[10], x[13], y[0], y[7], y[10], y[13], keySto1, keySto2, keySto3, keySto4 );
   findK1(x_2[0], x_2[7], x_2[10], x_2[13], y_2[0], y_2[7], y_2[10], y_2[13], keySto1_2, keySto2_2, keySto3_2, keySto4_2 );
   int test1 = compareKeys(key, keySto1, keySto2, keySto3, keySto4, keySto1_2, keySto2_2, keySto3_2, keySto4_2);
@@ -366,7 +366,7 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   clearArrays(keySto1_2, keySto2_2, keySto3_2, keySto4_2);
 */
 
-  test = test & (findSolution(keyArray, 11, 14, 1, 4, x, y));
+  test = test & (findSolution(keyArray, 11, 14, 1, 4, x, y, x_2, y_2));
   /*findK1(x[11], x[14], x[1], x[4], y[11], y[14], y[1], y[4], keySto1, keySto2, keySto3, keySto4);
   findK1(x_2[11], x_2[14], x_2[1], x_2[4], y_2[11], y_2[14], y_2[1], y_2[4], keySto1_2, keySto2_2, keySto3_2, keySto4_2);
   test1 = compareKeys(key, keySto1, keySto2, keySto3, keySto4, keySto1_2, keySto2_2, keySto3_2, keySto4_2);
@@ -380,7 +380,7 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   clearArrays(keySto1_2, keySto2_2, keySto3_2, keySto4_2);
 */
 
-  test = test & (findSolution(keyArray, 2, 5, 15, 8, x, y));
+  test = test & (findSolution(keyArray, 2, 5, 15, 8, x, y, x_2, y_2));
   /*
   findK1(x[2], x[5], x[15], x[8],y[2], y[5], y[15], y[8],  keySto1, keySto2, keySto3, keySto4);
   findK1(x_2[2], x_2[5], x_2[15], x_2[8], y_2[2], y_2[5], y_2[15], y_2[8], keySto1_2, keySto2_2, keySto3_2, keySto4_2);
@@ -396,7 +396,7 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   */
 
 
-    test = test & (findSolution(keyArray, 9, 12, 3, 6, x, y));
+    test = test & (findSolution(keyArray, 9, 12, 3, 6, x, y, x_2, y_2));
 /*findK1(x[9], x[12], x[3], x[6],  y[9], y[12], y[3], y[6],  keySto1, keySto2, keySto3, keySto4);
   findK1(x_2[9], x_2[12], x_2[3], x_2[6], y_2[9], y_2[12], y_2[3], y_2[6], keySto1_2, keySto2_2, keySto3_2, keySto4_2);
   test1 = compareKeys(key, keySto1, keySto2, keySto3, keySto4, keySto1_2, keySto2_2, keySto3_2, keySto4_2);
