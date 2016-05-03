@@ -192,8 +192,8 @@ void findKeyHypothesis(int* k1, int* k2, int* k3, int* k4,
                       int* k9, int* k10, int* k11, int* k12,
                       int* k13, int* k14, int* k15, int* k16,
                       char* ct, char* ctF){
-  int x[17] = {0};
-  int y[17] = {0};
+  int x[16] = {0};
+  int y[16] = {0};
   char tmp[3];
   tmp[2] = '\0';
   //Store ciphertexts into array
@@ -213,14 +213,16 @@ void findKeyHypothesis(int* k1, int* k2, int* k3, int* k4,
   index = findK(x[11], x[14], x[4], x[1],
           y[11], y[14], y[4], y[1],
           k12, k15, k5, k2);
-
+/*
+printf("%d %d %d %d\n", x[2], x[5]., x[15], x[8]);
+printf("%d %d %d %d\n", y[2], y[5]., y[15], y[8]);
    index = findK(x[2], x[5], x[15], x[8],
           y[2], y[5], y[15], y[8],
-          k3, k6, k16, k9);
-/*
+          k3, k6, k16, k9);*/
+
    index = findK(x[9], x[12], x[3], x[6],
           y[9], y[12], y[3], y[6],
-          k10, k13, k4, k7);*/
+          k10, k13, k4, k7);
   /*int index = 0;
   //guess k1 and k14
   for (int i1 = 0;i1<256;i1++){
