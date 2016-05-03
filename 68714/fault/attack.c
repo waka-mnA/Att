@@ -122,6 +122,7 @@ int compareKeys(int* key, int* a1, int* a2, int* a3, int* a4, int* b1, int* b2, 
       if (a3[i] != b3[j])continue;
       if (a4[i] != b4[j])continue;
       count++;
+      printf("%d %d %d %d\n", a1[i], a2[i], a3[i], a4[i]);
       if (count == 1) {
         key[0] = a1[i];
         key[1] = a2[i];
@@ -360,7 +361,6 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   keyArray[8] = key[3];
   clearArrays(keySto1, keySto2, keySto3, keySto4);
   clearArrays(keySto1_2, keySto2_2, keySto3_2, keySto4_2);
-
 
   findK1(x[9], x[12], x[3], x[6],  y[9], y[12], y[3], y[6],  keySto1, keySto2, keySto3, keySto4);
   findK1(x[9], x[12], x[3], x[6], y[9], y[12], y[3], y[6], keySto1_2, keySto2_2, keySto3_2, keySto4_2);
