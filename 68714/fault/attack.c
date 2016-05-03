@@ -232,6 +232,9 @@ int findSolution(int* keyArray, int x1, int x2, int x3, int x4){
       printf("second find end\n");
     int keyNum = compareKeys(key, keySto1, keySto2, keySto3, keySto4, keySto1_2, keySto2_2, keySto3_2, keySto4_2);
     printf("Number of common key set found: %d\n", keyNum);
+    for (int i = 0;i<4;i++){
+      printf("%d\n", key[i]);
+    }
     keyArray[x1] = key[0];
     keyArray[x2] = key[1];
     keyArray[x3] = key[2];
