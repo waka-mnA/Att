@@ -192,8 +192,8 @@ void findKeyHypothesis(int* k1, int* k2, int* k3, int* k4,
                       int* k9, int* k10, int* k11, int* k12,
                       int* k13, int* k14, int* k15, int* k16,
                       char* ct, char* ctF){
-  int x[16] = {0};
-  int y[16] = {0};
+  int x[17] = {0};
+  int y[17] = {0};
   char tmp[3];
   tmp[2] = '\0';
   //Store ciphertexts into array
