@@ -333,8 +333,8 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   keyArray[7] = key[1];
   keyArray[10] = key[2];
   keyArray[13] = key[3];
-  clearArray(keySto1, keySto2, keySto3, keySto4);
-  clearArray(keySto1_2, keySto2_2, keySto3_2, keySto4_2);
+  clearArrays(keySto1, keySto2, keySto3, keySto4);
+  clearArrays(keySto1_2, keySto2_2, keySto3_2, keySto4_2);
 
   findK1(x[11], x[14], x[1], x[4], y[11], y[14], y[1], y[4], keySto1, keySto2, keySto3, keySto4);
   findK1(x[11], x[14], x[1], x[4], y[11], y[14], y[1], y[4], keySto1_2, keySto2_2, keySto3_2, keySto4_2);
@@ -345,8 +345,8 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   keyArray[14] = key[1];
   keyArray[1] = key[2];
   keyArray[4] = key[3];
-  clearArray(keySto1, keySto2, keySto3, keySto4);
-  clearArray(keySto1_2, keySto2_2, keySto3_2, keySto4_2);
+  clearArrays(keySto1, keySto2, keySto3, keySto4);
+  clearArrays(keySto1_2, keySto2_2, keySto3_2, keySto4_2);
 
   findK1(x[2], x[5], x[15], x[8],y[2], y[5], y[15], y[8],  keySto1, keySto2, keySto3, keySto4);
   findK1(x[2], x[5], x[15], x[8], y[2], y[5], y[15], y[8], keySto1_2, keySto2_2, keySto3_2, keySto4_2);
@@ -358,8 +358,8 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   keyArray[5] = key[1];
   keyArray[15] = key[2];
   keyArray[8] = key[3];
-  clearArray(keySto1, keySto2, keySto3, keySto4);
-  clearArray(keySto1_2, keySto2_2, keySto3_2, keySto4_2);
+  clearArrays(keySto1, keySto2, keySto3, keySto4);
+  clearArrays(keySto1_2, keySto2_2, keySto3_2, keySto4_2);
 
 
   findK1(x[9], x[12], x[3], x[6],  y[9], y[12], y[3], y[6],  keySto1, keySto2, keySto3, keySto4);
@@ -372,8 +372,8 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   keyArray[12] = key[1];
   keyArray[3] = key[2];
   keyArray[6] = key[3];
-  clearArray(keySto1, keySto2, keySto3, keySto4);
-  clearArray(keySto1_2, keySto2_2, keySto3_2, keySto4_2);
+  clearArrays(keySto1, keySto2, keySto3, keySto4);
+  clearArrays(keySto1_2, keySto2_2, keySto3_2, keySto4_2);
   /*for (int i = 0;i<index;i++){
     gmp_printf("index %d %d %d %d\n", key1[i], key8[i], key11[i], key14[i]);
   }*/
