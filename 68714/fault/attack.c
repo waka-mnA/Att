@@ -91,15 +91,11 @@ char* faultSpec( const int r, const int f, const int p, const int i, const int j
 }
 void interact(  mpz_t c, const char* spec, const char* m){
   //Send spec and m
-  gmp_printf("test1 %s\n", m);
   gmp_fprintf(target_in, "%s\n", spec); fflush(target_in);
-  gmp_printf("test2 %s\n", spec);
   gmp_fprintf(target_in, "%s\n", m); fflush(target_in);
-  gmp_printf("test3\n");
   //Receive c from target
   if (gmp_fscanf(target_out, "%ZX", c) == 0) { abort(); }
-  printf("fail test\n");
-  gmp_printf("test4 %ZX\n", c);
+  gmp_printf("test3\n");
   interaction++;
 }
 
@@ -283,7 +279,7 @@ void reduceKeySpace(int ind, int* list, int* k){
   list[index] = -1;
 }
 
-void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
+void step1(mpz_t c, mpz_t c2){
   mpz_t cF;
   mpz_init(cF);
   mpz_t cF2;
@@ -302,7 +298,7 @@ void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
   /*for (int i = 0;i<index;i++){
     gmp_printf("index %d %d %d %d\n", k1[i], k8[i], k11[i], k14[i]);
   }*/
-printf("First analysis end\n");
+  printf("First analysis end\n");
 
   interact(cF2, fault, pt2);
   gmp_printf("4 S1: %ZX\n", c2);
@@ -312,11 +308,12 @@ printf("First analysis end\n");
   char* ctF2 = int2oct(cF2);
   int k1_2[256]={0}, k8_2[256]={0}, k11_2[256]={0}, k14_2[256]={0};
   int index2 = findKeyHypothesis(k1_2, k8_2, k11_2, k14_2, ct2, ctF2);
-printf("Second analysis end\n");
+
   /*for (int i = 0;i<index2;i++){
     gmp_printf("index %d %d %d %d\n", k1_2[i], k8_2[i], k11_2[i], k14_2[i]);
   }*/
-  int a[256], a1[256], a2[256], a3[256];
+
+  /*int a[256], a1[256], a2[256], a3[256];
   int a4[256], a5[256], a6[256], a7[256];
   reduceKeySpace(index, a, k1);
   int i = 0;
@@ -366,13 +363,14 @@ printf("Second analysis end\n");
   while(a7[i]!=-1){
     printf("%3d ", a7[i]); i++;
   }
-  printf("\n");
+  printf("\n");*/
 
   int test = compareKeys(k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
   printf("keys %d\n", test);
+
+/*
   int result1[256];
   compareKey(result1, 256, 256, a, a4);
-
   i=0;
   while(result1[i]!=-1){printf("%d ", result1[i]);i++;} i=0;printf("\n");
   int result2[256]={0};
@@ -384,7 +382,9 @@ printf("Second analysis end\n");
   int result4[256]={0};
   compareKey(result4, 256, 256, a3, a7);
   while(result4[i]!=-1){printf("%d ", result4[i]);i++;} i=0;printf("\n");
+  */
   mpz_clear(cF);
+  mpz_clear(cF2);
 }
 
 //mpz_t N, e, ...
@@ -397,37 +397,9 @@ void attack() {
   mpz_t c;      mpz_init(c);
   mpz_t m2;      mpz_init(m2);
   mpz_t c2;      mpz_init(c2);
-  //mpz_t cF;      mpz_init(cF);//with fault
 
-  //Unused variables
-  /*mpz_t N;      mpz_init(N);
-  mpz_t e;      mpz_init(e);
-  mpz_t cY;     mpz_init(cY);
-  mpz_t cZ;     mpz_init(cZ);
-  mpz_t dFinal; mpz_init(dFinal);//Final Target Material
-  mpz_set_ui(dFinal, 1);
-  mpz_t R;      mpz_init(R);        //For Montgomery reduction
-  mpz_t N2;     mpz_init(N2);      //For Montgomery reduction
-  mpz_t rInv;   mpz_init(rInv);  //For Montgomery reduction
-  mpz_t cTmp;   mpz_init(cTmp);  //mtmp
-  mpz_t cTmpC;  mpz_init(cTmpC);//mtmp * m
-  mpz_t dTmp;   mpz_init(dTmp);
-  int yAvg1, zAvg1, yAvg2, zAvg2; //time average for each ciphertext set
-  int yNum1, zNum1, yNum2, zNum2; //number of ciphertexts in each set
-  int tY, tZ;
-  mpz_t mY;mpz_init(mY);
-  mpz_t mZ;mpz_init(mZ);
-  int cNum = 50;//number of ciphertexts in the set
-  int endFlag = 0;
-  int j = 1;    //bit number
-
-*/
   oct2int(m, pt);
   oct2int(m2, pt2);
-  //gmp_printf("TEST %ZX\n", test);
-  //gmp_printf("TEST %Zd\n", test);
-
-  //srand(time(NULL));
 
   //Get fault free ciphertexts
   interact(c, "", pt);
@@ -435,7 +407,7 @@ void attack() {
   interact(c2, "", pt2);
   gmp_printf("i: %d ,Fault free ciphertext : %ZX\n",interaction, c2);
 
-  step1(c, m, c2, m2);
+  step1(c, c2);
 
   //END
   gmp_printf("Target Material : %ZX\n", c);
@@ -443,18 +415,6 @@ void attack() {
 
   mpz_clear(m);
   mpz_clear(c);
-//  mpz_clear(cF);
-  /*mpz_clear(dTmp);
-  mpz_clear(N);
-  mpz_clear(e);
-  mpz_clear(cY);
-  mpz_clear(cZ);
-  mpz_clear(dFinal);
-  mpz_clear(R);
-  mpz_clear(N2);
-  mpz_clear(rInv);
-  mpz_clear(cTmp);
-  mpz_clear(cTmpC);*/
 }
 
 void cleanup( int s ){
