@@ -19,7 +19,7 @@ FILE* data_in  = NULL; //.conf file
 int interaction= 0;
 //saple plaintext
 char* pt  = "3243F6A8885A308D313198A2E0370734";
-char* pt2 = "FEDCBA9876543210FEDCBA9876543210";
+char* pt2 = "00112233445566778899AABBCCDDEEFF";
 
 int s[256] =
 {
