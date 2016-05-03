@@ -267,10 +267,10 @@ int step(mpz_t c, mpz_t c2){
   gmp_printf("i: %d , Ciphertext with fault : %ZX\n", interaction,  cF2);
 
   //Convert mpz_t into octet string
-  static char* ct = int2oct(c);
-  static char* ctF = int2oct(cF);
-  static char* ct2 = int2oct(c2);
-  static char* ctF2 = int2oct(cF2);
+  char* ct = int2oct(c);
+  char* ctF = int2oct(cF);
+  char* ct2 = int2oct(c2);
+  char* ctF2 = int2oct(cF2);
   //Convert into state matrix Array
   convertToIntArray(x, ct);
   convertToIntArray(y, ctF);
