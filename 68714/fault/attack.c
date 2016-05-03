@@ -204,16 +204,16 @@ void convertToIntArray(int* array, char* ct){
 int findSolution(int x1, int x2, int x3, int x4){
     //Storage for first fault ciphertext
       printf("findsolution start\n");
-    int keySto1[256]={0}; //storage for byte 1,  12, 3, 10
-    int keySto2[256]={0}; //storage for byte 8,  15, 6, 13
-    int keySto3[256]={0}; //storage for byte 11, 2,  16, 4
-    int keySto4[256]={0}; //storage for byte 14, 5,  9,  7
+    static int keySto1[256]={0}; //storage for byte 1,  12, 3, 10
+    static int keySto2[256]={0}; //storage for byte 8,  15, 6, 13
+    static int keySto3[256]={0}; //storage for byte 11, 2,  16, 4
+    static int keySto4[256]={0}; //storage for byte 14, 5,  9,  7
     //Storage for second fault ciphertext
-    int keySto1_2[256]={0};
-    int keySto2_2[256]={0};
-    int keySto3_2[256]={0};
-    int keySto4_2[256]={0};
-    int key[4]={0};
+    static int keySto1_2[256]={0};
+    static int keySto2_2[256]={0};
+    static int keySto3_2[256]={0};
+    static int keySto4_2[256]={0};
+    static int key[4]={0};
 
     printf("%d\n", x1);
     printf("%d\n", x2);
@@ -233,9 +233,7 @@ int findSolution(int x1, int x2, int x3, int x4){
       printf("second find end\n");
     int keyNum = compareKeys(key, keySto1, keySto2, keySto3, keySto4, keySto1_2, keySto2_2, keySto3_2, keySto4_2);
     printf("Number of common key set found: %d\n", keyNum);
-    for (int i = 0;i<4;i++){
-      printf("%d\n", key[i]);
-    }
+    printf("%d\n", x1);
     keyArray[x1] = key[0];
     keyArray[x2] = key[1];
     keyArray[x3] = key[2];
