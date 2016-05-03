@@ -340,7 +340,7 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
 
   findK1(x[11], x[14], x[1], x[4], y[11], y[14], y[1], y[4], keySto1, keySto2, keySto3, keySto4);
   findK1(x_2[11], x_2[14], x_2[1], x_2[4], y_2[11], y_2[14], y_2[1], y_2[4], keySto1_2, keySto2_2, keySto3_2, keySto4_2);
-  for(int i = 0;i<16;i++){
+  for(int i = 0;i<256;i++){
     if (keySto1[i]==-1) break;
     printf("%d %d\n", keySto1[i], keySto1_2[i]);
   }
