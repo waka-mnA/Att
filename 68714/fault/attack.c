@@ -286,27 +286,27 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
 
   char* ct = int2oct(c);
   char* ctF = int2oct(cF);
-  int k1[256]={0}, k5[256]={0}, k9[256]={0}, k13[256]={0};
-  int k2[256]={0}, k6[256]={0}, k10[256]={0}, k14[256]={0};
-  int k3[256]={0}, k7[256]={0}, k11[256]={0}, k15[256]={0};
-  int k4[256]={0}, k8[256]={0}, k12[256]={0}, k16[256]={0};
+  int key1[256]={0}, key5[256]={0}, key9[256]={0}, key13[256]={0};
+  int key2[256]={0}, key6[256]={0}, key10[256]={0}, key14[256]={0};
+  int key3[256]={0}, key7[256]={0}, key11[256]={0}, key15[256]={0};
+  int key4[256]={0}, key8[256]={0}, key12[256]={0}, key16[256]={0};
   int x[16]={0};
   int y[16]={0};
   convertToIntArray(x, ct);
   convertToIntArray(y, ctF);
 
 
-  findK1(x[0], x[7], x[10], x[13], y[0], y[7], y[10], y[13], k1, k8, k11, k14 );
-  //findK1(x[11], x[14], x[1], x[4], y[11], y[14], y[1], y[4], k12, k15, k2, k5);
-  findK1(x[2], x[5], x[15], x[8],y[2], y[5], y[15], y[8],  k3, k6, k16, k9);
-//  findK1(x[9], x[12], x[3], x[6],  y[9], y[12], y[3], y[6],  k10, k13, k4, k7);
+  findK1(x[0], x[7], x[10], x[13], y[0], y[7], y[10], y[13], key1, key8, key11, key14 );
+  //findK1(x[11], x[14], x[1], x[4], y[11], y[14], y[1], y[4], key12, key15, key2, key5);
+  findK1(x[2], x[5], x[15], x[8],y[2], y[5], y[15], y[8],  key3, key6, key16, key9);
+//  findK1(x[9], x[12], x[3], x[6],  y[9], y[12], y[3], y[6],  key10, key13, key4, key7);
 /*
-  findK1(x[11], x[14], x[4], x[1], y[11], y[14], y[4], y[1], k12, k15, k5, k2);
-  findK1(x[2], x[5], x[15], x[8],y[2], y[5], y[15], y[8],  k3, k6, k16, k9);
-  findK1(x[9], x[12], x[3], x[6],  y[9], y[12], y[3], y[6],  k10, k13, k4, k7);
+  findK1(x[11], x[14], x[4], x[1], y[11], y[14], y[4], y[1], key12, key15, key5, key2);
+  findK1(x[2], x[5], x[15], x[8],y[2], y[5], y[15], y[8],  key3, key6, key16, key9);
+  findK1(x[9], x[12], x[3], x[6],  y[9], y[12], y[3], y[6],  key10, key13, key4, key7);
 */
   /*for (int i = 0;i<index;i++){
-    gmp_printf("index %d %d %d %d\n", k1[i], k8[i], k11[i], k14[i]);
+    gmp_printf("index %d %d %d %d\n", key1[i], key8[i], key11[i], key14[i]);
   }*/
   printf("First analysis end\n");
   interact(cF2, fault, pt2);
@@ -316,43 +316,43 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   char* ct2 = int2oct(c2);
   char* ctF2 = int2oct(cF2);
 
-  int k1_2[256]={0}, k5_2[256]={0}, k9_2[256]={0}, k13_2[256]={0};
-  int k2_2[256]={0}, k6_2[256]={0}, k10_2[256]={0}, k14_2[256]={0};
-  int k3_2[256]={0}, k7_2[256]={0}, k11_2[256]={0}, k15_2[256]={0};
-  int k4_2[256]={0}, k8_2[256]={0}, k12_2[256]={0}, k16_2[256]={0};
+  int key1_2[256]={0}, key5_2[256]={0}, key9_2[256]={0}, key13_2[256]={0};
+  int key2_2[256]={0}, key6_2[256]={0}, key10_2[256]={0}, key14_2[256]={0};
+  int key3_2[256]={0}, key7_2[256]={0}, key11_2[256]={0}, key15_2[256]={0};
+  int key4_2[256]={0}, key8_2[256]={0}, key12_2[256]={0}, key16_2[256]={0};
   convertToIntArray(x, ct2);
   convertToIntArray(y, ctF2);
-  findK1(x[0], x[7], x[10], x[13], y[0], y[7], y[10], y[13], k1_2, k8_2, k11_2, k14_2 );
-  //findK1(x[11], x[14], x[1], x[4], y[11], y[14], y[1], y[4], k12_2, k15_2, k2_2, k5_2);
-  findK1(x[2], x[5], x[15], x[8], y[2], y[5], y[15], y[8], k3_2, k6_2, k16_2, k9_2);
-//  findK1(x[9], x[12], x[3], x[6], y[9], y[12], y[3], y[6], k10_2, k13_2, k4_2, k7_2);
+  findK1(x[0], x[7], x[10], x[13], y[0], y[7], y[10], y[13], key1_2, key8_2, key11_2, key14_2 );
+  //findK1(x[11], x[14], x[1], x[4], y[11], y[14], y[1], y[4], key12_2, key15_2, key2_2, key5_2);
+  findK1(x[2], x[5], x[15], x[8], y[2], y[5], y[15], y[8], key3_2, key6_2, key16_2, key9_2);
+//  findK1(x[9], x[12], x[3], x[6], y[9], y[12], y[3], y[6], key10_2, key13_2, key4_2, key7_2);
   /*for (int i = 0;i<index2;i++){
-    gmp_printf("index %d %d %d %d\n", k1_2[i], k8_2[i], k11_2[i], k14_2[i]);
+    gmp_printf("index %d %d %d %d\n", key1_2[i], key8_2[i], key11_2[i], key14_2[i]);
   }*/
   int key[4]={0};
   int test = 0;
-  int test1 = compareKeys(key, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
+  int test1 = compareKeys(key, key1, key8, key11, key14, key1_2, key8_2, key11_2, key14_2);
   printf("keys %d\n", test1);
 int test0 = test1;
   keyArray[0] = key[0];
   keyArray[7] = key[1];
   keyArray[10] = key[2];
   keyArray[13] = key[3];
-  test1 = compareKeys(key, k2, k5, k12, k15, k2_2, k5_2, k12_2, k15_2);
+  test1 = compareKeys(key, key2, key5, key12, key15, key2_2, key5_2, key12_2, key15_2);
   printf("keys %d\n", test1);
   test = (test & test1);
   keyArray[1] = key[0];
   keyArray[4] = key[1];
   keyArray[11] = key[2];
   keyArray[14] = key[3];
-  test1 = compareKeys(key, k3, k6, k9, k16, k3_2, k6_2, k9_2, k16_2);
+  test1 = compareKeys(key, key3, key6, key9, key16, key3_2, key6_2, key9_2, key16_2);
   printf("keys %d\n", test1);
   test = (test & test1);
   keyArray[2] = key[0];
   keyArray[5] = key[1];
   keyArray[8] = key[2];
   keyArray[15] = key[3];
-  test1 = compareKeys(key, k4, k7, k10, k13, k4_2, k7_2, k10_2, k13_2);
+  test1 = compareKeys(key, key4, key7, key10, key13, key4_2, key7_2, key10_2, key13_2);
   printf("keys %d\n", test1);
   test = (test & test1);
   keyArray[3] = key[0];
