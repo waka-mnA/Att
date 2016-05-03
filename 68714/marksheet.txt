@@ -1,0 +1,133 @@
+-------------------------------------------------------------------------------
+
+1. Instructions
+
+- replace any [...] with free text,
+  and
+- replace the [?] with an X if you have completed that stage,
+- replace the [?] with an * if you have attempted that stage, but you know
+  it doesn't work completely; document why you think it doesn't work, plus
+  what you would do to fix the problem, at the end of the marksheet.
+
+-------------------------------------------------------------------------------
+
+2. Information
+
+So that we can calibrate and improve the assignment in the future, give us
+a rough idea how long (in hours) you spent on it *in total*:
+
+Att2 effort : 50 hours
+
+-------------------------------------------------------------------------------
+
+3. Citation
+
+Clearly it might have an influence on your mark, but the use of third-party
+resources *is* allowed *if* correctly cited (unless explicitly prohibited
+by the assignment description of course).  Let us know what third-party
+source code or resources you used (if any) so it's clear what's your work
+and what isn't:
+
+-------------------------------------------------------------------------------
+
+4. Marking
+
+The following gives a stage-by-stage description of the assignment marking
+scheme.  Note this acts as an indicative guideline only, including weights
+for each more obvious element (e.g., the functional correctness of a stage).
+For example, other elements outside this list *often* warrant an increase
+or decrease in marks; examples include hard to quantify features such as
+the style or efficiency of a solution.
+
+[X] Stage 1 : an attack based on error messages
+
+              - correct target material                              ( 40%)
+              - solution quality wrt. efficiency, robustness etc.    ( 30%)
+              - analysis questions                                   ( 30%)
+
+              target material :
+              B82A11D8314A71DB33853F0B7850E83A3533E2FE97F02C82C71D7F18F8947
+              A8876C402C60EC98316A14AC92D2F855450B6520551B6CFDC1114CFAC22B7
+              771D162F1B63573FA01B349B2D13B120EBF158AE1A69FA215F89CB7ADF5F0
+              35BB6DD8BF8A188A6276D0311A6E8ECF36CF14397C979EEEF581F66A84E2B
+              3AD97D31FA
+
+[*] Stage 2 : an attack based on execution time
+
+              - correct target material                              ( 40%)
+              - solution quality wrt. efficiency, robustness etc.    ( 30%)
+              - analysis questions                                   ( 30%)
+
+              target material :
+              because of the error, it does not output the same result.
+
+[X] Stage 3 : an attack based on an injected fault
+
+              - correct target material                              ( 40%)
+              - solution quality wrt. efficiency, robustness etc.    ( 30%)
+              - analysis questions                                   ( 30%)
+
+              target material : 1FF32EE1416B13A313C12F9EC2782CB0
+
+[?] Stage 4 : an attack based on power consumption
+
+              - correct target material                              ( 40%)
+              - solution quality wrt. efficiency, robustness etc.    ( 30%)
+              - analysis questions                                   ( 30%)
+
+              target material : [...]
+                                                                     ------
+                                                                     (400%)
+
+-------------------------------------------------------------------------------
+
+5. Documentation
+
+Any other documentation, notes or comments that you think are important or
+might be easy to overlook (e.g., a subtle issue or technique in associated
+source code) should go here:
+
+INSTRUCTION FOR Att1
+Stage 1:
+Instruction
+  in oaep directory, run
+    make
+  and run
+    ./attack 68714.D 68714.conf
+
+    In stage 1, the Manger's attack is implemented to find the target material.
+    Padding error and other errors handled and the error code that oracle
+    output should be either 1 or 2.
+
+Stage 2:
+Instruction
+  in time directory, run
+    make
+  and run
+    ./attack 68714.D 68714.conf
+
+    In stage 2, although the implementation is done, there are many errors that
+    causes the final target material will not be the same all the time.
+    Also, it assumes that the program ends if the correct key is recovered,
+    therefore, I modified it so that program ends with d with size of 1024 bits.
+
+
+INSTRUCTION FOR Att2
+Stage3:
+  in fault directory, run
+    make
+  and run
+  ./attack 68714.D
+
+    In Stage 3, I implemented fault attack using 2 fault ciphertexts.
+    Fault is induced in the input of 8th round before SubBytes round.
+    It will generate three equations for 4 blocks.
+    These equations can reduce the number of key hypothesis around 2^8.
+    By using two faulty ciphertexts, the program will find the common
+    key hypothesis between them, and that will be the unique key solution.
+    Although the probability of finding unique key is high,
+    sometimes the unique key hypothesis cannot be found depend on the
+    random fault difference.
+    Therefore the program will repeat the operations until it finds
+    the unique key solution.
+-------------------------------------------------------------------------------
