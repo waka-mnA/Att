@@ -144,6 +144,19 @@ void compareKey(int* result, int iA, int iB, int* a, int* b){
   result[index]=-1;
 }
 
+int compareKeys(int* a1, int* a2, int* a3, int* a4, int* b1, int* b2, int* b3, int* b4){
+  int cont=0;
+  for (int i = 0;i<256;i++){
+    for (int j = 0;j<256;j++){
+    if (a1[i] != b1[j])continue;
+    if (a2[i] != b2[j])continue;
+    if (a3[i] != b3[j])continue;
+    if (a4[i] != b4[j])continue;
+    cont++;
+  }
+  return cont;
+}
+
 //Compute Polynomial Multiplication of a and b
 int mul(int a, int b){
   int p = 0;
@@ -357,11 +370,13 @@ void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
   }
   printf("\n");
 
+  int test = compareKeys(k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
+  printf("keys %d\n", test);
   int result1[256];
   compareKey(result1, 256, 256, a, a4);
 
-  printf("COMPARE \n");i=0;
-  while(result1[i]!=-1){printf("a%d %d ", i, result1[i]);i++;} i=0;printf("\n");
+  i=0;
+  while(result1[i]!=-1){printf("%d ", result1[i]);i++;} i=0;printf("\n");
   int result2[256]={0};
   compareKey(result2, 256, 256, a1, a5);
   while(result2[i]!=-1){printf("%d ", result2[i]);i++;} i=0;printf("\n");
