@@ -202,7 +202,7 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   mpz_t cF2; mpz_init(cF2);
 
   //induce a fault into a byte of the statematrix, which is the input to the eighth round
-  char* fault =  faultSpec(9, 1, 0, 0, 0);
+  char* fault =  faultSpec(8, 1, 0, 0, 0);
   interact(cF, fault, pt);
   gmp_printf("4 S1: %ZX\n", c);
   gmp_printf("4 S1: %ZX\n", cF);
@@ -216,7 +216,6 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
     gmp_printf("index %d %d %d %d\n", k1[i], k8[i], k11[i], k14[i]);
   }*/
   printf("First analysis end\n");
-  fault =  faultSpec(9, 1, 0, 0, 0);
   interact(cF2, fault, pt2);
   gmp_printf("4 S1: %ZX\n", c2);
   gmp_printf("4 S1: %ZX\n", cF2);
