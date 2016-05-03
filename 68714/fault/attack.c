@@ -147,6 +147,7 @@ int polymul(int a, int b){
 void findK1(int c1, int c2, int c3, int c4,
     int cf1, int cf2, int cf3, int cf4,
       int* k1, int* k2, int* k3, int*k4){
+        printf("find Start\n");
   int index = 0;
   //guess k1 and k14
   for (int i1 = 0;i1<256;i1++){
