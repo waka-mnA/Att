@@ -297,7 +297,7 @@ void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
   /*for (int i = 0;i<index;i++){
     gmp_printf("index %d %d %d %d\n", k1[i], k8[i], k11[i], k14[i]);
   }*/
-
+printf("First analysis end\n");
   interact(cF2, fault, m2);
   gmp_printf("4 S1: %ZX\n", c2);
   gmp_printf("4 S1: %ZX\n", cF2);
@@ -306,7 +306,7 @@ void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
   char* ctF2 = int2oct(cF2);
   int k1_2[256]={0}, k8_2[256]={0}, k11_2[256]={0}, k14_2[256]={0};
   int index2 = findKeyHypothesis(k1_2, k8_2, k11_2, k14_2, ct2, ctF2);
-
+printf("Second analysis end\n");
   /*for (int i = 0;i<index2;i++){
     gmp_printf("index %d %d %d %d\n", k1_2[i], k8_2[i], k11_2[i], k14_2[i]);
   }*/
