@@ -183,11 +183,12 @@ void findK1(int c1, int c2, int c3, int c4,
   //return index;
 }
 //x5 x2 x15 x12
+//c1 c2 c3 c4
 void findK2(int c1, int c2, int c3, int c4,
     int cf1, int cf2, int cf3, int cf4,
       int* k1, int* k2, int* k3, int*k4){
   int index = 0;
-  //guess k1 and k14
+  //guess k5 and k12
   for (int i1 = 0;i1<256;i1++){
     for (int i4 = 0;i4<256;i4++){
       int lhs1 = inv_s[c1^i1]^inv_s[cf1^i1];
@@ -221,7 +222,16 @@ void findK2(int c1, int c2, int c3, int c4,
   //return index;
 }
 
-
+void convertToIntArray(int* x, char* ct){
+  char tmp[3];
+  tmp[2] = '\0';
+  //Store ciphertexts into array
+  for (int i = 0;i<strlen(ct);i=i+2){
+      tmp[0] = ct[i];
+      tmp[1] = ct[i+1];
+      x[(i/2)]=(int)strtol(tmp, NULL, 16);
+  }
+}
 //Find all possible key hypothesis and store them in 4 arrays.
 //ct: fault free ciphertext in string
 //ctF: faulty ciphertext in string
@@ -232,6 +242,7 @@ void findKeyHypothesis(int* k1, int* k2, int* k3, int* k4,
                       char* ct, char* ctF){
   int x[16] = {0};
   int y[16] = {0};
+/*
   char tmp[3];
   tmp[2] = '\0';
   //Store ciphertexts into array
@@ -242,8 +253,17 @@ void findKeyHypothesis(int* k1, int* k2, int* k3, int* k4,
       tmp[0] = ctF[i];
       tmp[1] = ctF[i+1];
       y[(i/2)]=(int)strtol(tmp, NULL, 16);
+  }*/
+  convertToIntArray(x, ct);
+  convertToIntArray(y, ctF);
+  for (int i = 0;i<16;i+){
+    printf("%d", x[i]);
   }
-
+    printf("\n");
+    for (int i = 0;i<16;i+){
+      printf("%d", y[i]);
+    }
+      printf("\n");
   findK1(x[0], x[7], x[10], x[13],
           y[0], y[7], y[10], y[13],
           k1, k8, k11, k14 );
