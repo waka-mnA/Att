@@ -269,10 +269,13 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
 
   int test = 1;
   test = test & (findSolution(keyArray, 0, 7, 10, 13));
+  printf("findsolution end1 \n");
   test = test & (findSolution(keyArray, 11, 14, 1, 4));
+  printf("findsolution end2\n");
   test = test & (findSolution(keyArray, 2, 5, 15, 8));
+  printf("findsolution end3\n");
   test = test & (findSolution(keyArray, 9, 12, 3, 6));
-  printf("findsolution end\n");
+  printf("findsolution end4\n");
   mpz_clear(cF);
   mpz_clear(cF2);
 
