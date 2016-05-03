@@ -329,6 +329,7 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   int test = 0;
   int test1 = compareKeys(key, keySto1, keySto2, keySto3, keySto4, keySto1_2, keySto2_2, keySto3_2, keySto4_2);
   printf("keys %d\n", test1);
+  test = test & test1;
   keyArray[0] = key[0];
   keyArray[7] = key[1];
   keyArray[10] = key[2];
@@ -377,6 +378,7 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   mpz_clear(cF2);
 
 //  return (test0 & test1 & test2 & test3);
+printf("TEST %d\n", test);
 return test;
 }
 
