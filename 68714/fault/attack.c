@@ -112,7 +112,7 @@ void oct2int(mpz_t i, const char* string){
 //Compare two sets of key hypothesis
 //Return 1 if unique key is found.
 int compareKeys(int* key, int* a1, int* a2, int* a3, int* a4, int* b1, int* b2, int* b3, int* b4){
-  int cont=0;
+  int count=0;
   for (int i = 0;i<256;i++){
     if (a1[i]== -1 || a2[i]== -1 || a3[i]== -1 || a4[i]== -1 ) break;
     for (int j = 0;j<256;j++){
@@ -121,9 +121,8 @@ int compareKeys(int* key, int* a1, int* a2, int* a3, int* a4, int* b1, int* b2, 
       if (a2[i] != b2[j])continue;
       if (a3[i] != b3[j])continue;
       if (a4[i] != b4[j])continue;
-      printf("%d %d %d %d %d %d %d %d\n", a1[i], a2[i], a3[i], a4[i], b1[j], b2[j], b3[j], b4[j]);
-      cont++;
-      if (cont == 1) {
+      count++;
+      if (count == 1) {
         key[0] = a1[i];
         key[1] = a1[i];
         key[2] = a1[i];
@@ -131,7 +130,7 @@ int compareKeys(int* key, int* a1, int* a2, int* a3, int* a4, int* b1, int* b2, 
       }
     }
   }
-  return cont;
+  return count;
 }
 
 //Compute Polynomial Multiplication of a and b
@@ -233,6 +232,10 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   int key[4]={0};
   int test = compareKeys(key, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
   printf("keys %d\n", test);
+  keyArray[0] = key[0];
+  keyArray[7] = key[1];
+  keyArray[10] = key[2];
+  keyArray[13] = key[3];
 
 
   mpz_clear(cF);
@@ -264,7 +267,10 @@ void attack() {
   while(keyNum!=1){
     keyNum = step1(c, c2, keyArray);
   }
-
+  for (int i = 0;i<16;i++){
+    printf("%d", keyArray[i]);
+  }
+  printf("\n");
   //END
   gmp_printf("Target Material : %ZX\n", c);
   gmp_printf("Total Number of Interaction: %d\n", interaction);
