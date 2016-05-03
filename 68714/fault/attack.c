@@ -152,6 +152,7 @@ int compareKeys(int* a1, int* a2, int* a3, int* a4, int* b1, int* b2, int* b3, i
     if (a2[i] != b2[j])continue;
     if (a3[i] != b3[j])continue;
     if (a4[i] != b4[j])continue;
+    printf("%d %d %d %d %d %d %d %d\n", a1[i], a2[i], a3[i], a4[i], b1[j], b2[j], b3[j], b4[j]);
     cont++;
   }
 }
@@ -280,10 +281,9 @@ void reduceKeySpace(int ind, int* list, int* k){
 }
 
 void step1(mpz_t c, mpz_t c2){
-  mpz_t cF;
-  mpz_init(cF);
-  mpz_t cF2;
-  mpz_init(cF2);
+  mpz_t cF; mpz_init(cF);
+  mpz_t cF2; mpz_init(cF2);
+
   //induce a fault into a byte of the statematrix, which is the input to the eighth round
   char* fault =  faultSpec(9, 1, 0, 0, 0);
   interact(cF, fault, pt);
@@ -415,6 +415,8 @@ void attack() {
 
   mpz_clear(m);
   mpz_clear(c);
+  mpz_clear(m2);
+  mpz_clear(c2);
 }
 
 void cleanup( int s ){
