@@ -255,7 +255,10 @@ for (int i1 = 0;i1<256;i1++){
         }
       }
     }
-  }
+  }                k1[index] = -1;
+                  k8[index] = -1;
+                  k11[index] = -1;
+                  k14[index] = -1;
   return index;
 }
 
