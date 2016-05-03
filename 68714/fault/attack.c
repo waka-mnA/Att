@@ -209,6 +209,7 @@ int findSolution(int* keyArray, int x1, int x2, int x3, int x4, int*x, int*y, in
     int keySto4_2[256]={0};
     int key[4]={0};
 
+        printf("findsolution start\n");
     printf("%d\n", x1);
     printf("%d\n", x2);
     printf("%d\n", x3);
