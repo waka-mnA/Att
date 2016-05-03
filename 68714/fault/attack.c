@@ -297,7 +297,7 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
 
 
   findK1(x[0], x[7], x[10], x[13], y[0], y[7], y[10], y[13], k1, k8, k11, k14 );
-//  findK1(x[1], x[4], x[14], x[11], y[1], y[4], y[14], y[11], k2, k5, k15, k12);
+  findK1(x[11], x[14], x[1], x[4], y[11], y[14], y[1], y[4], k12, k15, k2, k5);
   findK1(x[2], x[5], x[15], x[8],y[2], y[5], y[15], y[8],  k3, k6, k16, k9);
 //  findK1(x[9], x[12], x[3], x[6],  y[9], y[12], y[3], y[6],  k10, k13, k4, k7);
 /*
@@ -323,7 +323,7 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   convertToIntArray(x, ct2);
   convertToIntArray(y, ctF2);
   findK1(x[0], x[7], x[10], x[13], y[0], y[7], y[10], y[13], k1_2, k8_2, k11_2, k14_2 );
-//  findK1(x[1], x[4], x[14], x[11], y[1], y[4], y[14], y[11], k2_2, k5_2, k15_2, k12_2);
+  findK1(x[11], x[14], x[1], x[4], y[11], y[14], y[1], y[4], k12_2, k15_2, k2_2, k5_2);
   findK1(x[2], x[5], x[15], x[8], y[2], y[5], y[15], y[8], k3_2, k6_2, k16_2, k9_2);
 //  findK1(x[9], x[12], x[3], x[6], y[9], y[12], y[3], y[6], k10_2, k13_2, k4_2, k7_2);
   /*for (int i = 0;i<index2;i++){
