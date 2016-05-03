@@ -203,7 +203,6 @@ void convertToIntArray(int* array, char* ct){
 
 int findSolution(int x1, int x2, int x3, int x4){
     //Storage for first fault ciphertext
-      printf("findsolution start\n");
     static int keySto1[256]={0}; //storage for byte 1,  12, 3, 10
     static int keySto2[256]={0}; //storage for byte 8,  15, 6, 13
     static int keySto3[256]={0}; //storage for byte 11, 2,  16, 4
@@ -213,27 +212,15 @@ int findSolution(int x1, int x2, int x3, int x4){
     static int keySto2_2[256]={0};
     static int keySto3_2[256]={0};
     static int keySto4_2[256]={0};
-    static int key[4]={0};
-
-    printf("%d\n", x1);
-    printf("%d\n", x2);
-    printf("%d\n", x3);
-    printf("%d\n", x4);
-    printf("%d\n", x_2[x1]);
-    printf("%d\n", x_2[x2]);
-    printf("%d\n", x_2[x3]);
-    printf("%d\n", x_2[x4]);
+    static int key[4]={0}
     findK1(x[x1], x[x2], x[x3], x[x4],
       y[x1], y[x2], y[x3], y[x4],
       keySto1, keySto2, keySto3, keySto4 );
-          printf("first find end \n");
     findK1(x_2[x1], x_2[x2], x_2[x3], x_2[x4],
       y_2[x1], y_2[x2], y_2[x3], y_2[x4],
       keySto1_2, keySto2_2, keySto3_2, keySto4_2 );
-      printf("second find end\n");
     int keyNum = compareKeys(key, keySto1, keySto2, keySto3, keySto4, keySto1_2, keySto2_2, keySto3_2, keySto4_2);
     printf("Number of common key set found: %d\n", keyNum);
-    printf("%d\n", x1);
     keyArray[x1] = key[0];
     keyArray[x2] = key[1];
     keyArray[x3] = key[2];
@@ -251,12 +238,10 @@ int step1(mpz_t c, mpz_t c2){
   char* fault =  faultSpec(8, 1, 0, 0, 0);
 
   interact(cF, fault, pt);
-  gmp_printf("W/O Fault: %ZX\n", c);
-  gmp_printf("W/  Fault: %ZX\n", cF);
+  gmp_printf("i: %d , Ciphertext with fault : \n", interaction,  cF);
 
   interact(cF2, fault, pt2);
-  gmp_printf("W/O Fault: %ZX\n", c2);
-  gmp_printf("W/  Fault: %ZX\n", cF2);
+  gmp_printf("i: %d , Ciphertext with fault : \n", interaction,  cF2);
 
   //Convert mpz_t into octet string
   char* ct = int2oct(c);
@@ -271,13 +256,9 @@ int step1(mpz_t c, mpz_t c2){
 
   int test = 1;
   test = test & (findSolution(0, 7, 10, 13));
-  printf("findsolution end1 \n");
   test = test & (findSolution(11, 14, 1, 4));
-  printf("findsolution end2\n");
   test = test & (findSolution(2, 5, 15, 8));
-  printf("findsolution end3\n");
   test = test & (findSolution(9, 12, 3, 6));
-  printf("findsolution end4\n");
   mpz_clear(cF);
   mpz_clear(cF2);
 
