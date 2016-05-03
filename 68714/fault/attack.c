@@ -178,6 +178,7 @@ void findK1(int c1, int c2, int c3, int c4,
     }
   }
   printf("index %d\n", index);
+  if (index>255) index = 255;
     k1[index] = -1;
     k2[index] = -1;
     k3[index] = -1;
