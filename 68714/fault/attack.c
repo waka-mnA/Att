@@ -298,8 +298,8 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
 
   //findK1(x[0], x[7], x[10], x[13], y[0], y[7], y[10], y[13], key1, key8, key11, key14 );
   //findK1(x[11], x[14], x[1], x[4], y[11], y[14], y[1], y[4], key12, key15, key2, key5);
-  findK1(x[2], x[5], x[15], x[8],y[2], y[5], y[15], y[8],  key3, key6, key16, key9);
-//  findK1(x[9], x[12], x[3], x[6],  y[9], y[12], y[3], y[6],  key10, key13, key4, key7);
+  //findK1(x[2], x[5], x[15], x[8],y[2], y[5], y[15], y[8],  key3, key6, key16, key9);
+  findK1(x[9], x[12], x[3], x[6],  y[9], y[12], y[3], y[6],  key10, key13, key4, key7);
 /*
   findK1(x[11], x[14], x[4], x[1], y[11], y[14], y[4], y[1], key12, key15, key5, key2);
   findK1(x[2], x[5], x[15], x[8],y[2], y[5], y[15], y[8],  key3, key6, key16, key9);
@@ -324,8 +324,8 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   convertToIntArray(y, ctF2);
   //findK1(x[0], x[7], x[10], x[13], y[0], y[7], y[10], y[13], key1_2, key8_2, key11_2, key14_2 );
   //findK1(x[11], x[14], x[1], x[4], y[11], y[14], y[1], y[4], key12_2, key15_2, key2_2, key5_2);
-  findK1(x[2], x[5], x[15], x[8], y[2], y[5], y[15], y[8], key3_2, key6_2, key16_2, key9_2);
-//  findK1(x[9], x[12], x[3], x[6], y[9], y[12], y[3], y[6], key10_2, key13_2, key4_2, key7_2);
+  //findK1(x[2], x[5], x[15], x[8], y[2], y[5], y[15], y[8], key3_2, key6_2, key16_2, key9_2);
+  findK1(x[9], x[12], x[3], x[6], y[9], y[12], y[3], y[6], key10_2, key13_2, key4_2, key7_2);
   /*for (int i = 0;i<index2;i++){
     gmp_printf("index %d %d %d %d\n", key1_2[i], key8_2[i], key11_2[i], key14_2[i]);
   }*/
@@ -348,7 +348,6 @@ int test0 = test1;
   test1 = compareKeys(key, key3, key6, key9, key16, key3_2, key6_2, key9_2, key16_2);
   printf("keys %d\n", test1);
   test = (test & test1);
-  test0 = test1;
   keyArray[2] = key[0];
   keyArray[5] = key[1];
   keyArray[8] = key[2];
@@ -356,6 +355,7 @@ int test0 = test1;
   test1 = compareKeys(key, key4, key7, key10, key13, key4_2, key7_2, key10_2, key13_2);
   printf("keys %d\n", test1);
   test = (test & test1);
+  test0 = test1;
   keyArray[3] = key[0];
   keyArray[6] = key[1];
   keyArray[9] = key[2];
