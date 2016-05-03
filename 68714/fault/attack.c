@@ -315,13 +315,12 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   int k2_2[256]={0}, k6_2[256]={0}, k10_2[256]={0}, k14_2[256]={0};
   int k3_2[256]={0}, k7_2[256]={0}, k11_2[256]={0}, k15_2[256]={0};
   int k4_2[256]={0}, k8_2[256]={0}, k12_2[256]={0}, k16_2[256]={0};
-
-  convertToIntArray(x, ct2);
-  convertToIntArray(y, ctF2);
-  findK1(x[0], x[7], x[10], x[13], y[0], y[7], y[10], y[13], k1_2, k8_2, k11_2, k14_2 );
-  findK1(x[1], x[4], x[14], x[11],
-  y[1], y[4], y[14], y[11],
-  k2_2, k5_2, k15_2, k12_2);
+  int x2[16]={0};
+  int y2[16]={0};
+  convertToIntArray(x2, ct2);
+  convertToIntArray(y2, ctF2);
+  findK1(x2[0], x2[7], x2[10], x2[13], y2[0], y2[7], y2[10], y2[13], k1_2, k8_2, k11_2, k14_2 );
+  findK1(x2[1], x2[4], x2[14], x2[11], y2[1], y2[4], y2[14], y2[11], k2_2, k5_2, k15_2, k12_2);
   //findKeyHypothesis(k1_2, k2_2, k3_2, k4_2,k5_2, k6_2, k7_2, k8_2,k9_2, k10_2, k11_2, k12_2,k13_2, k14_2, k15_2, k16_2,ct2, ctF2);
 
   /*for (int i = 0;i<index2;i++){
