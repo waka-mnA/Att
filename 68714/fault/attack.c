@@ -15,6 +15,7 @@ FILE* data_in  = NULL; //.conf file
 
 #define OCTET 16
 #define MAX_NUM 256
+
 int interaction= 0;
 //Plaintext
 char* pt  = "3243F6A8885A308D313198A2E0370734";
@@ -208,7 +209,7 @@ void findK(int c1, int c2, int c3, int c4,
 
 //Function to convert octet string into state matrix
 void convertToIntArray(int* array, char* ct){
-  char tmp[3];
+  static char tmp[3];
   tmp[2] = '\0';
   //Take two letters from string and store it in matrix
   for (int i = 0;i<strlen(ct);i=i+2){
@@ -266,10 +267,10 @@ int step(mpz_t c, mpz_t c2){
   gmp_printf("i: %d , Ciphertext with fault : %ZX\n", interaction,  cF2);
 
   //Convert mpz_t into octet string
-  char* ct = int2oct(c);
-  char* ctF = int2oct(cF);
-  char* ct2 = int2oct(c2);
-  char* ctF2 = int2oct(cF2);
+  static char* ct = int2oct(c);
+  static char* ctF = int2oct(cF);
+  static char* ct2 = int2oct(c2);
+  static char* ctF2 = int2oct(cF2);
   //Convert into state matrix Array
   convertToIntArray(x, ct);
   convertToIntArray(y, ctF);
