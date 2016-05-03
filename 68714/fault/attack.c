@@ -271,6 +271,7 @@ void attack() {
   //END
   printf("Target Material : ");
   for (int i = 0;i<16;i++){
+    if (keyArray[i]<16) printf("0");
     printf("%d", keyArray[i]);
   }
   printf("\n");
