@@ -196,9 +196,9 @@ void convertToIntArray(int* x, char* ct){
   }
 }
 
-int findSolution(int* keyArray, int x1, int x2, int x3, int x4, int*x, int*y, int* x_2, int* y_2){
+int findSolution(int* keyArray, int x1, int x2, int x3, int x4, const int*x, const int*y, const int* x_2, const int* y_2){
     //Storage for first fault ciphertext
-            printf("findsolution start\n");
+      printf("findsolution start\n");
     int keySto1[256]={0}; //storage for byte 1,  12, 3, 10
     int keySto2[256]={0}; //storage for byte 8,  15, 6, 13
     int keySto3[256]={0}; //storage for byte 11, 2,  16, 4
