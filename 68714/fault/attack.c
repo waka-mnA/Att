@@ -212,7 +212,7 @@ int findSolution(int x1, int x2, int x3, int x4){
     static int keySto2_2[256]={0};
     static int keySto3_2[256]={0};
     static int keySto4_2[256]={0};
-    static int key[4]={0}
+    static int key[4]={0};
     findK1(x[x1], x[x2], x[x3], x[x4],
       y[x1], y[x2], y[x3], y[x4],
       keySto1, keySto2, keySto3, keySto4 );
