@@ -360,7 +360,7 @@ void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
   int result1[256];
   compareKey(result1, 256, 256, a, a4);
 
-  printf("COMPARE \n");
+  printf("COMPARE \n");i=0;
   while(result1[i]!=-1){printf("a%d %d ", i, result1[i]);i++;} i=0;printf("\n");
   int result2[256]={0};
   compareKey(result2, 256, 256, a1, a5);
