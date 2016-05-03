@@ -91,10 +91,14 @@ char* faultSpec( const int r, const int f, const int p, const int i, const int j
 }
 void interact(  mpz_t c, const char* spec, const mpz_t m){
   //Send spec and m
+  printf("test1\n");
   gmp_fprintf(target_in, "%s\n", spec); fflush(target_in);
+  printf("test2\n");
   gmp_fprintf(target_in, "%ZX\n", m); fflush(target_in);
+  printf("test3\n");
   //Receive c from target
   if (gmp_fscanf(target_out, "%ZX", c) == 0) { abort(); }
+  printf("test4\n");
   interaction++;
 }
 
@@ -300,7 +304,6 @@ void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
 printf("First analysis end\n");
 
   interact(cF2, fault, m2);
-  printf("interact end\n");
   gmp_printf("4 S1: %ZX\n", c2);
   gmp_printf("4 S1: %ZX\n", cF2);
 
