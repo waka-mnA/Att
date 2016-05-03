@@ -145,7 +145,7 @@ int polymul(int a, int b){
   return p;
 }
 
-void findK(int c1, int c2, int c3, int c4,
+void findK1(int c1, int c2, int c3, int c4,
     int cf1, int cf2, int cf3, int cf4,
       int* k1, int* k2, int* k3, int*k4){
   int index = 0;
@@ -164,6 +164,44 @@ void findK(int c1, int c2, int c3, int c4,
               int lhs2 = inv_s[c2^i2]^inv_s[cf2^i2];
               //if all three equations are satisfied...
               if (lhs2 == polymul(3, rhs1)){
+                k1[index] = i1;
+                k2[index] = i2;
+                k3[index] = i3;
+                k4[index] = i4;
+                index++;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+    k1[index] = -1;
+    k2[index] = -1;
+    k3[index] = -1;
+    k4[index] = -1;
+  //return index;
+}
+//x5 x2 x15 x12
+void findK2(int c1, int c2, int c3, int c4,
+    int cf1, int cf2, int cf3, int cf4,
+      int* k1, int* k2, int* k3, int*k4){
+  int index = 0;
+  //guess k1 and k14
+  for (int i1 = 0;i1<256;i1++){
+    for (int i4 = 0;i4<256;i4++){
+      int lhs1 = inv_s[c1^i1]^inv_s[cf1^i1];
+      int rhs1 = inv_s[c4^i4]^inv_s[cf4^i4];
+      if (lhs1 == polymul(3, rhs1)){
+        //guess k11
+        for (int i3 = 0;i3<256;i3++){
+          int rhs2 = inv_s[c3^i3]^inv_s[cf3^i3];
+          if (rhs1 == rhs2){
+            //guess k8
+            for (int i2 = 0;i2<256;i2++){
+              int lhs2 = inv_s[c2^i2]^inv_s[cf2^i2];
+              //if all three equations are satisfied...
+              if (lhs2 == polymul(2, rhs1)){
                 k1[index] = i1;
                 k2[index] = i2;
                 k3[index] = i3;
@@ -212,9 +250,9 @@ void findKeyHypothesis(int* k1, int* k2, int* k3, int* k4,
           /*first = 2* last
           third = last
           second = 3* last*/
-  findK(x[4], x[1], x[11], x[14],
-          y[4], y[1], y[11], y[14],
-          k5, k2, k12, k15);
+  findK2(x[4], x[1], x[14], x[11],
+          y[4], y[1], y[14], y[11],
+          k5, k2, k15, k12);
           /*
   findK(x[11], x[14], x[4], x[1],
           y[11], y[14], y[4], y[1],
