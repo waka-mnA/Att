@@ -66,7 +66,7 @@ char* faultSpec( const int r, const int f, const int p, const int i, const int j
   if (r > 9) size++;
   char* result= malloc(sizeof(char)*size);
   if (result == NULL) exit(0);
-  char sub[8]={','};
+  char sub[8];
   if (r > 9) {
     result[0]='1';
     result[1]='0';
@@ -79,8 +79,11 @@ char* faultSpec( const int r, const int f, const int p, const int i, const int j
     result[2]='\0';
   }
   sub[0] = f+'0';
+  sub[1] = ',';
   sub[2] = p+'0';
+  sub[3] = ',';
   sub[4] = i+'0';
+  sub[5] = ',';
   sub[6] = j+'0';
   sub[7] = '\0';
   strcat(result, sub);
