@@ -147,15 +147,17 @@ void compareKey(int* result, int iA, int iB, int* a, int* b){
 int compareKeys(int* a1, int* a2, int* a3, int* a4, int* b1, int* b2, int* b3, int* b4){
   int cont=0;
   for (int i = 0;i<256;i++){
+    if (a1[i]== -1 || a2[i]== -1 || a3[i]== -1 || a4[i]== -1 ) break;
     for (int j = 0;j<256;j++){
-    if (a1[i] != b1[j])continue;
-    if (a2[i] != b2[j])continue;
-    if (a3[i] != b3[j])continue;
-    if (a4[i] != b4[j])continue;
-    printf("%d %d %d %d %d %d %d %d\n", a1[i], a2[i], a3[i], a4[i], b1[j], b2[j], b3[j], b4[j]);
-    cont++;
+      if (b1[j]== -1 || b2[j]== -1 || b3[j]== -1 || b4[j]== -1 ) break;
+      if (a1[i] != b1[j])continue;
+      if (a2[i] != b2[j])continue;
+      if (a3[i] != b3[j])continue;
+      if (a4[i] != b4[j])continue;
+      printf("%d %d %d %d %d %d %d %d\n", a1[i], a2[i], a3[i], a4[i], b1[j], b2[j], b3[j], b4[j]);
+      cont++;
+    }
   }
-}
   return cont;
 }
 
