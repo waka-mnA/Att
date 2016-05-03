@@ -20,6 +20,10 @@ int interaction= 0;
 //saple plaintext
 char* pt  = "3243F6A8885A308D313198A2E0370734";
 char* pt2 = "00112233445566778899AABBCCDDEEFF";
+int* x[16]={0};
+int* y[16]={0};
+int* x_2[16]={0};
+int* y_2[16]={0};
 
 //inverse S-box lookup table
 int inv_s[256] =
@@ -196,7 +200,7 @@ void convertToIntArray(int* x, char* ct){
   }
 }
 
-int findSolution(int* keyArray, int x1, int x2, int x3, int x4, const int*x, const int*y, const int* x_2, const int* y_2){
+int findSolution(int* keyArray, int x1, int x2, int x3, int x4){
     //Storage for first fault ciphertext
       printf("findsolution start\n");
     int keySto1[256]={0}; //storage for byte 1,  12, 3, 10
@@ -269,10 +273,10 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   convertToIntArray(y_2, ctF2);
 
   int test = 1;
-  test = test & (findSolution(keyArray, 0, 7, 10, 13, x, y, x_2, y_2));
-  test = test & (findSolution(keyArray, 11, 14, 1, 4, x, y, x_2, y_2));
-  test = test & (findSolution(keyArray, 2, 5, 15, 8, x, y, x_2, y_2));
-  test = test & (findSolution(keyArray, 9, 12, 3, 6, x, y, x_2, y_2));
+  test = test & (findSolution(keyArray, 0, 7, 10, 13));
+  test = test & (findSolution(keyArray, 11, 14, 1, 4));
+  test = test & (findSolution(keyArray, 2, 5, 15, 8));
+  test = test & (findSolution(keyArray, 9, 12, 3, 6));
   printf("findsolution end\n");
   mpz_clear(cF);
   mpz_clear(cF2);
