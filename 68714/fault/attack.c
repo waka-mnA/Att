@@ -20,10 +20,10 @@ int interaction= 0;
 //saple plaintext
 char* pt  = "3243F6A8885A308D313198A2E0370734";
 char* pt2 = "00112233445566778899AABBCCDDEEFF";
-int* x[16]={0};
-int* y[16]={0};
-int* x_2[16]={0};
-int* y_2[16]={0};
+int x[16]={0};
+int y[16]={0};
+int x_2[16]={0};
+int y_2[16]={0};
 
 //inverse S-box lookup table
 int inv_s[256] =
