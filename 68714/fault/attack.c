@@ -98,6 +98,7 @@ void interact(  mpz_t c, const char* spec, const char* m){
   gmp_printf("test3\n");
   //Receive c from target
   if (gmp_fscanf(target_out, "%ZX", c) == 0) { abort(); }
+  printf("fail test\n");
   gmp_printf("test4 %ZX\n", c);
   interaction++;
 }
