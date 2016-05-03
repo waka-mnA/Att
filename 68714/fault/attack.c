@@ -89,7 +89,7 @@ char* faultSpec( const int r, const int f, const int p, const int i, const int j
   strcat(result, sub);
   return result;
 }
-void interact(  mpz_t c, const char* spec, const char* m){
+void interact(  char* c, const char* spec, const char* m){
   //Send spec and m
   gmp_printf("test1 %s\n", m);
   gmp_fprintf(target_in, "%s\n", spec); fflush(target_in);
@@ -97,8 +97,8 @@ void interact(  mpz_t c, const char* spec, const char* m){
   gmp_fprintf(target_in, "%s\n", m); fflush(target_in);
   gmp_printf("test3\n");
   //Receive c from target
-  if (gmp_fscanf(target_out, "%ZX", c) == 0) { abort(); }
-  gmp_printf("test4 %ZX\n", c);
+  if (gmp_fscanf(target_out, "%s", c) == 0) { abort(); }
+  gmp_printf("test4 %s\n", c);
   interaction++;
 }
 
@@ -289,12 +289,13 @@ void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
   mpz_init(cF2);
   //induce a fault into a byte of the statematrix, which is the input to the eighth round
   char* fault =  faultSpec(9, 1, 0, 0, 0);
-  interact(cF, fault, pt);
-  gmp_printf("4 S1: %ZX\n", c);
-  gmp_printf("4 S1: %ZX\n", cF);
+  char * ctF;
+  interact(ctF, fault, pt);
+  //gmp_printf("4 S1: %ZX\n", c);
+  //gmp_printf("4 S1: %ZX\n", cF);
 
   char* ct = int2oct(c);
-  char* ctF = int2oct(cF);
+  //char* ctF = int2oct(cF);
   int k1[256]={0}, k8[256]={0}, k11[256]={0}, k14[256]={0};
   int index = findKeyHypothesis(k1, k8, k11, k14, ct, ctF);
 
@@ -302,13 +303,13 @@ void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
     gmp_printf("index %d %d %d %d\n", k1[i], k8[i], k11[i], k14[i]);
   }*/
 printf("First analysis end\n");
-
-  interact(cF2, fault, pt2);
+char* ctF2;
+  interact(ctF2, fault, pt2);
   gmp_printf("4 S1: %ZX\n", c2);
   gmp_printf("4 S1: %ZX\n", cF2);
 
   char* ct2 = int2oct(c2);
-  char* ctF2 = int2oct(cF2);
+  //char* ctF2 = int2oct(cF2);
   int k1_2[256]={0}, k8_2[256]={0}, k11_2[256]={0}, k14_2[256]={0};
   int index2 = findKeyHypothesis(k1_2, k8_2, k11_2, k14_2, ct2, ctF2);
 printf("Second analysis end\n");
@@ -429,10 +430,11 @@ void attack() {
   //srand(time(NULL));
 
   //Get fault free ciphertexts
-  interact(c, "", pt);
-  gmp_printf("i: %d ,Fault free ciphertext : %ZX\n",interaction, c);
-  interact(c2, "", pt2);
-  gmp_printf("i: %d ,Fault free ciphertext : %ZX\n",interaction, c2);
+  char * ct, ct2;
+  interact(ct, "", pt);
+  gmp_printf("i: %d ,Fault free ciphertext : %s\n",interaction, c);
+  interact(ct2, "", pt2);
+  gmp_printf("i: %d ,Fault free ciphertext : %s\n",interaction, c2);
 
   step1(c, m, c2, m2);
 
