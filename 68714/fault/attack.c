@@ -252,7 +252,7 @@ void findKeyHypothesis(int* k1, int* k2, int* k3, int* k4,
     k8[index] = -1;
     k11[index] = -1;
     k14[index] = -1;*/
-  return index;
+  //return index;
 }
 //Return 1 if unique key is found
 int step1(mpz_t c, mpz_t c2, int* keyArray){
@@ -294,26 +294,26 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   }*/
   int key[4]={0};
   int test0 = compareKeys(key, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
-  printf("keys %d\n", test);
+  printf("keys %d\n", test0);
 
   keyArray[0] = key[0];
   keyArray[7] = key[1];
   keyArray[10] = key[2];
   keyArray[13] = key[3];
   int test1 = compareKeys(key, k2, k5, k12, k15, k2_2, k5_2, k12_2, k15_2);
-  printf("keys %d\n", test);
+  printf("keys %d\n", test1);
   keyArray[1] = key[0];
   keyArray[4] = key[1];
   keyArray[11] = key[2];
   keyArray[14] = key[3];
   int test2 = compareKeys(key, k3, k6, k9, k16, k3_2, k6_2, k9_2, k16_2);
-  printf("keys %d\n", test);
+  printf("keys %d\n", test2);
   keyArray[2] = key[0];
   keyArray[5] = key[1];
   keyArray[8] = key[2];
   keyArray[15] = key[3];
   int test3 = compareKeys(key, k4, k7, k10, k13, k4_2, k7_2, k10_2, k13_2);
-  printf("keys %d\n", test);
+  printf("keys %d\n", test3);
   keyArray[3] = key[0];
   keyArray[6] = key[1];
   keyArray[9] = key[2];
