@@ -140,6 +140,7 @@ void compareKey(int* result, int iA, int iB, int* a, int* b){
         }
     }
   }
+  printf("TEST %d\n", index);
   result[index]=-1;
 }
 
@@ -357,10 +358,11 @@ void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
   printf("\n");
 
   int result1[256];
+
   compareKey(result1, 256, 256, a, a4);
 
   printf("COMPARE \n");
-  while(result1[i]!=-1){printf("%d ", result1[i]);i++;} i=0;printf("\n");
+  while(result1[i]!=-1){printf("a %d ", result1[i]);i++;} i=0;printf("\n");
   int result2[256]={0};
   compareKey(result2, 256, 256, a1, a5);
   while(result2[i]!=-1){printf("%d ", result2[i]);i++;} i=0;printf("\n");
