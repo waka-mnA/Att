@@ -145,7 +145,7 @@ int polymul(int a, int b){
   return p;
 }
 
-int findK(int c1, int c2, int c3, int c4,
+void findK(int c1, int c2, int c3, int c4,
     int cf1, int cf2, int cf3, int cf4,
       int* k1, int* k2, int* k3, int*k4){
   int index = 0;
@@ -180,7 +180,7 @@ int findK(int c1, int c2, int c3, int c4,
     k2[index] = -1;
     k3[index] = -1;
     k4[index] = -1;
-  return index;
+  //return index;
 }
 
 
@@ -206,21 +206,23 @@ void findKeyHypothesis(int* k1, int* k2, int* k3, int* k4,
       y[(i/2)]=(int)strtol(tmp, NULL, 16);
   }
 
-  int index = findK(x[0], x[7], x[10], x[13],
-      y[0], y[7], y[10], y[13],
-      k1, k8, k11, k14 );
-
-  index = findK(x[11], x[14], x[4], x[1],
+  findK(x[0], x[7], x[10], x[13],
+          y[0], y[7], y[10], y[13],
+          k1, k8, k11, k14 );
+          first = 2* last
+          third = last
+          second = 3* last
+  findK(x[4], x[1], x[11], x[14],
+          y[4], y[1], y[11], y[14],
+          k5, k2, k12, k14);
+          /*
+  findK(x[11], x[14], x[4], x[1],
           y[11], y[14], y[4], y[1],
-          k12, k15, k5, k2);
-/*
-printf("%d %d %d %d\n", x[2], x[5]., x[15], x[8]);
-printf("%d %d %d %d\n", y[2], y[5]., y[15], y[8]);
-   index = findK(x[2], x[5], x[15], x[8],
+          k12, k15, k5, k2);*/
+  findK(x[2], x[5], x[15], x[8],
           y[2], y[5], y[15], y[8],
-          k3, k6, k16, k9);*/
-
-   index = findK(x[9], x[12], x[3], x[6],
+          k3, k6, k16, k9);
+   findK(x[9], x[12], x[3], x[6],
           y[9], y[12], y[3], y[6],
           k10, k13, k4, k7);
   /*int index = 0;
