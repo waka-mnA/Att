@@ -145,10 +145,53 @@ int polymul(int a, int b){
   return p;
 }
 
+int findK(int c1, int c2, int c3, int c4,
+    int cf1, int cf2, int cf3, int cf4,
+      int* k1, int* k2, int* k3, int*k4){
+  int index = 0;
+  //guess k1 and k14
+  for (int i1 = 0;i1<256;i1++){
+    for (int i4 = 0;i4<256;i4++){
+      int lhs1 = inv_s[c1^i1]^inv_s[cf1^i1];
+      int rhs1 = inv_s[c4^i4]^inv_s[cf4^i4];
+      if (lhs1 == polymul(2, rhs1)){
+        //guess k11
+        for (int i3 = 0;i3<256;i3++){
+          int rhs2 = inv_s[c3^i3]^inv_s[cf3^i3];
+          if (rhs1 == rhs2){
+            //guess k8
+            for (int i2 = 0;i2<256;i2++){
+              int lhs2 = inv_s[c2^i2]^inv_s[cf2^i2];
+              //if all three equations are satisfied...
+              if (lhs2 == polymul(3, rhs1)){
+                k1[index] = i1;
+                k2[index] = i2;
+                k3[index] = i3;
+                k4[index] = i4;
+                index++;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+    k1[index] = -1;
+    k2[index] = -1;
+    k3[index] = -1;
+    k4[index] = -1;
+  return index;
+}
+
+
 //Find all possible key hypothesis and store them in 4 arrays.
 //ct: fault free ciphertext in string
 //ctF: faulty ciphertext in string
-int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF){
+void findKeyHypothesis(int* k1, int* k2, int* k3, int* k4,
+                      int* k5, int* k6, int* k7, int* k8,
+                      int* k9, int* k10, int* k11, int* k12,
+                      int* k13, int* k14, int* k15, int* k16,
+                      char* ct, char* ctF){
   int x[16] = {0};
   int y[16] = {0};
   char tmp[3];
@@ -162,7 +205,22 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
       tmp[1] = ctF[i+1];
       y[(i/2)]=(int)strtol(tmp, NULL, 16);
   }
-  int index = 0;
+  int index = findK(x[0], x[7], x[10], x[13],
+      y[0], y[7], y[10], y[13],
+      k1, k8, k11, k14 );
+
+  index = findK(x[1], x[4], x[11], x[14],
+          y[1], y[4], y[11], y[14],
+          k2, k5, k12, k15);
+
+   index = findK(x[2], x[5], x[8], x[15],
+          y[2], y[5], y[8], y[15],
+          k3, k6, k13, k16);
+
+   index = findK(x[3], x[6], x[9], x[12],
+          y[3], y[6], y[9], y[12],
+          k4, k7, k10, k13);
+  /*int index = 0;
   //guess k1 and k14
   for (int i1 = 0;i1<256;i1++){
     for (int i14 = 0;i14<256;i14++){
@@ -193,7 +251,7 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
     k1[index] = -1;
     k8[index] = -1;
     k11[index] = -1;
-    k14[index] = -1;
+    k14[index] = -1;*/
   return index;
 }
 //Return 1 if unique key is found
@@ -209,8 +267,11 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
 
   char* ct = int2oct(c);
   char* ctF = int2oct(cF);
-  int k1[256]={0}, k8[256]={0}, k11[256]={0}, k14[256]={0};
-  int index = findKeyHypothesis(k1, k8, k11, k14, ct, ctF);
+  int k1[256]={0}, k5[256]={0}, k9[256]={0}, k13[256]={0};
+  int k2[256]={0}, k6[256]={0}, k10[256]={0}, k14[256]={0};
+  int k3[256]={0}, k7[256]={0}, k11[256]={0}, k15[256]={0};
+  int k4[256]={0}, k8[256]={0}, k12[256]={0}, k16[256]={0};
+  findKeyHypothesis(k1, k2, k3, k4,k5, k6, k7, k8,k9, k10, k11, k12,k13, k14, k15, k16,ct, ctF);
 
   /*for (int i = 0;i<index;i++){
     gmp_printf("index %d %d %d %d\n", k1[i], k8[i], k11[i], k14[i]);
@@ -222,24 +283,45 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
 
   char* ct2 = int2oct(c2);
   char* ctF2 = int2oct(cF2);
-  int k1_2[256]={0}, k8_2[256]={0}, k11_2[256]={0}, k14_2[256]={0};
-  int index2 = findKeyHypothesis(k1_2, k8_2, k11_2, k14_2, ct2, ctF2);
+  int k1_2[256]={0}, k5_2[256]={0}, k9_2[256]={0}, k13_2[256]={0};
+  int k2_2[256]={0}, k6_2[256]={0}, k10_2[256]={0}, k14_2[256]={0};
+  int k3_2[256]={0}, k7_2[256]={0}, k11_2[256]={0}, k15_2[256]={0};
+  int k4_2[256]={0}, k8_2[256]={0}, k12_2[256]={0}, k16_2[256]={0};
+  findKeyHypothesis(k1_2, k2_2, k3_2, k4_2,k5_2, k6_2, k7_2, k8_2,k9_2, k10_2, k11_2, k12_2,k13_2, k14_2, k15_2, k16_2,ct2, ctF2);
 
   /*for (int i = 0;i<index2;i++){
     gmp_printf("index %d %d %d %d\n", k1_2[i], k8_2[i], k11_2[i], k14_2[i]);
   }*/
   int key[4]={0};
-  int test = compareKeys(key, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
+  int test0 = compareKeys(key, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
   printf("keys %d\n", test);
+
   keyArray[0] = key[0];
   keyArray[7] = key[1];
   keyArray[10] = key[2];
   keyArray[13] = key[3];
-
-
+  int test1 = compareKeys(key, k2, k5, k12, k15, k2_2, k5_2, k12_2, k15_2);
+  printf("keys %d\n", test);
+  keyArray[1] = key[0];
+  keyArray[4] = key[1];
+  keyArray[11] = key[2];
+  keyArray[14] = key[3];
+  int test2 = compareKeys(key, k3, k6, k9, k16, k3_2, k6_2, k9_2, k16_2);
+  printf("keys %d\n", test);
+  keyArray[2] = key[0];
+  keyArray[5] = key[1];
+  keyArray[8] = key[2];
+  keyArray[15] = key[3];
+  int test3 = compareKeys(key, k4, k7, k10, k13, k4_2, k7_2, k10_2, k13_2);
+  printf("keys %d\n", test);
+  keyArray[3] = key[0];
+  keyArray[6] = key[1];
+  keyArray[9] = key[2];
+  keyArray[12] = key[3];
   mpz_clear(cF);
   mpz_clear(cF2);
-  return test;
+
+  return (test0 & test1 & test2 & test3);
 }
 
 //mpz_t N, e, ...
