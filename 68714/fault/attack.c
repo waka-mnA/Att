@@ -122,7 +122,7 @@ int compareKeys(int* key, int* a1, int* a2, int* a3, int* a4, int* b1, int* b2, 
       if (a3[i] != b3[j])continue;
       if (a4[i] != b4[j])continue;
       count++;
-      printf("%d %d %d %d\n", a1[i], a2[i], a3[i], a4[i]);
+      printf("%d %d %d %d %d %d %d %d\n", a1[i], a2[i], a3[i], a4[i], b1[i], b2[i], b3[i], b4[i]);
       if (count == 1) {
         key[0] = a1[i];
         key[1] = a2[i];
