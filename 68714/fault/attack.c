@@ -328,8 +328,8 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   int k2[256]={0}, k6[256]={0}, k10[256]={0}, k14[256]={0};
   int k3[256]={0}, k7[256]={0}, k11[256]={0}, k15[256]={0};
   int k4[256]={0}, k8[256]={0}, k12[256]={0}, k16[256]={0};
-
-
+  int x[16]={0};
+  int y[16]={0};
   convertToIntArray(x, ct);
   convertToIntArray(y, ctF);
 
