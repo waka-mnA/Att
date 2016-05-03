@@ -322,7 +322,8 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   mpz_clear(cF);
   mpz_clear(cF2);
 
-  return (test0 & test1 & test2 & test3);
+//  return (test0 & test1 & test2 & test3);
+return test0;
 }
 
 //mpz_t N, e, ...
