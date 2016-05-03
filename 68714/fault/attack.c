@@ -25,6 +25,7 @@ int y[16]={0};
 int x_2[16]={0};
 int y_2[16]={0};
 
+int keyArray[16]={0};
 //inverse S-box lookup table
 int inv_s[256] =
  {
@@ -200,7 +201,7 @@ void convertToIntArray(int* array, char* ct){
   }
 }
 
-int findSolution(int* keyArray, int x1, int x2, int x3, int x4){
+int findSolution(int x1, int x2, int x3, int x4){
     //Storage for first fault ciphertext
       printf("findsolution start\n");
     int keySto1[256]={0}; //storage for byte 1,  12, 3, 10
@@ -243,7 +244,7 @@ int findSolution(int* keyArray, int x1, int x2, int x3, int x4){
     return keyNum;
 }
 //Return 1 if unique key is found
-int step1(mpz_t c, mpz_t c2, int* keyArray){
+int step1(mpz_t c, mpz_t c2){
   mpz_t cF; mpz_init(cF);
   mpz_t cF2; mpz_init(cF2);
 
@@ -271,13 +272,13 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   convertToIntArray(y_2, ctF2);
 
   int test = 1;
-  test = test & (findSolution(keyArray, 0, 7, 10, 13));
+  test = test & (findSolution(0, 7, 10, 13));
   printf("findsolution end1 \n");
-  test = test & (findSolution(keyArray, 11, 14, 1, 4));
+  test = test & (findSolution(11, 14, 1, 4));
   printf("findsolution end2\n");
-  test = test & (findSolution(keyArray, 2, 5, 15, 8));
+  test = test & (findSolution(2, 5, 15, 8));
   printf("findsolution end3\n");
-  test = test & (findSolution(keyArray, 9, 12, 3, 6));
+  test = test & (findSolution(9, 12, 3, 6));
   printf("findsolution end4\n");
   mpz_clear(cF);
   mpz_clear(cF2);
@@ -305,9 +306,8 @@ void attack() {
   interact(c2, "", pt2);
   gmp_printf("i: %d ,Fault free ciphertext : %ZX\n",interaction, c2);
   int keyNum=0;
-  int keyArray[16]={0};
   while(keyNum!=1){
-    keyNum = step1(c, c2, keyArray);
+    keyNum = step1(c, c2);
   }
 
   //END
