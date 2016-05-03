@@ -298,7 +298,9 @@ void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
     gmp_printf("index %d %d %d %d\n", k1[i], k8[i], k11[i], k14[i]);
   }*/
 printf("First analysis end\n");
+
   interact(cF2, fault, m2);
+  printf("interact end\n");
   gmp_printf("4 S1: %ZX\n", c2);
   gmp_printf("4 S1: %ZX\n", cF2);
 
