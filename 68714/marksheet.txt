@@ -28,6 +28,11 @@ by the assignment description of course).  Let us know what third-party
 source code or resources you used (if any) so it's clear what's your work
 and what isn't:
 
+An Improved Fault Based Attack of the Advanced Encryption Standard by Debdeep Mukhopadhyay
+
+Differential Fault Analysis of the Advanced Encryption Standard using a Single Fault
+by Michael Tunstall, Debdeep Mukhopadhyay, and Subidh Ali
+https://eprint.iacr.org/2009/575.pdf
 -------------------------------------------------------------------------------
 
 4. Marking
@@ -67,7 +72,8 @@ the style or efficiency of a solution.
               - solution quality wrt. efficiency, robustness etc.    ( 30%)
               - analysis questions                                   ( 30%)
 
-              target material : 1FF32EE1416B13A313C12F9EC2782CB0
+              target material :
+              1FF32EE1416B13A313C12F9EC2782CB0
 
 [?] Stage 4 : an attack based on power consumption
 
@@ -87,6 +93,26 @@ Any other documentation, notes or comments that you think are important or
 might be easy to overlook (e.g., a subtle issue or technique in associated
 source code) should go here:
 
+INSTRUCTION FOR Att2
+Stage3:
+  in fault directory, run
+    make
+  and run
+  ./attack 68714.D
+
+    In Stage 3, I implemented fault attack using 2 fault ciphertexts.
+    Fault is induced in the input of 8th round before SubBytes round.
+    It will generate three equations for 4 blocks.
+    These equations can reduce the number of key hypothesis around 2^8.
+    By using two faulty ciphertexts, the program will find the common
+    key hypothesis between them, and that will be the unique key solution.
+    Although the probability of finding unique key is high,
+    sometimes the unique key hypothesis cannot be found depend on the
+    random fault difference.
+    Therefore the program will repeat the operations until it finds
+    the unique key solution.
+
+Stage 4:
 INSTRUCTION FOR Att1
 Stage 1:
 Instruction
@@ -112,22 +138,4 @@ Instruction
     therefore, I modified it so that program ends with d with size of 1024 bits.
 
 
-INSTRUCTION FOR Att2
-Stage3:
-  in fault directory, run
-    make
-  and run
-  ./attack 68714.D
-
-    In Stage 3, I implemented fault attack using 2 fault ciphertexts.
-    Fault is induced in the input of 8th round before SubBytes round.
-    It will generate three equations for 4 blocks.
-    These equations can reduce the number of key hypothesis around 2^8.
-    By using two faulty ciphertexts, the program will find the common
-    key hypothesis between them, and that will be the unique key solution.
-    Although the probability of finding unique key is high,
-    sometimes the unique key hypothesis cannot be found depend on the
-    random fault difference.
-    Therefore the program will repeat the operations until it finds
-    the unique key solution.
 -------------------------------------------------------------------------------
