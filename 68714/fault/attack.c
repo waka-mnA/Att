@@ -205,11 +205,11 @@ void findKeyHypothesis(int* k1, int* k2, int* k3, int* k4,
       tmp[1] = ctF[i+1];
       y[(i/2)]=(int)strtol(tmp, NULL, 16);
   }
-  /*
+
   int index = findK(x[0], x[7], x[10], x[13],
       y[0], y[7], y[10], y[13],
       k1, k8, k11, k14 );
-
+/*
   index = findK(x[1], x[4], x[11], x[14],
           y[1], y[4], y[11], y[14],
           k2, k5, k12, k15);
@@ -220,8 +220,8 @@ void findKeyHypothesis(int* k1, int* k2, int* k3, int* k4,
 
    index = findK(x[3], x[6], x[9], x[12],
           y[3], y[6], y[9], y[12],
-          k4, k7, k10, k13);
-  */int index = 0;
+          k4, k7, k10, k13);*/
+  /*int index = 0;
   //guess k1 and k14
   for (int i1 = 0;i1<256;i1++){
     for (int i14 = 0;i14<256;i14++){
@@ -253,7 +253,7 @@ void findKeyHypothesis(int* k1, int* k2, int* k3, int* k4,
     k8[index] = -1;
     k11[index] = -1;
     k14[index] = -1;
-  //return index;
+  //return index;*/
 }
 //Return 1 if unique key is found
 int step1(mpz_t c, mpz_t c2, int* keyArray){
