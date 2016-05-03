@@ -296,7 +296,7 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   convertToIntArray(y, ctF);
 
 
-//  findK1(x[0], x[7], x[10], x[13], y[0], y[7], y[10], y[13], k1, k8, k11, k14 );
+  findK1(x[0], x[7], x[10], x[13], y[0], y[7], y[10], y[13], k1, k8, k11, k14 );
   findK1(x[11], x[14], x[4], x[1], y[11], y[14], y[4], y[1], k12, k15, k5, k2);
   //findKeyHypothesis(k1, k2, k3, k4,k5, k6, k7, k8,k9, k10, k11, k12,k13, k14, k15, k16,ct, ctF);
 
@@ -320,7 +320,7 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   int k4_2[256]={0}, k8_2[256]={0}, k12_2[256]={0}, k16_2[256]={0};
   convertToIntArray(x, ct2);
   convertToIntArray(y, ctF2);
-//  findK1(x[0], x[7], x[10], x[13], y[0], y[7], y[10], y[13], k1_2, k8_2, k11_2, k14_2 );
+  findK1(x[0], x[7], x[10], x[13], y[0], y[7], y[10], y[13], k1_2, k8_2, k11_2, k14_2 );
   findK1(x[11], x[14], x[4], x[1], y[11], y[14], y[4], y[1], k12_2, k15_2, k5_2, k2_2);
   //findKeyHypothesis(k1_2, k2_2, k3_2, k4_2,k5_2, k6_2, k7_2, k8_2,k9_2, k10_2, k11_2, k12_2,k13_2, k14_2, k15_2, k16_2,ct2, ctF2);
 
