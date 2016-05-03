@@ -91,7 +91,7 @@ char* faultSpec( const int r, const int f, const int p, const int i, const int j
 }
 void interact(  mpz_t c, const char* spec, const char* m){
   //Send spec and m
-  gmp_printf("test1 %ZX\n", m);
+  gmp_printf("test1 %s\n", m);
   gmp_fprintf(target_in, "%s\n", spec); fflush(target_in);
   gmp_printf("test2 %s\n", spec);
   gmp_fprintf(target_in, "%s\n", m); fflush(target_in);
