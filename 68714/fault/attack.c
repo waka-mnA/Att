@@ -272,7 +272,7 @@ void attack() {
   printf("Target Material : ");
   for (int i = 0;i<16;i++){
     if (keyArray[i]<16) printf("0");
-    printf("%d", keyArray[i]);
+    printf("%X", keyArray[i]);
   }
   printf("\n");
   gmp_printf("Total Number of Interaction: %d\n", interaction);
