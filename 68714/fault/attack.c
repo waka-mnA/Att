@@ -214,7 +214,7 @@ void findKeyHypothesis(int* k1, int* k2, int* k3, int* k4,
           second = 3* last*/
   findK(x[4], x[1], x[11], x[14],
           y[4], y[1], y[11], y[14],
-          k5, k2, k12, k14);
+          k5, k2, k12, k15);
           /*
   findK(x[11], x[14], x[4], x[1],
           y[11], y[14], y[4], y[1],
