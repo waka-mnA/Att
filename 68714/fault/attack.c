@@ -280,55 +280,83 @@ void clearArrays(int* a, int* b, int* c, int*d){
   memset(c, 0, sizeof(int)*256);
   memset(d, 0, sizeof(int)*256);
 }
+
+int findSolution(int* keyArray, int x1, int x2, int x3, int x4, int*x, int*y){
+    //Storage for first fault ciphertext
+    int keySto1[256]={0}; //storage for byte 1,  12, 3, 10
+    int keySto2[256]={0}; //storage for byte 8,  15, 6, 13
+    int keySto3[256]={0}; //storage for byte 11, 2,  16, 4
+    int keySto4[256]={0}; //storage for byte 14, 5,  9,  7
+    //Storage for second fault ciphertext
+    int keySto1_2[256]={0};
+    int keySto2_2[256]={0};
+    int keySto3_2[256]={0};
+    int keySto4_2[256]={0};
+    int key[4]={0};
+
+    findK1(x[x1], x[x2], x[x3], x[x4], y[x1], y[x2], y[x3], y[x4], keySto1, keySto2, keySto3, keySto4 );
+    findK1(x_2[x1], x_2[x2], x_2[x3], x_2[x4], y_2[x1], y_2[x2], y_2[x3], y_2[x4], keySto1_2, keySto2_2, keySto3_2, keySto4_2 );
+    int keyNum = compareKeys(key, keySto1, keySto2, keySto3, keySto4, keySto1_2, keySto2_2, keySto3_2, keySto4_2);
+    printf("Number of common key set found: %d\n", keyNum);
+    keyArray[x1] = key[0];
+    keyArray[x2] = key[1];
+    keyArray[x3] = key[2];
+    keyArray[x4] = key[3];
+
+    return keyNum;
+}
 //Return 1 if unique key is found
 int step1(mpz_t c, mpz_t c2, int* keyArray){
   mpz_t cF; mpz_init(cF);
   mpz_t cF2; mpz_init(cF2);
 
-  //induce a fault into a byte of the statematrix, which is the input to the eighth round
-  char* fault =  faultSpec(8, 1, 0, 0, 0);
-  interact(cF, fault, pt);
-  gmp_printf("4 S1: %ZX\n", c);
-  gmp_printf("4 S1: %ZX\n", cF);
-
-  char* ct = int2oct(c);
-  char* ctF = int2oct(cF);
-  /*int key1[256]={0}, key5[256]={0}, key9[256]={0}, key13[256]={0};
-  int key2[256]={0}, key6[256]={0}, key10[256]={0}, key14[256]={0};
-  int key3[256]={0}, key7[256]={0}, key11[256]={0}, key15[256]={0};
-  int key4[256]={0}, key8[256]={0}, key12[256]={0}, key16[256]={0};
-*/  int x[16]={0};
+  //Ciphertext Storage
+  int x[16]={0};
   int y[16]={0};
-  convertToIntArray(x, ct);
-  convertToIntArray(y, ctF);
-  interact(cF2, fault, pt2);
-  //gmp_printf("4 S1: %ZX\n", c2);
-  //gmp_printf("4 S1: %ZX\n", cF2);
-
-  char* ct2 = int2oct(c2);
-  char* ctF2 = int2oct(cF2);
   int x_2[16]={0};
   int y_2[16]={0};
+
+  //induce a fault into a byte of the statematrix, which is the input to the eighth round
+  char* fault =  faultSpec(8, 1, 0, 0, 0);
+
+  interact(cF, fault, pt);
+  gmp_printf("W/O Fault: %ZX\n", c);
+  gmp_printf("W/  Fault: %ZX\n", cF);
+
+  interact(cF2, fault, pt2);
+  gmp_printf("W/O Fault: %ZX\n", c2);
+  gmp_printf("W/  Fault: %ZX\n", cF2);
+
+  //Convert mpz_t into octet string
+  char* ct = int2oct(c);
+  char* ctF = int2oct(cF);
+  char* ct2 = int2oct(c2);
+  char* ctF2 = int2oct(cF2);
+  //Convert into state matrix Array
+  convertToIntArray(x, ct);
+  convertToIntArray(y, ctF);
   convertToIntArray(x_2, ct2);
   convertToIntArray(y_2, ctF2);
 
-
-  int keySto1[256]={0}; //1 12  3 10
-  int keySto2[256]={0}; //8 15  6 13
-  int keySto3[256]={0}; //11  2 16  4
-  int keySto4[256]={0}; //14  5 9 7
-
-    int keySto1_2[256]={0}; //1
-    int keySto2_2[256]={0}; //8
-    int keySto3_2[256]={0}; //11
-    int keySto4_2[256]={0}; //14
-    int key[4]={0};
-  findK1(x[0], x[7], x[10], x[13], y[0], y[7], y[10], y[13], keySto1, keySto2, keySto3, keySto4 );
-  findK1(x_2[0], x_2[7], x_2[10], x_2[13], y_2[0], y_2[7], y_2[10], y_2[13], keySto1_2, keySto2_2, keySto3_2, keySto4_2 );
+  //Storage for first fault ciphertext
+  int keySto1[256]={0}; //storage for byte 1,  12, 3, 10
+  int keySto2[256]={0}; //storage for byte 8,  15, 6, 13
+  int keySto3[256]={0}; //storage for byte 11, 2,  16, 4
+  int keySto4[256]={0}; //storage for byte 14, 5,  9,  7
+  //Storage for second fault ciphertext
+  int keySto1_2[256]={0};
+  int keySto2_2[256]={0};
+  int keySto3_2[256]={0};
+  int keySto4_2[256]={0};
+  int key[4]={0};
 
   int test = 1;
+
+  test = test & (findSolution(keyArray, 0, 7, 10, 13, x, y));
+  /*findK1(x[0], x[7], x[10], x[13], y[0], y[7], y[10], y[13], keySto1, keySto2, keySto3, keySto4 );
+  findK1(x_2[0], x_2[7], x_2[10], x_2[13], y_2[0], y_2[7], y_2[10], y_2[13], keySto1_2, keySto2_2, keySto3_2, keySto4_2 );
   int test1 = compareKeys(key, keySto1, keySto2, keySto3, keySto4, keySto1_2, keySto2_2, keySto3_2, keySto4_2);
-  printf("keys %d\n", test1);
+  printf("Number of common key set found: %d\n", test1);
   test = test & test1;
   keyArray[0] = key[0];
   keyArray[7] = key[1];
@@ -336,11 +364,13 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   keyArray[13] = key[3];
   clearArrays(keySto1, keySto2, keySto3, keySto4);
   clearArrays(keySto1_2, keySto2_2, keySto3_2, keySto4_2);
+*/
 
-  findK1(x[11], x[14], x[1], x[4], y[11], y[14], y[1], y[4], keySto1, keySto2, keySto3, keySto4);
+  test = test & (findSolution(keyArray, 11, 14, 1, 4, x, y));
+  /*findK1(x[11], x[14], x[1], x[4], y[11], y[14], y[1], y[4], keySto1, keySto2, keySto3, keySto4);
   findK1(x_2[11], x_2[14], x_2[1], x_2[4], y_2[11], y_2[14], y_2[1], y_2[4], keySto1_2, keySto2_2, keySto3_2, keySto4_2);
-   test1 = compareKeys(key, keySto1, keySto2, keySto3, keySto4, keySto1_2, keySto2_2, keySto3_2, keySto4_2);
-   printf("keys %d\n", test1);
+  test1 = compareKeys(key, keySto1, keySto2, keySto3, keySto4, keySto1_2, keySto2_2, keySto3_2, keySto4_2);
+  printf("Number of common key set found: %d\n", test1);
   test = (test & test1);
   keyArray[11] = key[0];
   keyArray[14] = key[1];
@@ -348,12 +378,14 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   keyArray[4] = key[3];
   clearArrays(keySto1, keySto2, keySto3, keySto4);
   clearArrays(keySto1_2, keySto2_2, keySto3_2, keySto4_2);
+*/
 
+  test = test & (findSolution(keyArray, 2, 5, 15, 8, x, y));
+  /*
   findK1(x[2], x[5], x[15], x[8],y[2], y[5], y[15], y[8],  keySto1, keySto2, keySto3, keySto4);
   findK1(x_2[2], x_2[5], x_2[15], x_2[8], y_2[2], y_2[5], y_2[15], y_2[8], keySto1_2, keySto2_2, keySto3_2, keySto4_2);
-
   test1 = compareKeys(key, keySto1, keySto2, keySto3, keySto4, keySto1_2, keySto2_2, keySto3_2, keySto4_2);
-  printf("keys %d\n", test1);
+  printf("Number of common key set found: %d\n", test1);
   test = (test & test1);
   keyArray[2] = key[0];
   keyArray[5] = key[1];
@@ -361,11 +393,14 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   keyArray[8] = key[3];
   clearArrays(keySto1, keySto2, keySto3, keySto4);
   clearArrays(keySto1_2, keySto2_2, keySto3_2, keySto4_2);
+  */
 
-  findK1(x[9], x[12], x[3], x[6],  y[9], y[12], y[3], y[6],  keySto1, keySto2, keySto3, keySto4);
+
+    test = test & (findSolution(keyArray, 9, 12, 3, 6, x, y));
+/*findK1(x[9], x[12], x[3], x[6],  y[9], y[12], y[3], y[6],  keySto1, keySto2, keySto3, keySto4);
   findK1(x_2[9], x_2[12], x_2[3], x_2[6], y_2[9], y_2[12], y_2[3], y_2[6], keySto1_2, keySto2_2, keySto3_2, keySto4_2);
   test1 = compareKeys(key, keySto1, keySto2, keySto3, keySto4, keySto1_2, keySto2_2, keySto3_2, keySto4_2);
-  printf("keys %d\n", test1);
+  printf("Number of common key set found: %d\n", test1);
   test = (test & test1);
   keyArray[9] = key[0];
   keyArray[12] = key[1];
@@ -373,13 +408,11 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   keyArray[6] = key[3];
   clearArrays(keySto1, keySto2, keySto3, keySto4);
   clearArrays(keySto1_2, keySto2_2, keySto3_2, keySto4_2);
-
+*/
   mpz_clear(cF);
   mpz_clear(cF2);
 
-//  return (test0 & test1 & test2 & test3);
-printf("TEST %d\n", test);
-return test;
+  return test;
 }
 
 //mpz_t N, e, ...
