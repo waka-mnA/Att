@@ -182,45 +182,7 @@ void findK1(int c1, int c2, int c3, int c4,
     k4[index] = -1;
   //return index;
 }
-//x5 x2 x15 x12
-//c1 c2 c3 c4
-void findK2(int c1, int c2, int c3, int c4,
-    int cf1, int cf2, int cf3, int cf4,
-      int* k1, int* k2, int* k3, int*k4){
-  int index = 0;
-  //guess k5 and k12
-  for (int i1 = 0;i1<256;i1++){
-    for (int i4 = 0;i4<256;i4++){
-      int lhs1 = inv_s[c1^i1]^inv_s[cf1^i1];
-      int rhs1 = inv_s[c4^i4]^inv_s[cf4^i4];
-      if (lhs1 == polymul(3, rhs1)){
-        //guess k11
-        for (int i3 = 0;i3<256;i3++){
-          int rhs2 = inv_s[c3^i3]^inv_s[cf3^i3];
-          if (rhs1 == rhs2){
-            //guess k8
-            for (int i2 = 0;i2<256;i2++){
-              int lhs2 = inv_s[c2^i2]^inv_s[cf2^i2];
-              //if all three equations are satisfied...
-              if (lhs2 == polymul(2, rhs1)){
-                k1[index] = i1;
-                k2[index] = i2;
-                k3[index] = i3;
-                k4[index] = i4;
-                index++;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-    k1[index] = -1;
-    k2[index] = -1;
-    k3[index] = -1;
-    k4[index] = -1;
-  //return index;
-}
+
 
 void convertToIntArray(int* x, char* ct){
   char tmp[3];
@@ -263,7 +225,7 @@ void findKeyHypothesis(int* k1, int* k2, int* k3, int* k4,
           /*first = 2* last
           third = last
           second = 3* last*/
-  findK2(x[4], x[1], x[14], x[11],
+  findK1(x[4], x[1], x[14], x[11],
           y[4], y[1], y[14], y[11],
           k5, k2, k15, k12);
           /*
@@ -335,9 +297,7 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
 
 
   findK1(x[0], x[7], x[10], x[13], y[0], y[7], y[10], y[13], k1, k8, k11, k14 );
-  findK2(x[4], x[1], x[14], x[11],
-  y[4], y[1], y[14], y[11],
-  k5, k2, k15, k12);
+  findK1(x[1], x[4], x[14], x[11], y[1], y[4], y[14], y[11], k2, k5, k15, k12);
   //findKeyHypothesis(k1, k2, k3, k4,k5, k6, k7, k8,k9, k10, k11, k12,k13, k14, k15, k16,ct, ctF);
 
   /*for (int i = 0;i<index;i++){
