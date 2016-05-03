@@ -105,7 +105,7 @@ char* int2oct(const mpz_t i){
   //int size = mpz_sizeinbase(N, 16);
   int l = mpz_sizeinbase(i, 16);
   octet = malloc(size+1);
-  if (octet==NUll)exit(0);
+  if (octet==NULL)exit(0);
 
   char* tmpStr = NULL;
   tmpStr = mpz_get_str(tmpStr, 16, i);
