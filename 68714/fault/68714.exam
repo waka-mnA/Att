@@ -3,11 +3,21 @@ Q.1 Imagine that instead of influencing data (i.e., the state matrix), a
     structure) somehow during execution.  Stating any assumptions you make,
     give an alternative attack strategy based on this ability.
 
-A.1
+A.1 If the loop structure can be controlled, attacker can disable the loop for
+    SubBytes, ShiftRows, MixColumns, and AddRound functions, which results in
+    only operating AddRound function with original key.  Then, the key will
+    be detected only exclusive or of plaintext and ciphertext.
+
 Q.2 The question does not specify how faults are induced.  For the given
     attack target and context, explain one viable approach.
 
-A.2
+A.2 For this target, the attacker can control when and where in state matrix
+    the fault can induced.  However, attacker cannot know the fault value.
+    Therefore the viable approach is to induce the fault in the input of
+    8th round, and from the MixColumn pattern, generate the simultaneous
+    equations to reduce the possible key spaces and carry out the exhaustive
+    search.  This approach does not depend on the fault difference as long as
+    the difference is non-zero.
 
 Q.3 For side-channel attacks, the number of acquisitions required can be
     used as a measure of efficiency.  Outline the equivalent measure for
