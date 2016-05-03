@@ -257,11 +257,11 @@ void findKeyHypothesis(int* k1, int* k2, int* k3, int* k4,
   convertToIntArray(x, ct);
   convertToIntArray(y, ctF);
   for (int i = 0;i<16;i++){
-    printf("%d", x[i]);
+    printf("%X", x[i]);
   }
     printf("\n");
     for (int i = 0;i<16;i++){
-      printf("%d", y[i]);
+      printf("%X", y[i]);
     }
       printf("\n");
   findK1(x[0], x[7], x[10], x[13],
