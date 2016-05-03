@@ -219,7 +219,7 @@ int findSolution(int x1, int x2, int x3, int x4){
       y_2[x1], y_2[x2], y_2[x3], y_2[x4],
       keySto1_2, keySto2_2, keySto3_2, keySto4_2 );
     int keyNum = compareKeys(key, keySto1, keySto2, keySto3, keySto4, keySto1_2, keySto2_2, keySto3_2, keySto4_2);
-    printf("Number of k3y found for (%d,%d,%d,%d): %d\n", x1, x2, x3, x4,keyNum);
+    printf("Number of key found for (%2d,%2d,%2d,%2d): %d\n", x1, x2, x3, x4,keyNum);
     keyArray[x1] = key[0];
     keyArray[x2] = key[1];
     keyArray[x3] = key[2];
@@ -237,10 +237,10 @@ int step1(mpz_t c, mpz_t c2){
   char* fault =  faultSpec(8, 1, 0, 0, 0);
 
   interact(cF, fault, pt);
-  gmp_printf("i: %d , Ciphertext with fault : \n", interaction,  cF);
+  gmp_printf("i: %d , Ciphertext with fault : %ZX\n", interaction,  cF);
 
   interact(cF2, fault, pt2);
-  gmp_printf("i: %d , Ciphertext with fault : \n", interaction,  cF2);
+  gmp_printf("i: %d , Ciphertext with fault : %ZX\n", interaction,  cF2);
 
   //Convert mpz_t into octet string
   char* ct = int2oct(c);
