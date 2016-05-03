@@ -91,14 +91,14 @@ char* faultSpec( const int r, const int f, const int p, const int i, const int j
 }
 void interact(  mpz_t c, const char* spec, const mpz_t m){
   //Send spec and m
-  printf("test1\n");
+  gmp_printf("test1 %ZX\n", m);
   gmp_fprintf(target_in, "%s\n", spec); fflush(target_in);
-  printf("test2\n");
+  gmp_printf("test2 %s\n", spec);
   gmp_fprintf(target_in, "%ZX\n", m); fflush(target_in);
-  printf("test3\n");
+  gmp_printf("test3\n");
   //Receive c from target
   if (gmp_fscanf(target_out, "%ZX", c) == 0) { abort(); }
-  printf("test4\n");
+  gmp_printf("test4 %ZX\n", c);
   interaction++;
 }
 
