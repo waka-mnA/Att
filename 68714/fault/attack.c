@@ -327,27 +327,31 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
     gmp_printf("index %d %d %d %d\n", k1_2[i], k8_2[i], k11_2[i], k14_2[i]);
   }*/
   int key[4]={0};
-  int test0 = compareKeys(key, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
-  printf("keys %d\n", test0);
+  int test = 0;
+  int test1 = compareKeys(key, k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
+  printf("keys %d\n", test1);
 
   keyArray[0] = key[0];
   keyArray[7] = key[1];
   keyArray[10] = key[2];
   keyArray[13] = key[3];
-  int test1 = compareKeys(key, k2, k5, k12, k15, k2_2, k5_2, k12_2, k15_2);
+  test1 = compareKeys(key, k2, k5, k12, k15, k2_2, k5_2, k12_2, k15_2);
   printf("keys %d\n", test1);
+  test = (test & test1);
   keyArray[1] = key[0];
   keyArray[4] = key[1];
   keyArray[11] = key[2];
   keyArray[14] = key[3];
-  int test2 = compareKeys(key, k3, k6, k9, k16, k3_2, k6_2, k9_2, k16_2);
-  printf("keys %d\n", test2);
+  test1 = compareKeys(key, k3, k6, k9, k16, k3_2, k6_2, k9_2, k16_2);
+  printf("keys %d\n", test1);
+  test = (test & test1);
   keyArray[2] = key[0];
   keyArray[5] = key[1];
   keyArray[8] = key[2];
   keyArray[15] = key[3];
-  int test3 = compareKeys(key, k4, k7, k10, k13, k4_2, k7_2, k10_2, k13_2);
-  printf("keys %d\n", test3);
+  test1 = compareKeys(key, k4, k7, k10, k13, k4_2, k7_2, k10_2, k13_2);
+  printf("keys %d\n", test1);
+  test = (test & test1);
   keyArray[3] = key[0];
   keyArray[6] = key[1];
   keyArray[9] = key[2];
@@ -356,7 +360,7 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   mpz_clear(cF2);
 
 //  return (test0 & test1 & test2 & test3);
-return test0;
+return 1;
 }
 
 //mpz_t N, e, ...
