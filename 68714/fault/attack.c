@@ -208,18 +208,18 @@ int findSolution(int* keyArray, int x1, int x2, int x3, int x4, int*x, int*y, in
     int keySto4_2[256]={0};
     int key[4]={0};
 
+    printf("%d\n", x1);
+    printf("%d\n", x2);
+    printf("%d\n", x3);
+    printf("%d\n", x4);
+    printf("%d\n", x_2[x1]);
+    printf("%d\n", x_2[x2]);
+    printf("%d\n", x_2[x3]);
+    printf("%d\n", x_2[x4]);
     findK1(x[x1], x[x2], x[x3], x[x4],
       y[x1], y[x2], y[x3], y[x4],
       keySto1, keySto2, keySto3, keySto4 );
           printf("first find end \n");
-          printf("%d\n", x1);
-          printf("%d\n", x2);
-          printf("%d\n", x3);
-          printf("%d\n", x4);
-          printf("%d\n", x_2[0]);
-          printf("%d\n", x_2[x2]);
-          printf("%d\n", x_2[x3]);
-          printf("%d\n", x_2[x4]);
     findK1(x_2[x1], x_2[x2], x_2[x3], x_2[x4],
       y_2[x1], y_2[x2], y_2[x3], y_2[x4],
       keySto1_2, keySto2_2, keySto3_2, keySto4_2 );
