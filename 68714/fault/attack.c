@@ -154,6 +154,7 @@ int compareKeys(int* a1, int* a2, int* a3, int* a4, int* b1, int* b2, int* b3, i
     if (a4[i] != b4[j])continue;
     cont++;
   }
+}
   return cont;
 }
 
