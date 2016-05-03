@@ -329,7 +329,7 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   int test = 0;
   int test1 = compareKeys(key, keySto1, keySto2, keySto3, keySto4, keySto1_2, keySto2_2, keySto3_2, keySto4_2);
   printf("keys %d\n", test1);
-  test = test & test1;
+  test = test && test1;
   keyArray[0] = key[0];
   keyArray[7] = key[1];
   keyArray[10] = key[2];
@@ -341,7 +341,7 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   findK1(x_2[11], x_2[14], x_2[1], x_2[4], y_2[11], y_2[14], y_2[1], y_2[4], keySto1_2, keySto2_2, keySto3_2, keySto4_2);
    test1 = compareKeys(key, keySto1, keySto2, keySto3, keySto4, keySto1_2, keySto2_2, keySto3_2, keySto4_2);
    printf("keys %d\n", test1);
-  test = (test & test1);
+  test = (test && test1);
   keyArray[11] = key[0];
   keyArray[14] = key[1];
   keyArray[1] = key[2];
@@ -354,7 +354,7 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
 
   test1 = compareKeys(key, keySto1, keySto2, keySto3, keySto4, keySto1_2, keySto2_2, keySto3_2, keySto4_2);
   printf("keys %d\n", test1);
-  test = (test & test1);
+  test = (test && test1);
   keyArray[2] = key[0];
   keyArray[5] = key[1];
   keyArray[15] = key[2];
@@ -366,7 +366,7 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   findK1(x_2[9], x_2[12], x_2[3], x_2[6], y_2[9], y_2[12], y_2[3], y_2[6], keySto1_2, keySto2_2, keySto3_2, keySto4_2);
   test1 = compareKeys(key, keySto1, keySto2, keySto3, keySto4, keySto1_2, keySto2_2, keySto3_2, keySto4_2);
   printf("keys %d\n", test1);
-  test = (test & test1);
+  test = (test && test1);
   keyArray[9] = key[0];
   keyArray[12] = key[1];
   keyArray[3] = key[2];
