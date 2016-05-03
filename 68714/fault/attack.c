@@ -124,9 +124,9 @@ int compareKeys(int* key, int* a1, int* a2, int* a3, int* a4, int* b1, int* b2, 
       count++;
       if (count == 1) {
         key[0] = a1[i];
-        key[1] = a1[i];
-        key[2] = a1[i];
-        key[3] = a1[i];
+        key[1] = a2[i];
+        key[2] = a3[i];
+        key[3] = a4[i];
       }
     }
   }
@@ -267,12 +267,13 @@ void attack() {
   while(keyNum!=1){
     keyNum = step1(c, c2, keyArray);
   }
+
+  //END
+  printf("Target Material : ");
   for (int i = 0;i<16;i++){
     printf("%d", keyArray[i]);
   }
   printf("\n");
-  //END
-  gmp_printf("Target Material : %ZX\n", c);
   gmp_printf("Total Number of Interaction: %d\n", interaction);
 
   mpz_clear(m);
