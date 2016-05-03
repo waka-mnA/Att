@@ -256,14 +256,7 @@ void findKeyHypothesis(int* k1, int* k2, int* k3, int* k4,
   }*/
   convertToIntArray(x, ct);
   convertToIntArray(y, ctF);
-  for (int i = 0;i<16;i++){
-    printf("%X", x[i]);
-  }
-    printf("\n");
-    for (int i = 0;i<16;i++){
-      printf("%X", y[i]);
-    }
-      printf("\n");
+
   findK1(x[0], x[7], x[10], x[13],
           y[0], y[7], y[10], y[13],
           k1, k8, k11, k14 );
@@ -335,7 +328,17 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   int k2[256]={0}, k6[256]={0}, k10[256]={0}, k14[256]={0};
   int k3[256]={0}, k7[256]={0}, k11[256]={0}, k15[256]={0};
   int k4[256]={0}, k8[256]={0}, k12[256]={0}, k16[256]={0};
-  findKeyHypothesis(k1, k2, k3, k4,k5, k6, k7, k8,k9, k10, k11, k12,k13, k14, k15, k16,ct, ctF);
+
+
+  convertToIntArray(x, ct);
+  convertToIntArray(y, ctF);
+
+
+  findK1(x[0], x[7], x[10], x[13], y[0], y[7], y[10], y[13], k1, k8, k11, k14 );
+  findK2(x[4], x[1], x[14], x[11],
+  y[4], y[1], y[14], y[11],
+  k5, k2, k15, k12);
+  //findKeyHypothesis(k1, k2, k3, k4,k5, k6, k7, k8,k9, k10, k11, k12,k13, k14, k15, k16,ct, ctF);
 
   /*for (int i = 0;i<index;i++){
     gmp_printf("index %d %d %d %d\n", k1[i], k8[i], k11[i], k14[i]);
@@ -347,11 +350,19 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
 
   char* ct2 = int2oct(c2);
   char* ctF2 = int2oct(cF2);
+
   int k1_2[256]={0}, k5_2[256]={0}, k9_2[256]={0}, k13_2[256]={0};
   int k2_2[256]={0}, k6_2[256]={0}, k10_2[256]={0}, k14_2[256]={0};
   int k3_2[256]={0}, k7_2[256]={0}, k11_2[256]={0}, k15_2[256]={0};
   int k4_2[256]={0}, k8_2[256]={0}, k12_2[256]={0}, k16_2[256]={0};
-  findKeyHypothesis(k1_2, k2_2, k3_2, k4_2,k5_2, k6_2, k7_2, k8_2,k9_2, k10_2, k11_2, k12_2,k13_2, k14_2, k15_2, k16_2,ct2, ctF2);
+
+  convertToIntArray(x, ct2);
+  convertToIntArray(y, ctF2);
+  findK1(x[0], x[7], x[10], x[13], y[0], y[7], y[10], y[13], k1_2, k8_2, k11_2, k14_2 );
+  findK2(x[4], x[1], x[14], x[11],
+  y[4], y[1], y[14], y[11],
+  k5_2, k2_2, k15_2, k12_2);
+  //findKeyHypothesis(k1_2, k2_2, k3_2, k4_2,k5_2, k6_2, k7_2, k8_2,k9_2, k10_2, k11_2, k12_2,k13_2, k14_2, k15_2, k16_2,ct2, ctF2);
 
   /*for (int i = 0;i<index2;i++){
     gmp_printf("index %d %d %d %d\n", k1_2[i], k8_2[i], k11_2[i], k14_2[i]);
