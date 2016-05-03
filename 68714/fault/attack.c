@@ -89,12 +89,12 @@ char* faultSpec( const int r, const int f, const int p, const int i, const int j
   strcat(result, sub);
   return result;
 }
-void interact(  mpz_t c, const char* spec, const mpz_t m){
+void interact(  mpz_t c, const char* spec, const char* m){
   //Send spec and m
   gmp_printf("test1 %ZX\n", m);
   gmp_fprintf(target_in, "%s\n", spec); fflush(target_in);
   gmp_printf("test2 %s\n", spec);
-  gmp_fprintf(target_in, "%ZX\n", m); fflush(target_in);
+  gmp_fprintf(target_in, "%s\n", m); fflush(target_in);
   gmp_printf("test3\n");
   //Receive c from target
   if (gmp_fscanf(target_out, "%ZX", c) == 0) { abort(); }
@@ -289,7 +289,7 @@ void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
   mpz_init(cF2);
   //induce a fault into a byte of the statematrix, which is the input to the eighth round
   char* fault =  faultSpec(9, 1, 0, 0, 0);
-  interact(cF, fault, m);
+  interact(cF, fault, pt);
   gmp_printf("4 S1: %ZX\n", c);
   gmp_printf("4 S1: %ZX\n", cF);
 
@@ -303,7 +303,7 @@ void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
   }*/
 printf("First analysis end\n");
 
-  interact(cF2, fault, m2);
+  interact(cF2, fault, pt2);
   gmp_printf("4 S1: %ZX\n", c2);
   gmp_printf("4 S1: %ZX\n", cF2);
 
@@ -429,9 +429,9 @@ void attack() {
   //srand(time(NULL));
 
   //Get fault free ciphertexts
-  interact(c, "", m);
+  interact(c, "", pt);
   gmp_printf("i: %d ,Fault free ciphertext : %ZX\n",interaction, c);
-  interact(c2, "", m2);
+  interact(c2, "", pt2);
   gmp_printf("i: %d ,Fault free ciphertext : %ZX\n",interaction, c2);
 
   step1(c, m, c2, m2);
