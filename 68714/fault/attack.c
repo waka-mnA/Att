@@ -189,14 +189,14 @@ void findK1(int c1, int c2, int c3, int c4,
 }
 
 
-void convertToIntArray(int* x, char* ct){
+void convertToIntArray(int* array, char* ct){
   char tmp[3];
   tmp[2] = '\0';
   //Store ciphertexts into array
   for (int i = 0;i<strlen(ct);i=i+2){
       tmp[0] = ct[i];
       tmp[1] = ct[i+1];
-      x[(i/2)]=(int)strtol(tmp, NULL, 16);
+      array[(i/2)]=(int)strtol(tmp, NULL, 16);
   }
 }
 
@@ -244,11 +244,6 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   mpz_t cF; mpz_init(cF);
   mpz_t cF2; mpz_init(cF2);
 
-  //Ciphertext Storage
-  int x[16]={0};
-  int y[16]={0};
-  int x_2[16]={0};
-  int y_2[16]={0};
 
   //induce a fault into a byte of the statematrix, which is the input to the eighth round
   char* fault =  faultSpec(8, 1, 0, 0, 0);
