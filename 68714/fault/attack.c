@@ -329,7 +329,6 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   int test = 0;
   int test1 = compareKeys(key, keySto1, keySto2, keySto3, keySto4, keySto1_2, keySto2_2, keySto3_2, keySto4_2);
   printf("keys %d\n", test1);
-  int test0 = test1;
   keyArray[0] = key[0];
   keyArray[7] = key[1];
   keyArray[10] = key[2];
@@ -367,36 +366,18 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   test1 = compareKeys(key, keySto1, keySto2, keySto3, keySto4, keySto1_2, keySto2_2, keySto3_2, keySto4_2);
   printf("keys %d\n", test1);
   test = (test & test1);
-  test0 = test1;
   keyArray[9] = key[0];
   keyArray[12] = key[1];
   keyArray[3] = key[2];
   keyArray[6] = key[3];
   clearArrays(keySto1, keySto2, keySto3, keySto4);
   clearArrays(keySto1_2, keySto2_2, keySto3_2, keySto4_2);
-  /*for (int i = 0;i<index;i++){
-    gmp_printf("index %d %d %d %d\n", key1[i], key8[i], key11[i], key14[i]);
-  }*/
-
-
-/*  int key1_2[256]={0}, key5_2[256]={0}, key9_2[256]={0}, key13_2[256]={0};
-  int key2_2[256]={0}, key6_2[256]={0}, key10_2[256]={0}, key14_2[256]={0};
-  int key3_2[256]={0}, key7_2[256]={0}, key11_2[256]={0}, key15_2[256]={0};
-  int key4_2[256]={0}, key8_2[256]={0}, key12_2[256]={0}, key16_2[256]={0};*/
-
-/*for (int i = 0;i<index2;i++){
-    gmp_printf("index %d %d %d %d\n", key1_2[i], key8_2[i], key11_2[i], key14_2[i]);
-  }*/
-
-
-
-
 
   mpz_clear(cF);
   mpz_clear(cF2);
 
 //  return (test0 & test1 & test2 & test3);
-return test0;
+return test;
 }
 
 //mpz_t N, e, ...
