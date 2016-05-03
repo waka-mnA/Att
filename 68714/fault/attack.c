@@ -219,12 +219,13 @@ void findKeyHypothesis(int* k1, int* k2, int* k3, int* k4,
   findK(x[11], x[14], x[4], x[1],
           y[11], y[14], y[4], y[1],
           k12, k15, k5, k2);*/
-  findK(x[2], x[5], x[15], x[8],
+  /*findK(x[2], x[5], x[15], x[8],
           y[2], y[5], y[15], y[8],
           k3, k6, k16, k9);
    findK(x[9], x[12], x[3], x[6],
           y[9], y[12], y[3], y[6],
           k10, k13, k4, k7);
+  */
   /*int index = 0;
   //guess k1 and k14
   for (int i1 = 0;i1<256;i1++){
