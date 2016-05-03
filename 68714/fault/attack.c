@@ -244,7 +244,7 @@ void findKeyHypothesis(int* k1, int* k2, int* k3, int* k4,
       y[(i/2)]=(int)strtol(tmp, NULL, 16);
   }
 
-  findK(x[0], x[7], x[10], x[13],
+  findK1(x[0], x[7], x[10], x[13],
           y[0], y[7], y[10], y[13],
           k1, k8, k11, k14 );
           /*first = 2* last
