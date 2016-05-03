@@ -135,7 +135,7 @@ int compareKeys(int* key, int* a1, int* a2, int* a3, int* a4, int* b1, int* b2, 
 }
 
 //Compute Polynomial Multiplication of a and b
-int mul(int a, int b){
+int polymul(int a, int b){
   int p = 0;
   while(b){
     if (b & 1) p = p^a;
@@ -169,7 +169,7 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
     for (int i14 = 0;i14<256;i14++){
       int lhs1 = inv_s[x[0]^i1]^inv_s[y[0]^i1];
       int rhs1 = inv_s[x[13]^i14]^inv_s[y[13]^i14];
-      if (lhs1 == mul(2, rhs1)){
+      if (lhs1 == polymul(2, rhs1)){
         //guess k11
         for (int i11 = 0;i11<256;i11++){
           int rhs2 = inv_s[x[10]^i11]^inv_s[y[10]^i11];
@@ -178,7 +178,7 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
             for (int i8 = 0;i8<256;i8++){
               int lhs2 = inv_s[x[7]^i8]^inv_s[y[7]^i8];
               //if all three equations are satisfied...
-              if (lhs2 == mul(3, rhs1)){
+              if (lhs2 == polymul(3, rhs1)){
                 k1[index] = i1;
                 k8[index] = i8;
                 k11[index] = i11;
@@ -259,7 +259,7 @@ void attack() {
   gmp_printf("i: %d ,Fault free ciphertext : %ZX\n",interaction, c);
   interact(c2, "", pt2);
   gmp_printf("i: %d ,Fault free ciphertext : %ZX\n",interaction, c2);
-  int keyNum;
+  int keyNum=0;
   int keyArray[16]={0};
   while(keyNum!=1){
     keyNum = step1(c, c2, keyArray);
