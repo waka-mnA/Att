@@ -209,11 +209,11 @@ void findKeyHypothesis(int* k1, int* k2, int* k3, int* k4,
   int index = findK(x[0], x[7], x[10], x[13],
       y[0], y[7], y[10], y[13],
       k1, k8, k11, k14 );
-/*
+
   index = findK(x[1], x[4], x[11], x[14],
           y[1], y[4], y[11], y[14],
           k2, k5, k12, k15);
-
+/*
    index = findK(x[2], x[5], x[8], x[15],
           y[2], y[5], y[8], y[15],
           k3, k6, k13, k16);
