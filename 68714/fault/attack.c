@@ -65,6 +65,7 @@ char* faultSpec( const int r, const int f, const int p, const int i, const int j
   int size = 9;
   if (r > 9) size++;
   char* result= malloc(sizeof(char)*size);
+  if (result == NULL) exit(0);
   char sub[8];
   if (r > 9) {
     result[0]='1';
@@ -104,6 +105,7 @@ char* int2oct(const mpz_t i){
   //int size = mpz_sizeinbase(N, 16);
   int l = mpz_sizeinbase(i, 16);
   octet = malloc(size+1);
+  if (octet==NUll)exit(0);
 
   char* tmpStr = NULL;
   tmpStr = mpz_get_str(tmpStr, 16, i);
@@ -125,6 +127,7 @@ void oct2int(mpz_t i, const char* string){
   mpz_set_str(i, string, 16);
 }
 
+//Return array which stores common numbers in a and b array
 void compareKey(int* result, int iA, int iB, int* a, int* b){
   int index = 0;
   for (int i = 0;i<iA;i++){
@@ -140,25 +143,18 @@ void compareKey(int* result, int iA, int iB, int* a, int* b){
   result[index]=-1;
 }
 
-int add(int a, int b){
-  return a^b;
-}
+//Compute Polynomial Multiplication of a and b
 int mul(int a, int b){
   int p = 0;
   while(b){
-    if (b & 1){
-      p = p^a;
-    }
-    if (a & 0x80){
-      a = (a<<1)^0x11b;
-    }
-    else {
-      a <<=1;
-    }
+    if (b & 1) p = p^a;
+    if (a & 0x80) a = (a<<1)^0x11b;
+    else a <<=1;
     b >>= 1;
   }
   return p;
 }
+
 int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF){
   //int k[16] = {0};
   int x[16] = {0};
@@ -283,32 +279,18 @@ void step1(mpz_t c, mpz_t m, mpz_t c2, mpz_t m2){
   mpz_init(cF2);
   //induce a fault into a byte of the statematrix, which is the input to the eighth round
   char* fault =  faultSpec(9, 1, 0, 0, 0);
-  /*interact(cF, fault, m);
-  gmp_printf("%s\n", fault);
-  gmp_printf("1 S1: %ZX\n", cF);
-  gmp_printf("1 S1: %ZX\n", c);
-  fault = faultSpec(8, 0, 1, 0, 0);
   interact(cF, fault, m);
-  gmp_printf("%s\n", fault);
-  gmp_printf("2 S1: %ZX\n", cF);
-  gmp_printf("2 S1: %ZX\n", c);
- fault = faultSpec(8, 3, 1, 0, 0);
-interact(cF, fault, m);
-gmp_printf("%s\n", fault);
-gmp_printf("4 S1: %ZX\n", cF);
-gmp_printf("4 S1: %ZX\n", c);*/
-interact(cF, fault, m);
-gmp_printf("4 S1: %ZX\n", c);
-gmp_printf("4 S1: %ZX\n", cF);
+  gmp_printf("4 S1: %ZX\n", c);
+  gmp_printf("4 S1: %ZX\n", cF);
 
   char* ct = int2oct(c);
   char* ctF = int2oct(cF);
   int k1[256]={0}, k8[256]={0}, k11[256]={0}, k14[256]={0};
   int index = findKeyHypothesis(k1, k8, k11, k14, ct, ctF);
 
-  //for (int i = 0;i<index;i++){
-  //  gmp_printf("index %d %d %d %d\n", k1[i], k8[i], k11[i], k14[i]);
-  //}
+  /*for (int i = 0;i<index;i++){
+    gmp_printf("index %d %d %d %d\n", k1[i], k8[i], k11[i], k14[i]);
+  }*/
 
   interact(cF2, fault, m2);
   gmp_printf("4 S1: %ZX\n", c2);
@@ -373,8 +355,11 @@ gmp_printf("4 S1: %ZX\n", cF);
     printf("%3d ", a7[i]); i++;
   }
   printf("\n");
+
   int result1[256];
   compareKey(result1, 256, 256, a, a4);
+
+  printf("COMPARE \n");
   while(result1[i]!=-1){printf("%d ", result1[i]);i++;} i=0;printf("\n");
   int result2[256]={0};
   compareKey(result2, 256, 256, a1, a5);
