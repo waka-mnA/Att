@@ -165,21 +165,48 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
   int y[16] = {0};
   char tmp[3];
   tmp[2] = '\0';
-  //Store ciphertexts into array
   for (int i = 0;i<strlen(ct);i=i+2){
+    if (i==0){
+      tmp[0] = ct[i];
+      tmp[1] = ct[i+1];
+      x[i]=(int) strtol(tmp, NULL, 16);
+      tmp[0] = ctF[i];
+      tmp[1] = ctF[i+1];
+      y[i]=(int) strtol(tmp, NULL, 16);
+    }
+    else if (i==14){
       tmp[0] = ct[i];
       tmp[1] = ct[i+1];
       x[(i/2)]=(int)strtol(tmp, NULL, 16);
       tmp[0] = ctF[i];
       tmp[1] = ctF[i+1];
       y[(i/2)]=(int)strtol(tmp, NULL, 16);
+    }
+    else if (i==20){
+      tmp[0] = ct[i];
+      tmp[1] = ct[i+1];
+      x[(i/2)]=(int)strtol(tmp, NULL, 16);
+      tmp[0] = ctF[i];
+      tmp[1] = ctF[i+1];
+      y[(i/2)]=(int)strtol(tmp, NULL, 16);
+    }
+    else if (i==26){
+      tmp[0] = ct[i];
+      tmp[1] = ct[i+1];
+      x[(i/2)]=(int)strtol(tmp, NULL, 16);
+      tmp[0] = ctF[i];
+      tmp[1] = ctF[i+1];
+      y[(i/2)]=(int)strtol(tmp, NULL, 16);
+    }
   }
+
   int index = 0;
   //guess k1 and k14
   for (int i1 = 0;i1<256;i1++){
     for (int i14 = 0;i14<256;i14++){
       int lhs1 = inv_s[x[0]^i1]^inv_s[y[0]^i1];
       int rhs1 = inv_s[x[13]^i14]^inv_s[y[13]^i14];
+      //if satisfies equation...
       if (lhs1 == mul(2, rhs1)){
         //guess k11
         for (int i11 = 0;i11<256;i11++){
@@ -188,7 +215,7 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
             //guess k8
             for (int i8 = 0;i8<256;i8++){
               int lhs2 = inv_s[x[7]^i8]^inv_s[y[7]^i8];
-              //if all three equations are satisfied...
+              //If all three equations satisfy, store as key hypothesis
               if (lhs2 == mul(3, rhs1)){
                 k1[index] = i1;
                 k8[index] = i8;
@@ -201,35 +228,16 @@ int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF)
         }
       }
     }
-  }                k1[index] = -1;
-                  k8[index] = -1;
-                  k11[index] = -1;
-                  k14[index] = -1;
+  }
+  //Array termination assignment
+  k1[index] = -1;
+  k8[index] = -1;
+  k11[index] = -1;
+  k14[index] = -1;
   return index;
 }
 
-//Reduce the overlapped key hypothesis
-//ind: number of elements in k array
-void reduceKeySpace(int ind, int* list, int* k){
-  int index = 1;
-  int flag = 0;
-  list[0] = k[0];
-  int i = 1;
-  for(i = 1;i<ind;i++){
-    flag = 0;
-    for(int j = 0;j<(index);j++){
-      if (k[i] == list[j]){
-        flag =1;
-        break;
-      }
-    }
-    if (flag != 1){
-      list[index] = k[i];
-      index++;
-    }
-  }
-  list[index] = -1;
-}
+
 
 void step1(mpz_t c, mpz_t c2){
   mpz_t cF; mpz_init(cF);
@@ -250,7 +258,7 @@ void step1(mpz_t c, mpz_t c2){
     gmp_printf("index %d %d %d %d\n", k1[i], k8[i], k11[i], k14[i]);
   }*/
   printf("First analysis end\n");
-  fault =  faultSpec(9, 1, 0, 0, 0);
+
   interact(cF2, fault, pt2);
   gmp_printf("4 S1: %ZX\n", c2);
   gmp_printf("4 S1: %ZX\n", cF2);
@@ -263,6 +271,8 @@ void step1(mpz_t c, mpz_t c2){
   /*for (int i = 0;i<index2;i++){
     gmp_printf("index %d %d %d %d\n", k1_2[i], k8_2[i], k11_2[i], k14_2[i]);
   }*/
+
+
 
   int test = compareKeys(k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
   printf("keys %d\n", test);

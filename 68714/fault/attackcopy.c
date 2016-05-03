@@ -128,6 +128,22 @@ void oct2int(mpz_t i, const char* string){
   mpz_set_str(i, string, 16);
 }
 
+//Return array which stores common numbers in a and b array
+void compareKey(int* result, int iA, int iB, int* a, int* b){
+  int index = 0;
+  for (int i = 0;i<iA;i++){
+    if (a[i]== -1) break;
+    for (int j = 0;j<iB;j++){
+        if (b[j]== -1) break;
+        if (a[i] == b[j]) {
+          result[index] = a[i];
+          index++;
+        }
+    }
+  }
+  result[index]=-1;
+}
+
 int compareKeys(int* a1, int* a2, int* a3, int* a4, int* b1, int* b2, int* b3, int* b4){
   int cont=0;
   for (int i = 0;i<256;i++){
@@ -157,38 +173,76 @@ int mul(int a, int b){
   return p;
 }
 
-//Find all possible key hypothesis and store them in 4 arrays.
-//ct: fault free ciphertext in string
-//ctF: faulty ciphertext in string
 int findKeyHypothesis(int* k1, int* k8, int* k11, int* k14, char* ct, char* ctF){
+  //int k[16] = {0};
   int x[16] = {0};
   int y[16] = {0};
   char tmp[3];
   tmp[2] = '\0';
-  //Store ciphertexts into array
   for (int i = 0;i<strlen(ct);i=i+2){
+    if (i==0){
+      tmp[0] = ct[i];
+      tmp[1] = ct[i+1];
+      x[i]=(int) strtol(tmp, NULL, 16);
+      tmp[0] = ctF[i];
+      tmp[1] = ctF[i+1];
+      y[i]=(int) strtol(tmp, NULL, 16);
+    }
+    else if (i==14){
       tmp[0] = ct[i];
       tmp[1] = ct[i+1];
       x[(i/2)]=(int)strtol(tmp, NULL, 16);
       tmp[0] = ctF[i];
       tmp[1] = ctF[i+1];
       y[(i/2)]=(int)strtol(tmp, NULL, 16);
+    }
+    else if (i==20){
+      tmp[0] = ct[i];
+      tmp[1] = ct[i+1];
+      x[(i/2)]=(int)strtol(tmp, NULL, 16);
+      tmp[0] = ctF[i];
+      tmp[1] = ctF[i+1];
+      y[(i/2)]=(int)strtol(tmp, NULL, 16);
+    }
+    else if (i==26){
+      tmp[0] = ct[i];
+      tmp[1] = ct[i+1];
+      x[(i/2)]=(int)strtol(tmp, NULL, 16);
+      tmp[0] = ctF[i];
+      tmp[1] = ctF[i+1];
+      y[(i/2)]=(int)strtol(tmp, NULL, 16);
+    }
   }
+
+  int deltaArray[256];
   int index = 0;
+  int i = 0, j = 0, z = 0, l = 0, delta=1;
+
   //guess k1 and k14
-  for (int i1 = 0;i1<256;i1++){
+  /*
+  x[0] =238;//13;// 238;
+  x[7] = 59;//15;//59;
+  x[10] =210; //165;//210;
+  x[13] = 181;//113;//181;
+  y[0] = 47; //92;//47;
+  y[7] = 149;//27;//149;
+  y[10] = 120;//251;//120;
+  y[13] = 255;//161;//255;
+  printf("test %d\n", inv_s[238^45]^inv_s[47^45]);
+  printf("test %d\n", inv_s[59^234]^inv_s[149^234]);
+  printf("test %d\n", inv_s[210^162]^inv_s[120^162]);
+  printf("test %d\n", inv_s[181^65]^inv_s[255^65]);
+  printf("test %d %d\n", mul(2, 224), mul(3, 224));*/
+for (int i1 = 0;i1<256;i1++){
     for (int i14 = 0;i14<256;i14++){
       int lhs1 = inv_s[x[0]^i1]^inv_s[y[0]^i1];
       int rhs1 = inv_s[x[13]^i14]^inv_s[y[13]^i14];
       if (lhs1 == mul(2, rhs1)){
-        //guess k11
         for (int i11 = 0;i11<256;i11++){
           int rhs2 = inv_s[x[10]^i11]^inv_s[y[10]^i11];
           if (rhs1 == rhs2){
-            //guess k8
             for (int i8 = 0;i8<256;i8++){
               int lhs2 = inv_s[x[7]^i8]^inv_s[y[7]^i8];
-              //if all three equations are satisfied...
               if (lhs2 == mul(3, rhs1)){
                 k1[index] = i1;
                 k8[index] = i8;
@@ -250,7 +304,7 @@ void step1(mpz_t c, mpz_t c2){
     gmp_printf("index %d %d %d %d\n", k1[i], k8[i], k11[i], k14[i]);
   }*/
   printf("First analysis end\n");
-  fault =  faultSpec(9, 1, 0, 0, 0);
+
   interact(cF2, fault, pt2);
   gmp_printf("4 S1: %ZX\n", c2);
   gmp_printf("4 S1: %ZX\n", cF2);
@@ -264,9 +318,76 @@ void step1(mpz_t c, mpz_t c2){
     gmp_printf("index %d %d %d %d\n", k1_2[i], k8_2[i], k11_2[i], k14_2[i]);
   }*/
 
+  /*int a[256], a1[256], a2[256], a3[256];
+  int a4[256], a5[256], a6[256], a7[256];
+  reduceKeySpace(index, a, k1);
+  int i = 0;
+  printf("k1  ");
+  while(a[i]!=-1){
+    printf("%3d ", a[i]); i++;
+  }
+  i = 0;
+  printf("\nk8  ");
+  reduceKeySpace(index, a1, k8);
+  while(a1[i]!= -1){
+    printf("%3d ", a1[i]); i++;
+  }
+  i = 0;
+  printf("\nk11 ");
+  reduceKeySpace(index, a2,  k11);
+   while(a2[i]!=-1){
+    printf("%3d ", a2[i]); i++;
+  }
+  i = 0;
+  printf("\nk14 ");
+  reduceKeySpace(index, a3,  k14);
+    while(a3[i]!=-1){
+    printf("%3d ", a3[i]); i++;
+  }
+  i = 0;
+  printf("\nk1  ");
+  reduceKeySpace(index2, a4,  k1_2);
+      while(a4[i]!=-1){
+    printf("%3d ", a4[i]); i++;
+  }
+  i = 0;
+  printf("\nk8  ");
+  reduceKeySpace(index2,a5,  k8_2);
+      while(a5[i]!=-1){
+    printf("%3d ", a5[i]); i++;
+  }
+  i = 0;
+  printf("\nk11 ");
+  reduceKeySpace(index2,a6,  k11_2);
+      while(a6[i]!=-1){
+    printf("%3d ", a6[i]); i++;
+  }
+  i = 0;
+  printf("\nk14 ");
+  reduceKeySpace(index2,a7,  k14_2);
+  while(a7[i]!=-1){
+    printf("%3d ", a7[i]); i++;
+  }
+  printf("\n");*/
+
   int test = compareKeys(k1, k8, k11, k14, k1_2, k8_2, k11_2, k14_2);
   printf("keys %d\n", test);
 
+/*
+  int result1[256];
+  compareKey(result1, 256, 256, a, a4);
+  i=0;
+  while(result1[i]!=-1){printf("%d ", result1[i]);i++;} i=0;printf("\n");
+  int result2[256]={0};
+  compareKey(result2, 256, 256, a1, a5);
+  while(result2[i]!=-1){printf("%d ", result2[i]);i++;} i=0;printf("\n");
+  int result3[256]={0};
+  compareKey(result3, 256, 256, a2, a6);
+  while(result3[i]!=-1){printf("%d ", result3[i]);i++;} i=0;printf("\n");
+  int result4[256]={0};
+  compareKey(result4, 256, 256, a3, a7);
+  while(result4[i]!=-1){printf("%d ", result4[i]);i++;} i=0;printf("\n");
+  */
   mpz_clear(cF);
   mpz_clear(cF2);
 }
