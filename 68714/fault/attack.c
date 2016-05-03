@@ -319,9 +319,9 @@ int step1(mpz_t c, mpz_t c2, int* keyArray){
   convertToIntArray(x, ct2);
   convertToIntArray(y, ctF2);
   findK1(x[0], x[7], x[10], x[13], y[0], y[7], y[10], y[13], k1_2, k8_2, k11_2, k14_2 );
-  findK2(x[4], x[1], x[14], x[11],
-  y[4], y[1], y[14], y[11],
-  k5_2, k2_2, k15_2, k12_2);
+  findK1(x[1], x[4], x[14], x[11],
+  y[1], y[4], y[14], y[11],
+  k2_2, k5_2, k15_2, k12_2);
   //findKeyHypothesis(k1_2, k2_2, k3_2, k4_2,k5_2, k6_2, k7_2, k8_2,k9_2, k10_2, k11_2, k12_2,k13_2, k14_2, k15_2, k16_2,ct2, ctF2);
 
   /*for (int i = 0;i<index2;i++){
