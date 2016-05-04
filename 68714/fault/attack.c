@@ -26,8 +26,7 @@ int y[OCTET]={0};
 int x_2[OCTET]={0};
 int y_2[OCTET]={0};
 //Array to store the final key value found
-int key_10th[OCTET]={0};
-int key_1st[OCTET]={0};
+int keyArray[OCTET]={0};
 //Storage for first fault ciphertext
 int keySto1[MAX_NUM]={0}; //storage for byte 1,  12, 3, 10
 int keySto2[MAX_NUM]={0}; //storage for byte 8,  15, 6, 13
@@ -262,10 +261,10 @@ int findSolution(int x1, int x2, int x3, int x4){
     int keyNum = compareKeys(key);
     printf("Number of key found for (%2d,%2d,%2d,%2d): %d\n", x1, x2, x3, x4,keyNum);
     //Store it in the final key storage
-    key_10th[x1] = key[0];
-    key_10th[x2] = key[1];
-    key_10th[x3] = key[2];
-    key_10th[x4] = key[3];
+    keyArray[x1] = key[0];
+    keyArray[x2] = key[1];
+    keyArray[x3] = key[2];
+    keyArray[x4] = key[3];
     return keyNum;
 }
 //Takes two fault-free ciphertexts
@@ -332,14 +331,13 @@ int step(mpz_t c, mpz_t c2){
     key_0[3] ^= s[key_m1[0]];
 }
 void recoverKey(){
-  key_1st = key_10th;
   int rcon = 54;
   for (int round = 10 - 1; round >= 1;--round)
   {
-    invKeySchedule(key_1st, rcon);
+    invKeySchedule(keyArray, rcon);
     rcon = aes_div2(rcon);
   }
-  invKeySchedule(key_1st, rcon);
+  invKeySchedule(keyArray, rcon);
 }
 
 void attack() {
@@ -366,8 +364,8 @@ void attack() {
 
   printf("Target Material : ");
   for (int i = 0;i<OCTET;i++){
-    if (key_1st[i]<OCTET) printf("0");
-    printf("%X", key_1st[i]);
+    if (keyArray[i]<OCTET) printf("0");
+    printf("%X", keyArray[i]);
   }
   printf("\n");
   gmp_printf("Total Number of Interaction: %d\n", interaction);
