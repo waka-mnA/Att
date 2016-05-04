@@ -339,7 +339,7 @@ void recoverKey(){
     rcon = aes_div2(rcon);
   }
       aes128_key_schedule_inv_round(p_key, rcon);
-  for (int i = 0;i<16;i++)  printf("%d",p_key[i]);
+  for (int i = 0;i<16;i++)  printf("%X",p_key[i]);
    printf("\n");
 }
 
