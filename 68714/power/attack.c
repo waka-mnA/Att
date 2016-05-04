@@ -83,12 +83,12 @@ void interact_R( int* l, int* p, mpz_t c, const mpz_t m, const mpz_t k){
   //Receive execution time and plaintext from target
   //if ( 1 != fscanf(R_out, "%s", p)){ abort(); }
   char a=fgetc(R_out);
-  l=0;
+  int length = 0;
   while(a!=','){
-    l = l * 10 + (a-'0');
+    length = length * 10 + (a-'0');
     a=fgetc(R_out);
   }
-  p = malloc(l*sizeof(int));
+  p = malloc(length*sizeof(int));
   a=fgetc(R_out);
   int index=0;
   int tmp=0;
@@ -103,6 +103,7 @@ void interact_R( int* l, int* p, mpz_t c, const mpz_t m, const mpz_t k){
     }
     a=fgetc(R_out);
   }
+  l = length;
   if (gmp_fscanf(R_out, "%ZX", c) == 0) { abort(); }
   interaction++;
 }
