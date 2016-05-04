@@ -23,8 +23,8 @@ int interaction= 0;
 
 char* pt  = "3243F6A8885A308D313198A2E0370734";
 char* pt2 = "00112233445566778899AABBCCDDEEFF";
-
-char* keyText = "1FF32EE1416B13A313C12F9EC2782CB0";
+char* keyText ="2B7E151628AED2A6ABF7158809CF4F3C";
+//char* keyText = "1FF32EE1416B13A313C12F9EC2782CB0";
 int* interact(int*l, mpz_t c, const mpz_t m){
   //Send c
   gmp_fprintf(target_in, "%ZX\n",m); fflush(target_in);
