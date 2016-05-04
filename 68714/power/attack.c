@@ -76,8 +76,9 @@ int length = 0;
   return length;
 }
 
-void interact_R( int* l, int* p, mpz_t c, const mpz_t m, const mpz_t k){
+int* interact_R( int* l, mpz_t c, const mpz_t m, const mpz_t k){
   //Send c, N, d
+
   gmp_fprintf(R_in, "%ZX\n", m); fflush(R_in);
   gmp_fprintf(R_in, "%ZX\n", k); fflush(R_in);
   //Receive execution time and plaintext from target
@@ -88,7 +89,8 @@ void interact_R( int* l, int* p, mpz_t c, const mpz_t m, const mpz_t k){
     length = length * 10 + (a-'0');
     a=fgetc(R_out);
   }
-  p = malloc(length*sizeof(int));
+  int* p = malloc(length*sizeof(int));
+  if (p==NULL) exit(0);
   a=fgetc(R_out);
   int index=0;
   int tmp=0;
@@ -106,6 +108,7 @@ void interact_R( int* l, int* p, mpz_t c, const mpz_t m, const mpz_t k){
   *l = length;
   if (gmp_fscanf(R_out, "%ZX", c) == 0) { abort(); }
   interaction++;
+  return p;
 }
 
 //Convert integer to octet string
@@ -161,9 +164,8 @@ void attack() {
   int* trace;
   int l;
   //interact(trace, c, m);
-  interact_R(&l, trace, c, m, key);
+  trace = interact_R(&l, c, m, key);
   gmp_printf("length: %d\n",l);
-    printf("%d\n", trace[0]);
   for(int i = 0;i<l;i++){
     printf("%d\n", trace[i]);
   }
