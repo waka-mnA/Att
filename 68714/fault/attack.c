@@ -267,9 +267,12 @@ int step(mpz_t c, mpz_t c2){
   //Check every function found only one solution
   int keyTest = 1;
   keyTest = keyTest & (findSolution(0, 7, 10, 13));
-  keyTest = keyTest & (findSolution(11, 14, 1, 4));
+  keyTest = keyTest & (findSolution(1, 4, 11, 14));
   keyTest = keyTest & (findSolution(2, 5, 15, 8));
-  keyTest = keyTest & (findSolution(9, 12, 3, 6));
+  keyTest = keyTest & (findSolution(3, 6, 9, 12));
+//  keyTest = keyTest & (findSolution(11, 14, 1, 4));
+//  keyTest = keyTest & (findSolution(2, 5, 15, 8));
+//  keyTest = keyTest & (findSolution(9, 12, 3, 6));
   mpz_clear(cF);
   mpz_clear(cF2);
 
