@@ -228,6 +228,7 @@ int findSolution(int x1, int x2, int x3, int x4){
       keySto1_2, keySto2_2, keySto3_2, keySto4_2 );
     //Compare all key hypothesis of first and second ciphertexts
     //Get number of common key sets
+    printf("test ");
     int keyNum = compareKeys(key, keySto1, keySto2, keySto3, keySto4, keySto1_2, keySto2_2, keySto3_2, keySto4_2);
     printf("Number of key found for (%2d,%2d,%2d,%2d): %d\n", x1, x2, x3, x4,keyNum);
     //Store it in the final key storage
