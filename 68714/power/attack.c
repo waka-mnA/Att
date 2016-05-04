@@ -103,7 +103,7 @@ void interact_R( int* l, int* p, mpz_t c, const mpz_t m, const mpz_t k){
     }
     a=fgetc(R_out);
   }
-  l = length;
+  *l = length;
   if (gmp_fscanf(R_out, "%ZX", c) == 0) { abort(); }
   interaction++;
 }
