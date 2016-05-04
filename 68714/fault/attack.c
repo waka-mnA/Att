@@ -18,7 +18,7 @@ FILE* data_in  = NULL; //.conf file
 
 int interaction= 0;
 //Plaintext
-char* pt  = "3243F6A88857308D31319851E0370732";
+char* pt  = "F6143F6B98D57308D31319851E0370732";
 //char* pt  = "3243F6A8885A308D313198A2E0370734";
 char* pt2 = "00112233445566778899AABBCCDDEEFF";
 //Ciphertexts storage
@@ -269,9 +269,6 @@ int step(mpz_t c, mpz_t c2){
   keyTest = keyTest & (findSolution(11, 14, 1, 4));
   keyTest = keyTest & (findSolution(2, 5, 15, 8));
   keyTest = keyTest & (findSolution(9, 12, 3, 6));
-//  keyTest = keyTest & (findSolution(11, 14, 1, 4));
-//  keyTest = keyTest & (findSolution(2, 5, 15, 8));
-//  keyTest = keyTest & (findSolution(9, 12, 3, 6));
   mpz_clear(cF);
   mpz_clear(cF2);
 
