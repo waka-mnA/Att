@@ -93,6 +93,7 @@ void interact_R( int* l, int* p, mpz_t c, const mpz_t m, const mpz_t k){
   int index=0;
   int tmp=0;
   while(a!='\n'){
+    printf("%c ",a);
     if(a==','){
       p[index]=tmp;
       index++;
