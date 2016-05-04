@@ -18,7 +18,7 @@ FILE* data_in  = NULL; //.conf file
 
 int interaction= 0;
 //Plaintext
-char* pt  = "F6143F6B98D57308D3131985E0370732";
+char* pt  = "AAAAAAAAAABBBB8888CCCC9999991112";
 //char* pt  = "3243F6A8885A308D313198A2E0370734";
 char* pt2 = "00112233445566778899AABBCCDDEEFF";
 //Ciphertexts storage
