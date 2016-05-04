@@ -18,8 +18,7 @@ FILE* data_in  = NULL; //.conf file
 
 int interaction= 0;
 //Plaintext
-char* pt  = "AAAAAAAAAABBBB8888CCCC9999991112";
-//char* pt  = "3243F6A8885A308D313198A2E0370734";
+char* pt  = "3243F6A8885A308D313198A2E0370734";
 char* pt2 = "00112233445566778899AABBCCDDEEFF";
 //Ciphertexts storage
 int x[OCTET]={0};
@@ -58,6 +57,18 @@ int inv_s[256] =
     0xA0, 0xE0, 0x3B, 0x4D, 0xAE, 0x2A, 0xF5, 0xB0, 0xC8, 0xEB, 0xBB, 0x3C, 0x83, 0x53, 0x99, 0x61,
     0x17, 0x2B, 0x04, 0x7E, 0xBA, 0x77, 0xD6, 0x26, 0xE1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0C, 0x7D
  };
+
+
+int aes_mul2(int a)
+ {
+     return (a << 1) ^ ((-(a >= 0x80)) & 0x1B);
+ }
+
+ int aes_div2(int a)
+ {
+     return (a >> 1) ^ ((-(a & 1)) & 141);
+ }
+
 //Function to generate fault specification
 char* faultSpec( const int r, const int f, const int p, const int i, const int j){
   int size = 9;
@@ -273,6 +284,43 @@ int step(mpz_t c, mpz_t c2){
   mpz_clear(cF2);
 
   return keyTest;
+}
+ void aes128_key_schedule_inv_round(int p_key[OCTET], int rcon)
+{
+    int round;
+    int * p_key_0 = p_key + OCTET - 4;
+    int * p_key_m1 = p_key_0 - 4;
+
+    for (round = 1; round < OCTET / 4; ++round)
+    {
+        /* XOR in previous word */
+        p_key_0[0] ^= p_key_m1[0];
+        p_key_0[1] ^= p_key_m1[1];
+        p_key_0[2] ^= p_key_m1[2];
+        p_key_0[3] ^= p_key_m1[3];
+
+        p_key_0 = p_key_m1;
+        p_key_m1 -= 4;
+    }
+
+    /* Rotate previous word and apply S-box. Also XOR Rcon for first byte. */
+    p_key_m1 = p_key + OCTET - 4;
+    p_key_0[0] ^= aes_sbox(p_key_m1[1]) ^ rcon;
+    p_key_0[1] ^= aes_sbox(p_key_m1[2]);
+    p_key_0[2] ^= aes_sbox(p_key_m1[3]);
+    p_key_0[3] ^= aes_sbox(p_key_m1[0]);
+}
+void recoverKey(){
+  int * p_key = keyArray;
+  int rcon = 54;
+  for (round = 10 - 1; round >= 1; --round)
+  {
+    aes128_key_schedule_inv_round(p_key, rcon);
+    rcon = aes_div2(rcon);
+  }
+      aes128_key_schedule_inv_round(p_key, rcon);
+  for (int i = 0;i<16;i++)  printf("%d",p_key[i]);
+   printf("\n");
 }
 
 void attack() {
