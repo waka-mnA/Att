@@ -169,6 +169,10 @@ int polymul(int a, int b){
   return p;
 }
 //Function to solve equations and find the key hypothesis
+//inv_s[c1^k1]^inv_s[cf1^k1] = 2(inv_s[c4^k4]^inv_s[cf4^k4])
+//inv_s[c4^k4]^inv_s[cf4^k4] = (inv_s[c3^k3]^inv_s[cf3^k3])
+//inv_s[c2^k2]^inv_s[cf2^k2] = 3(inv_s[c4^k4]^inv_s[cf4^k4])
+//Find k1, k2, k3 and k4
 void findK(int c1, int c2, int c3, int c4,
     int cf1, int cf2, int cf3, int cf4,
       int* k1, int* k2, int* k3, int*k4){
