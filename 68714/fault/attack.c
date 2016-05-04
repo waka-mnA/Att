@@ -268,7 +268,7 @@ int step(mpz_t c, mpz_t c2){
   int keyTest = 1;
   keyTest = keyTest & (findSolution(0, 7, 10, 13));
   keyTest = keyTest & (findSolution(11, 14, 1, 4));
-  keyTest = keyTest & (findSolution(8, 15, 2, 5));
+  keyTest = keyTest & (findSolution(15, 8, 2, 5));
   keyTest = keyTest & (findSolution(9, 12, 3, 6));
 //  keyTest = keyTest & (findSolution(11, 14, 1, 4));
 //  keyTest = keyTest & (findSolution(2, 5, 15, 8));
