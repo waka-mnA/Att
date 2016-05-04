@@ -37,6 +37,8 @@ int keySto1_2[MAX_NUM]={0};
 int keySto2_2[MAX_NUM]={0};
 int keySto3_2[MAX_NUM]={0};
 int keySto4_2[MAX_NUM]={0};
+
+//S-box lookup table
 uint8_t s[256] =
  {
     0x63, 0x7C, 0x77, 0x7B, 0xF2, 0x6B, 0x6F, 0xC5, 0x30, 0x01, 0x67, 0x2B, 0xFE, 0xD7, 0xAB, 0x76,
@@ -78,16 +80,8 @@ uint8_t inv_s[256] =
     0x17, 0x2B, 0x04, 0x7E, 0xBA, 0x77, 0xD6, 0x26, 0xE1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0C, 0x7D
  };
 
-
-uint8_t aes_mul2(uint8_t a)
- {
-     return (a << 1) ^ ((-(a >= 0x80)) & 0x1B);
- }
-
- uint8_t aes_div2(uint8_t a)
- {
-     return (a >> 1) ^ ((-(a & 1)) & 141);
- }
+//Function used in inverse key schedule function
+ uint8_t aes_div2(uint8_t a) { return (a >> 1) ^ ((-(a & 1)) & 141); }
 
 //Function to generate fault specification
 char* faultSpec( const int r, const int f, const int p, const int i, const int j){
@@ -118,6 +112,7 @@ char* faultSpec( const int r, const int f, const int p, const int i, const int j
   strcat(result, sub);
   return result;
 }
+
 void interact(  mpz_t c, const char* spec, const char* m){
   //Send spec and m
   gmp_fprintf(target_in, "%s\n", spec); fflush(target_in);
