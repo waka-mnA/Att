@@ -94,10 +94,7 @@ void interact_R( int* l, int* p, mpz_t c, const mpz_t m, const mpz_t k){
   int tmp=0;
   while(a!='\n'){
     if(a==','){
-      printf("%d\n", tmp);
       p[index]=tmp;
-      printf("%d\n", p[index]);
-
       index++;
       tmp=0;
     }
@@ -166,6 +163,7 @@ void attack() {
   //interact(trace, c, m);
   interact_R(&l, trace, c, m, key);
   gmp_printf("length: %d\n",l);
+    printf("%d\n", trace[0]);
   for(int i = 0;i<l;i++){
     printf("%d\n", trace[i]);
   }
