@@ -134,7 +134,10 @@ void attack() {
   mpz_t m;      mpz_init(m);
   mpz_t c;      mpz_init(c);
   mpz_t key;      mpz_init(key);
-
+  uint8_t test = 24;
+  char a = (char)test;
+  printf("%c\n", a);
+  printf("%d\n", a);
   oct2int(m, pt);
   oct2int(key, keyText);
   int* trace;
