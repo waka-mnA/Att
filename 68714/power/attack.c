@@ -21,6 +21,10 @@ FILE* R_in  = NULL; // buffered attack R output stream
 
 int interaction= 0;
 
+char* pt  = "3243F6A8885A308D313198A2E0370734";
+char* pt2 = "00112233445566778899AABBCCDDEEFF";
+
+char* keyText = "1FF32EE1416B13A313C12F9EC2782CB0";
 void interact( char* p, mpz_t c, const mpz_t m){
   //Send c
   gmp_fprintf(target_in, "%ZX\n",m); fflush(target_in);
@@ -127,12 +131,16 @@ void attack() {
 */
   mpz_t m;      mpz_init(m);
   mpz_t c;      mpz_init(c);
+  mpz_t key;      mpz_init(key);
 
-  char* pt ="3243F6A8885A308D313198A2E0370734";
+  //char* pt ="3243F6A8885A308D313198A2E0370734";
   oct2int(m, pt);
+  oct2int(key, keyText);
   char* trace;
   interact(trace, c, m);
-  gmp_printf("trace: %s\ncipher: %ZX\n",trace, c);
+  interact_R(trace, c, m, key);
+  gmp_printf("trace: %s\ncipher: %ZX\n%ZX\n",trace, c, key);
+  //gmp_printf("trace: %s\ncipher: %ZX\n",trace, c);
   int * consumption ={0};
   //int l = separateTrace(consumption, trace);
 //  for (int i = 0;i<l;i++){
