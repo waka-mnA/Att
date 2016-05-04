@@ -137,7 +137,7 @@ void attack() {
   oct2int(m, pt);
   oct2int(key, keyText);
   char* trace;
-  interact(trace, c, m);
+  //interact(trace, c, m);
   interact_R(trace, c, m, key);
   gmp_printf("trace: %s\ncipher: %ZX\n%ZX\n",trace, c, key);
   //gmp_printf("trace: %s\ncipher: %ZX\n",trace, c);
