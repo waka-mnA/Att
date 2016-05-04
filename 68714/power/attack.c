@@ -76,7 +76,7 @@ int length = 0;
   return length;
 }
 
-void interact_R( int l, int* p, mpz_t c, const mpz_t m, const mpz_t k){
+void interact_R( int* l, int* p, mpz_t c, const mpz_t m, const mpz_t k){
   //Send c, N, d
   gmp_fprintf(R_in, "%ZX\n", m); fflush(R_in);
   gmp_fprintf(R_in, "%ZX\n", k); fflush(R_in);
