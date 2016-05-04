@@ -159,17 +159,17 @@ void findK(int c1, int c2, int c3, int c4,
     int cf1, int cf2, int cf3, int cf4,
       int* k1, int* k2, int* k3, int*k4){
   int index = 0;
-  //guess k1 and k14
+  //guess k1 and k4
   for (int i1 = 0;i1<MAX_NUM;i1++){
     for (int i4 = 0;i4<MAX_NUM;i4++){
       int lhs1 = inv_s[c1^i1]^inv_s[cf1^i1];
       int rhs1 = inv_s[c4^i4]^inv_s[cf4^i4];
       if (lhs1 == polymul(2, rhs1)){
-        //guess k11
+        //guess k3
         for (int i3 = 0;i3<MAX_NUM;i3++){
           int rhs2 = inv_s[c3^i3]^inv_s[cf3^i3];
           if (rhs1 == rhs2){
-            //guess k8
+            //guess k2
             for (int i2 = 0;i2<MAX_NUM;i2++){
               int lhs2 = inv_s[c2^i2]^inv_s[cf2^i2];
               //if all three equations are satisfied...
@@ -266,10 +266,10 @@ int step(mpz_t c, mpz_t c2){
   //Find keys by solving equations.
   //Check every function found only one solution
   int keyTest = 1;
-  keyTest = keyTest & (findSolution(0, 7, 10, 13));
-  keyTest = keyTest & (findSolution(11, 14, 1, 4));
+//0  keyTest = keyTest & (findSolution(0, 7, 10, 13));
+//  keyTest = keyTest & (findSolution(11, 14, 1, 4));
   keyTest = keyTest & (findSolution(2, 5, 15, 8));
-  keyTest = keyTest & (findSolution(9, 12, 3, 6));
+//  keyTest = keyTest & (findSolution(9, 12, 3, 6));
 //  keyTest = keyTest & (findSolution(11, 14, 1, 4));
 //  keyTest = keyTest & (findSolution(2, 5, 15, 8));
 //  keyTest = keyTest & (findSolution(9, 12, 3, 6));
