@@ -160,7 +160,7 @@ void attack() {
   int* trace;
   int l;
   //interact(trace, c, m);
-  interact_R(l, trace, c, m, key);
+  interact_R(&l, trace, c, m, key);
   gmp_printf("length: %d\n",l);
   for(int i = 0;i<l;i++){
     printf("%d\n", trace[i]);
