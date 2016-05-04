@@ -85,6 +85,7 @@ void interact_R( int* l, int* p, mpz_t c, const mpz_t m, const mpz_t k){
   char a=fgetc(R_out);
   int length = 0;
   while(a!=','){
+    printf("%c ",a);
     length = length * 10 + (a-'0');
     a=fgetc(R_out);
   }
@@ -93,7 +94,6 @@ void interact_R( int* l, int* p, mpz_t c, const mpz_t m, const mpz_t k){
   int index=0;
   int tmp=0;
   while(a!='\n'){
-    printf("%c ",a);
     if(a==','){
       p[index]=tmp;
       index++;
