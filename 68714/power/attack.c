@@ -191,9 +191,6 @@ void attack() {
   gmp_printf("cipher: %ZX\n", c);
   trace = interact_R(&l, c, m, key);
   gmp_printf("length: %d\n",l);
-  for(int i = 0;i<l;i++){
-    printf("%d\n", trace[i]);
-  }
   gmp_printf("cipher: %ZX\n%ZX\n", c, key);
   //gmp_printf("trace: %s\ncipher: %ZX\n",trace, c);
   int * consumption ={0};
