@@ -31,7 +31,7 @@ void interact( char* p, mpz_t c, const mpz_t m){
   //Receive execution time and plaintext from target
 //  if ( 1 != fscanf(target_out, "%s", p)){ abort(); }
 
-  if( 1 != fscanf( target_out, "%s", p ) ) { abort();}
+  if( 1 != fscanf( target_out, "%10s", p ) ) { abort();}
   if (gmp_fscanf(target_out, "%ZX", c) == 0) { abort(); }
   interaction++;
 }
