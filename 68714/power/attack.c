@@ -85,10 +85,10 @@ void interact_R( int* l, int* p, mpz_t c, const mpz_t m, const mpz_t k){
   char a=fgetc(R_out);
   l=0;
   while(a!=','){
-    l = 10* l + (a-'0');
+    l = l * 10 + (a-'0');
     a=fgetc(R_out);
   }
-  p = malloc(sizeof(int)*l);
+  p = malloc(l*sizeof(int));
   a=fgetc(R_out);
   int index=0;
   int tmp=0;
