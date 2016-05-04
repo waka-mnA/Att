@@ -24,7 +24,6 @@ int interaction= 0;
 char* pt  = "3243F6A8885A308D313198A2E0370734";
 char* pt2 = "00112233445566778899AABBCCDDEEFF";
 char* keyText ="7D8240FDE97950E05DEF3566616DDEED";
-//char* keyText = "1FF32EE1416B13A313C12F9EC2782CB0";
 
 //Return int array that contains power consumption trace
 int* interact(int*l, mpz_t c, const mpz_t m){

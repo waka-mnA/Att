@@ -305,15 +305,15 @@ int step(mpz_t c, mpz_t c2){
 
   return keyTest;
 }
+//Inverse Key Schedule function to recover original key from 10th round key
  void invKeySchedule(int key[OCTET], int rcon)
 {
-    int round;
     int * key_0 = key + OCTET - 4;
     int * key_m1 = key_0 - 4;
 
-    for (round = 1; round < OCTET / 4; ++round)
+    for (int i = 1; i < OCTET / 4; i++)
     {
-        /* XOR in previous word */
+        // XOR in previous block
         key_0[0] ^= key_m1[0];
         key_0[1] ^= key_m1[1];
         key_0[2] ^= key_m1[2];
@@ -323,13 +323,14 @@ int step(mpz_t c, mpz_t c2){
         key_m1 -= 4;
     }
 
-    /* Rotate previous word and apply S-box. Also XOR Rcon for first byte. */
+    // Rotate previous block and apply S-box. Also XOR Rcon for first byte.
     key_m1 = key + OCTET - 4;
     key_0[0] ^= s[key_m1[1]] ^ rcon;
     key_0[1] ^= s[key_m1[2]];
     key_0[2] ^= s[key_m1[3]];
     key_0[3] ^= s[key_m1[0]];
 }
+//Recover original key
 void recoverKey(){
   int rcon = 54;
   for (int round = 10 - 1; round >= 1;--round)

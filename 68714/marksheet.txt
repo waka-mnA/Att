@@ -28,11 +28,15 @@ by the assignment description of course).  Let us know what third-party
 source code or resources you used (if any) so it's clear what's your work
 and what isn't:
 
-An Improved Fault Based Attack of the Advanced Encryption Standard by Debdeep Mukhopadhyay
+An Improved Fault Based Attack of the Advanced Encryption Standard
+by Debdeep Mukhopadhyay
 
 Differential Fault Analysis of the Advanced Encryption Standard using a Single Fault
 by Michael Tunstall, Debdeep Mukhopadhyay, and Subidh Ali
 https://eprint.iacr.org/2009/575.pdf
+
+Minimal AES encryption
+https://github.com/cmcqueen/aes-min
 -------------------------------------------------------------------------------
 
 4. Marking
