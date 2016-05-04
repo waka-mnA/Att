@@ -30,15 +30,15 @@ int* interact(int*l, mpz_t c, const mpz_t m){
   gmp_fprintf(target_in, "%ZX\n",m); fflush(target_in);
   //Receive execution time and plaintext from target
 //  if ( 1 != fscanf(target_out, "%s", p)){ abort(); }
-char a=fgetc(R_out);
-int length = 0;
-while(a!=','){
+  char a=fgetc(target_out);
+  int length = 0;
+  while(a!=','){
   length = length * 10 + (a-'0');
-  a=fgetc(R_out);
+  a=fgetc(target_out);
 }
 int* p = malloc(length*sizeof(int));
 if (p==NULL) exit(0);
-a=fgetc(R_out);
+a=fgetc(target_out);
 int index=0;
 int tmp=0;
 while(a!='\n'){
@@ -50,7 +50,7 @@ while(a!='\n'){
   else{
     tmp = tmp*10+(a -'0');
   }
-  a=fgetc(R_out);
+  a=fgetc(target_out);
 }
 *l = length;
   //if( 1 != fscanf( target_out, "%s", p ) ) { abort();}
