@@ -25,15 +25,38 @@ char* pt  = "3243F6A8885A308D313198A2E0370734";
 char* pt2 = "00112233445566778899AABBCCDDEEFF";
 
 char* keyText = "1FF32EE1416B13A313C12F9EC2782CB0";
-void interact( char* p, mpz_t c, const mpz_t m){
+int* interact(int*l, mpz_t c, const mpz_t m){
   //Send c
   gmp_fprintf(target_in, "%ZX\n",m); fflush(target_in);
   //Receive execution time and plaintext from target
 //  if ( 1 != fscanf(target_out, "%s", p)){ abort(); }
-
-  if( 1 != fscanf( target_out, "%s", p ) ) { abort();}
+char a=fgetc(R_out);
+int length = 0;
+while(a!=','){
+  length = length * 10 + (a-'0');
+  a=fgetc(R_out);
+}
+int* p = malloc(length*sizeof(int));
+if (p==NULL) exit(0);
+a=fgetc(R_out);
+int index=0;
+int tmp=0;
+while(a!='\n'){
+  if(a==','){
+    p[index]=tmp;
+    index++;
+    tmp=0;
+  }
+  else{
+    tmp = tmp*10+(a -'0');
+  }
+  a=fgetc(R_out);
+}
+*l = length;
+  //if( 1 != fscanf( target_out, "%s", p ) ) { abort();}
   if (gmp_fscanf(target_out, "%ZX", c) == 0) { abort(); }
   interaction++;
+  return p;
 }
 //call by seprateTrace(&v, consumption, trace)
 int separateTrace( int* consumption, char* trace){
@@ -164,6 +187,8 @@ void attack() {
   int* trace;
   int l;
   //interact(trace, c, m);
+  trace = interact(&l, c, m);
+  gmp_printf("cipher: %ZX\n", c);
   trace = interact_R(&l, c, m, key);
   gmp_printf("length: %d\n",l);
   for(int i = 0;i<l;i++){
