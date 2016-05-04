@@ -218,14 +218,10 @@ void convertToIntArray(int* array, char* ct){
 int findSolution(int x1, int x2, int x3, int x4){
     static int key[4]={0};
     //Find key hypothesis for first fault ciphertext
-
-    printf("test ");
     findK(x[x1], x[x2], x[x3], x[x4],
       y[x1], y[x2], y[x3], y[x4],
       keySto1, keySto2, keySto3, keySto4);
     //Find key hypothesis for second fault ciphertext
-
-    printf("test ");
     findK(x_2[x1], x_2[x2], x_2[x3], x_2[x4],
       y_2[x1], y_2[x2], y_2[x3], y_2[x4],
       keySto1_2,keySto2_2,keySto3_2,keySto4_2 );
@@ -269,10 +265,10 @@ int step(mpz_t c, mpz_t c2){
   //Find keys by solving equations.
   //Check every function found only one solution
   int keyTest = 1;
-  keyTest = keyTest & (findSolution(0, 7, 10, 13));
-  keyTest = keyTest & (findSolution(11, 14, 1, 4));
-  keyTest = keyTest & (findSolution(2, 5, 15, 8));
-  keyTest = keyTest & (findSolution(9, 12, 3, 6));
+  //keyTest = keyTest & (findSolution(0, 7, 10, 13));
+  //keyTest = keyTest & (findSolution(11, 14, 1, 4));
+  //keyTest = keyTest & (findSolution(2, 5, 15, 8));
+  //keyTest = keyTest & (findSolution(9, 12, 3, 6));
 //  keyTest = keyTest & (findSolution(11, 14, 1, 4));
 //  keyTest = keyTest & (findSolution(2, 5, 15, 8));
 //  keyTest = keyTest & (findSolution(9, 12, 3, 6));
