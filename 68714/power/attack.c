@@ -23,91 +23,58 @@ int interaction= 0;
 
 char* pt  = "3243F6A8885A308D313198A2E0370734";
 char* pt2 = "00112233445566778899AABBCCDDEEFF";
-char* keyText ="2B7E151628AED2A6ABF7158809CF4F3C";
+char* keyText ="7D8240FDE97950E05DEF3566616DDEED";
 //char* keyText = "1FF32EE1416B13A313C12F9EC2782CB0";
+int findLength(){
+
+  return length;
+}
+
+int* findTrace(){
+
+
+}
+
+//Return int array that contains power consumption trace
 int* interact(int*l, mpz_t c, const mpz_t m){
-  //Send c
+  //Send m
   gmp_fprintf(target_in, "%ZX\n",m); fflush(target_in);
-  //Receive execution time and plaintext from target
-//  if ( 1 != fscanf(target_out, "%s", p)){ abort(); }
-  char a=fgetc(target_out);
+  //Receive length of trace
   int length = 0;
+  //Read letters until it meets first comma
+  char a=fgetc(target_out);
   while(a!=','){
-  length = length * 10 + (a-'0');
-  a=fgetc(target_out);
-}
-int* p = malloc(length*sizeof(int));
-if (p==NULL) exit(0);
-a=fgetc(target_out);
-int index=0;
-int tmp=0;
-while(a!='\n'){
-  if(a==','){
-    p[index]=tmp;
-    index++;
-    tmp=0;
+    length = length * 10 + (a-'0');
+    a=fgetc(target_out);
   }
-  else{
-    tmp = tmp*10+(a -'0');
-  }
+  //Allocate length size of array
+  int* p = malloc(length*sizeof(int));
+  if (p==NULL) exit(0);
   a=fgetc(target_out);
-}
-*l = length;
-  //if( 1 != fscanf( target_out, "%s", p ) ) { abort();}
+  int index=0, tmp = 0;
+  //Until the end of line
+  while(a!='\n'){
+    if(a==','){
+      p[index]=tmp;
+      index++;
+      tmp=0;
+    }
+    else tmp = tmp*10+(a -'0');
+    a=fgetc(target_out);
+  }
+  *l = length;
   if (gmp_fscanf(target_out, "%ZX", c) == 0) { abort(); }
   interaction++;
   return p;
 }
-//call by seprateTrace(&v, consumption, trace)
-int separateTrace( int* consumption, char* trace){
-int i = 0;
-int length = 0;
-//get length
-  while(trace[i]!='\0'){
-    if (trace[i]==','){
-      char sub[5];
-      for(int j = 0;j<i;j++){
-        sub[j] = trace[j];
-      }
-      length = (int)strtol(sub, NULL, 10);
-      break;
-    }
-    i++;
-  }
-  consumption = malloc(sizeof(int)*length);
-  char subStr[3];
-  int index = 0;
-  int indexC = 0;
-  int k  = 0;
-  while(trace[k]!='\0'){
-    if (k<i) {k++;continue;}
-    if (trace[k]==','){
-      consumption[indexC]= (int)strtol(subStr, NULL, 10);
-      gmp_printf("Check consumption: %d\n", consumption[indexC]);
-      memset(subStr, 0, sizeof(subStr));
-      indexC++;
-      index = 0;
-      gmp_printf("Check subStr is empty: %s\n", subStr);
-    }
-    else{
-      subStr[index] = trace[k];
-      gmp_printf("Check subStr: %s\n", subStr);
-      index++;
-    }
-    k++;
-  }
-  return length;
-}
 
 int* interact_R( int* l, mpz_t c, const mpz_t m, const mpz_t k){
-  //Send c, N, d
-
+  //Send m and k
   gmp_fprintf(R_in, "%ZX\n", m); fflush(R_in);
   gmp_fprintf(R_in, "%ZX\n", k); fflush(R_in);
-  //Receive execution time and plaintext from target
-  //if ( 1 != fscanf(R_out, "%s", p)){ abort(); }
-  char a=fgetc(R_out);
+  //Receive length and trace
   int length = 0;
+  char a=fgetc(R_out);
   while(a!=','){
     length = length * 10 + (a-'0');
     a=fgetc(R_out);
@@ -115,20 +82,18 @@ int* interact_R( int* l, mpz_t c, const mpz_t m, const mpz_t k){
   int* p = malloc(length*sizeof(int));
   if (p==NULL) exit(0);
   a=fgetc(R_out);
-  int index=0;
-  int tmp=0;
+  int index=0, tmp=0;
   while(a!='\n'){
     if(a==','){
       p[index]=tmp;
       index++;
       tmp=0;
     }
-    else{
-      tmp = tmp*10+(a -'0');
-    }
+    else tmp = tmp*10+(a -'0');
     a=fgetc(R_out);
   }
   *l = length;
+  //Receive ciphertext
   if (gmp_fscanf(R_out, "%ZX", c) == 0) { abort(); }
   interaction++;
   return p;
@@ -138,7 +103,6 @@ int* interact_R( int* l, mpz_t c, const mpz_t m, const mpz_t k){
 char* int2oct(const mpz_t i){
   char* octet = NULL;
   int size = 32;
-  //int size = mpz_sizeinbase(N, 16);
   int l = mpz_sizeinbase(i, 16);
   octet = malloc(size+1);
 
@@ -181,23 +145,15 @@ void attack() {
   mpz_t c;      mpz_init(c);
   mpz_t key;      mpz_init(key);
 
-  //char* pt ="3243F6A8885A308D313198A2E0370734";
   oct2int(m, pt);
   oct2int(key, keyText);
   int* trace;
   int l;
-  //interact(trace, c, m);
   trace = interact(&l, c, m);
   gmp_printf("cipher: %ZX\n", c);
   trace = interact_R(&l, c, m, key);
   gmp_printf("length: %d\n",l);
   gmp_printf("cipher: %ZX\n%ZX\n", c, key);
-  //gmp_printf("trace: %s\ncipher: %ZX\n",trace, c);
-  int * consumption ={0};
-  //int l = separateTrace(consumption, trace);
-//  for (int i = 0;i<l;i++){
-    //gmp_printf("%d \n", consumption[i]);
-  //}
 
   //END
   //gmp_printf("Target Material : %ZX\n", dFinal);
