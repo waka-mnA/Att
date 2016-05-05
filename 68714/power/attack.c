@@ -115,9 +115,10 @@ uint8_t* find_trace(FILE* fp, int length){
 
 //Interact with D
 //Return int array that contains power consumption trace
-uint8_t* interact(int *l, mpz_t c, const uint8_t* m){
+uint8_t* interact(int *l, mpz_t c, const uint8_t m[OCTET]){
   //Send m
-  for (int i = 0;i<OCTET;i++)gmp_fprintf(target_in, "%X",m[i]); fflush(target_in);
+  for (int i = 0;i<OCTET;i++)
+  { gmp_fprintf(target_in, "%X", m[i]); fflush(target_in); }
   gmp_fprintf(target_in, "\n"); fflush(target_in);
 
   //Receive length and traces
