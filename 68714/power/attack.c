@@ -241,7 +241,7 @@ void attack() {
       intermediate[t][ki] = s[plaintext[0][t]^ki];
       printf("%d done\n", ki);
     }
-    printf("%d done\n", i);
+    printf("%d done\n", t);
   }
 
   //END
