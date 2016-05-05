@@ -27,7 +27,7 @@ char* pt2 = "00112233445566778899AABBCCDDEEFF";
 char* keyText ="7D8240FDE97950E05DEF3566616DDEED";
 
 //Sample plaintext number
-int D = 200;
+#define D 200
 uint8_t plaintext[16][D];
 
 //S-box lookup table
