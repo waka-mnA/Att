@@ -181,9 +181,7 @@ void generatePlaintext(){
   srand(time(NULL));
   for (int i = 1;i < D;i++){
     for (int j = 0; j < OCTET; j++) {
-        int test  = (uint8_t) rand() % BYTE;
-        printf("%d %d %d\n", test, i, j);
-        plaintext[i][j]=test;
+        plaintext[i][j] = (uint8_t) rand() % BYTE;
     }
   }
 }
@@ -218,6 +216,7 @@ void attack() {
   //Generate D number of plaintext
   generatePlaintext();
 
+  printf("Plaintext generated\n");
   convertToString(plaintext[5]);
   //Get trace for each plaintext
   /*for (int i = 0;i<D;i++){
