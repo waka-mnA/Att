@@ -215,7 +215,7 @@ void attack() {
   gmp_printf("i: %d Ciphertext: %ZX\n", interaction, c);
   gmp_printf("Length: %d\n",l);
 
-  for (int i = 0;i<OCTET;i++) plaintext[0][i]=x[i];
+  for (int i = 0;i<OCTET;i++) plaintext[0][i]= x[i];
 
   //Traces
   uint8_t t[D][l];
