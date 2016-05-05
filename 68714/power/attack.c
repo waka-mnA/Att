@@ -111,7 +111,7 @@ uint8_t* find_trace(FILE* fp, int length){
     else tmp = tmp*10+(a -'0');
     a=fgetc(fp);
   }
-  return p;
+  return traceTmp;
 }
 
 //Interact with D
