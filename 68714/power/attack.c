@@ -204,24 +204,26 @@ void attack() {
   static uint8_t* trace;
 
   int l;
+  int i;
   trace = interact(&l, c, pt);
   gmp_printf("i: %d Ciphertext: %ZX\n", interaction, c);
   gmp_printf("Length: %d\n",l);
 
-  for (int i = 0;i<OCTET;i++) plaintext[0][i]= pt[i];
+  for (i = 0;i<OCTET;i++) plaintext[0][i]= pt[i];
 
   //Traces
   uint8_t t[D][l];
   //Set first trace
-  for (int i = 0;i<l;i++)  t[0][i] = trace[i];
+  for (i = 0;i<l;i++)  t[0][i] = trace[i];
 
   //Generate D number of plaintext
   generatePlaintext();
   printf("Plaintexts generated\n");
 
   printf("Plaintexts generated 2\n");
+    trace = interact(&l, c, plaintext[1]);
   //Get trace for each plaintext
-  for (int i = 0; i < D ;i++){
+  for (i = 1; i < D ;i++){
     trace = interact(&l, c, plaintext[i]);
     for (int k = 0;k<16;k++) printf("%X", plaintext[i][k]);
     printf("\n");
