@@ -33,7 +33,7 @@ uint8_t pt[OCTET] =
   0xE0, 0x37, 0x07, 0x34 };
 
 uint8_t plaintext[D][OCTET];
-uint8_t intermediate[D];
+uint8_t intermediate[D][BYTE];
 uint8_t keyArray[OCTET];
 uint8_t* traceTmp;
 int traceLength=0;
@@ -233,22 +233,15 @@ void attack() {
   }
 
   printf("Trace generated\n");
+
   //For each key byte
   for (int i = 0;i<D;i++){
     //Guess the key value
     for (uint8_t ki = 0;ki<256;ki++){
-      intermediate[i] = s[plaintext[0][i]^ki];
+      intermediate[i][k1] = s[plaintext[0][i]^ki];
     }
+    printf("%d done\n", i);
   }
-
-//  for (int i = 0;i<l;i++)printf("%d ", trace[i]);
-//  printf("\n");
-  /*trace = interact_R(&l, c, pt, keyText);
-  gmp_printf("Length: %d\n",l);
-  gmp_printf("i: %d Ciphertext: %ZX\ni: %d Key: %ZX\n", interaction, c, interaction, key);
-*/
-//  for (int i = 0;i<l;i++)printf("%d ", trace[i]); printf("\n");
-
 
   //END
   printf("Target Material : ");
