@@ -86,7 +86,7 @@ uint8_t* find_trace(FILE* fp, int length){
   int* p = malloc(length*sizeof(int));
   if (p==NULL) exit(0);
 
-  a=fgetc(fp);
+  char a=fgetc(fp);
   int index=0, tmp = 0;
   //Until the end of line
   while(a!='\n'){
