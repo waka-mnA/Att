@@ -87,8 +87,10 @@ int find_length(FILE* fp){
   char a=fgetc(fp);
   while(a!=','){
     length = length * 10 + (a-'0');
+    printf("TEST 2 %d %c\n", length, a);
     a=fgetc(fp);
   }
+  printf("TEST 2 %d\n", length);
   return length;
 }
 
