@@ -5,7 +5,8 @@
 #include "ctype.h"
 
 #define BUFFER_SIZE ( 80 )
-
+#define BYTE 256
+#define OCTET 16
 pid_t pid        = 0;    // process ID (of either parent or child) from fork
 pid_t pid_R        = 0;    // process ID (of either parent or child) from fork
 
@@ -25,6 +26,10 @@ char* pt  = "3243F6A8885A308D313198A2E0370734";
 char* pt2 = "00112233445566778899AABBCCDDEEFF";
 char* keyText ="7D8240FDE97950E05DEF3566616DDEED";
 
+uint8_t X[16][D];
+
+//Sample plaintext number
+int D = 200;
 //S-box lookup table
 uint8_t s[256] =
  {
@@ -83,7 +88,7 @@ int find_length(FILE* fp){
 //Interact with given target and get traces
 uint8_t* find_trace(FILE* fp, int length){
   //Allocate length size of array
-  uint8_t* p = malloc(length*sizeof(uint8_t));
+  static uint8_t* p = malloc(length*sizeof(uint8_t));
   if (p==NULL) exit(0);
 
   char a=fgetc(fp);
@@ -109,7 +114,7 @@ uint8_t* interact(int *l, mpz_t c, const char* m){
   gmp_fprintf(target_in, "%s\n",m); fflush(target_in);
   //Receive length and traces
   int length = find_length(target_out);
-  uint8_t* p = find_trace(target_out, length);
+  static uint8_t* p = find_trace(target_out, length);
   *l = length;
   //Receive c
   if (gmp_fscanf(target_out, "%ZX", c) == 0) { abort(); }
@@ -170,6 +175,16 @@ void convertToIntArray(uint8_t* array, char* ct){
       array[(i/2)]=(int)strtol(tmp, NULL, 16);
   }
 }
+
+void generatePlaintext(){
+  for (int i = 0;i<D;i++){
+    srand(time(NULL));
+    for (int j = 0; j < OCTET; j++) {
+        X[i][j] = rand() % BYTE;
+        printf("%d\n", X[i][j]);
+    }
+  }
+}
 //mpz_t N, e, ...
 void attack() {
   mpz_t m;      mpz_init(m);
@@ -178,6 +193,18 @@ void attack() {
 
   uint8_t x[16]={0};
   convertToIntArray(x, pt);
+
+  static uint8_t* trace;
+
+  int l;
+  trace = interact(&l, c, pt2);
+  gmp_printf("i: %d Ciphertext: %ZX\n", interaction, c);
+  gmp_printf("Length: %d\n",l);
+
+  //Traces
+  uint8_t t[256][l];
+
+  generatePlaintext();
   //For each key byte
   for (int i = 0;i<16;i++){
     //Guess the key value
@@ -186,11 +213,6 @@ void attack() {
     }
   }
 
-  uint8_t* trace;
-  int l;
-  trace = interact(&l, c, pt2);
-  gmp_printf("i: %d Ciphertext: %ZX\n", interaction, c);
-  gmp_printf("Length: %d\n",l);
 //  for (int i = 0;i<l;i++)printf("%d ", trace[i]);
   printf("\n");
   trace = interact_R(&l, c, pt, keyText);
