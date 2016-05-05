@@ -95,11 +95,14 @@ int find_length(FILE* fp){
 //Interact with given target and get traces
 void find_trace(FILE* fp, int length){
   //Allocate length size of array
+  printf("TEST 1\n");
   if (length!= traceLength){
     traceLength = length;
     traceTmp = malloc(length*sizeof(uint8_t));
+    printf("TEST 2\n");
     if (traceTmp==NULL) exit(0);
   }
+  printf("TEST 3\n");
   char a=fgetc(fp);
   int index=0;
   uint8_t tmp = 0;
