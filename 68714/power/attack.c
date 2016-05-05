@@ -249,7 +249,7 @@ int compareDifference(){
     if (dif[i]<min) min = dif[i];
     printf("%d ", dif[i] );
   }
-  printf("%d\n", max-min, );
+  printf("%d\n", max-min);
   if (max -min > 100) return max-min;
   return 0;
 }
