@@ -8,7 +8,7 @@
 #define BYTE 256
 #define OCTET 16
 //Sample plaintext number
-#define D 50
+#define D 200
 
 pid_t pid        = 0;    // process ID (of either parent or child) from fork
 pid_t pid_R        = 0;    // process ID (of either parent or child) from fork
@@ -36,7 +36,7 @@ uint8_t plaintext[D][OCTET];
 uint8_t intermediate[D];
 uint8_t keyArray[OCTET];
 uint8_t* traceTmp;
-
+int traceLength=0;
 //S-box lookup table
 uint8_t s[256] =
  {
@@ -93,11 +93,13 @@ int find_length(FILE* fp){
 }
 
 //Interact with given target and get traces
-uint8_t* find_trace(FILE* fp, int length){
+void find_trace(FILE* fp, int length){
   //Allocate length size of array
-  traceTmp = malloc(length*sizeof(uint8_t));
-  if (traceTmp==NULL) exit(0);
-
+  if (length!= traceLength){
+    traceLength = length;
+    traceTmp = malloc(length*sizeof(uint8_t));
+    if (traceTmp==NULL) exit(0);
+  }
   char a=fgetc(fp);
   int index=0;
   uint8_t tmp = 0;
@@ -111,12 +113,12 @@ uint8_t* find_trace(FILE* fp, int length){
     else tmp = tmp*10+(a -'0');
     a=fgetc(fp);
   }
-  return traceTmp;
+  //return traceTmp;
 }
 
 //Interact with D
 //Return int array that contains power consumption trace
-uint8_t* interact(int *l, mpz_t c, const uint8_t m[OCTET]){
+void interact(int *l, mpz_t c, const uint8_t m[OCTET]){
   //Send m
   for (int i = 0;i<OCTET;i++)
   {
@@ -126,14 +128,14 @@ uint8_t* interact(int *l, mpz_t c, const uint8_t m[OCTET]){
   //Receive length and traces
   int length = find_length(target_out);
   printf("TEST 4\n");
-  traceTmp = find_trace(target_out, length);
+  find_trace(target_out, length);
 
   printf("TEST 5\n");
   *l = length;
   //Receive c
   if (gmp_fscanf(target_out, "%ZX", c) == 0) { abort(); }
   interaction++;
-  return traceTmp;
+  //return traceTmp;
 }
 
 //Interact with Replica
@@ -210,7 +212,7 @@ void attack() {
 
   int l;
   int i;
-  trace = interact(&l, c, pt);
+  interact(&l, c, pt);
   gmp_printf("i: %d Ciphertext: %ZX\n", interaction, c);
   gmp_printf("Length: %d\n",l);
 
@@ -219,21 +221,21 @@ void attack() {
   //Traces
   uint8_t t[D][l];
   //Set first trace
-  for (i = 0;i<l;i++)  t[0][i] = trace[i];
+  for (i = 0;i<l;i++)  t[0][i] = traceTmp[i];
 
   //Generate D number of plaintext
   generatePlaintext();
   printf("Plaintexts generated\n");
-    trace = interact(&l, c, pt);
+    interact(&l, c, pt);
 
   printf("Plaintexts generated 2\n");
     printf("%d\n", l);
   //Get trace for each plaintext
   for (i = 1; i < D ;i++){
-    trace = interact(&l, c, plaintext[i]);
+    interact(&l, c, plaintext[i]);
     for (int k = 0;k<16;k++) printf("%X", plaintext[i][k]);
     printf("\n");
-    for (int j = 0;j<l;j++)  t[i][j] = trace[j];
+    for (int j = 0;j<l;j++)  t[i][j] = traceTmp[j];
   }
 
   printf("Plaintexts generated 3\n");
