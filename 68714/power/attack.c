@@ -239,7 +239,7 @@ void tracePartition(uint8_t hypo, int i){
 }
 
 void subsetAvg(){
-  for (int i = 0;i<l;i++){
+  for (int i = 0;i<traceLength;i++){
     double sumA = 0;
     double sumB = 0;
     for(int j = 0;j<M_SIZE;j++){
@@ -284,7 +284,7 @@ void attack() {
   for (int i = 0;i<OCTET;i++) plaintext[0][i]= pt[i];
 
   //Traces
-  t = malloc(sizeof*(uint8_t)*M_SIZE);
+  t = malloc(sizeof(uint8_t)*M_SIZE);
   if (t){
     for (int i = 0;i<M_SIZE;i++){
       t[i] = malloc(sizeof*t[i]*l);
@@ -333,7 +333,7 @@ void attack() {
     B_ID[B_NUM]= -1;
 
     subsetAvg();
-    
+
     int keyRight = compareDifference();
     if (keyRight == 1) keyArray[0] = (uint8_t)ki;
   }
