@@ -177,8 +177,8 @@ void convertToIntArray(uint8_t* array, char* ct){
 }
 
 void generatePlaintext(){
+  srand(time(NULL));
   for (int i = 0;i<D;i++){
-    srand(time(NULL));
     for (int j = 0; j < OCTET; j++) {
         plaintext[i][j] = rand() % BYTE;
         printf("%d\n", plaintext[i][j]);
