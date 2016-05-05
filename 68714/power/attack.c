@@ -207,7 +207,7 @@ void attack() {
   mpz_t key;      mpz_init(key);
 
   uint8_t x[16]={0};
-  convertToIntArray(x, pt);
+  //convertToIntArray(x, pt);
 
   static uint8_t* trace;
 
