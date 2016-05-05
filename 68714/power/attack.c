@@ -7,14 +7,15 @@
 #define BUFFER_SIZE ( 80 )
 #define BYTE 256
 #define OCTET 16
+//Sample plaintext number
+#define D 200
+
 pid_t pid        = 0;    // process ID (of either parent or child) from fork
 pid_t pid_R        = 0;    // process ID (of either parent or child) from fork
-
 int   target_raw[ 2 ];   // unbuffered communication: attacker -> attack target
 int   attack_raw[ 2 ];   // unbuffered communication: attack target -> attacker
 int   target_R_raw[ 2 ];   // unbuffered communication: attacker -> R
 int   attack_R_raw[ 2 ];   // unbuffered communication: R -> attacker
-
 FILE* target_out = NULL; // buffered attack target input  stream
 FILE* target_in  = NULL; // buffered attack target output stream
 FILE* R_out = NULL; // buffered attack R input  stream
@@ -26,9 +27,9 @@ char* pt  = "3243F6A8885A308D313198A2E0370734";
 char* pt2 = "00112233445566778899AABBCCDDEEFF";
 char* keyText ="7D8240FDE97950E05DEF3566616DDEED";
 
-//Sample plaintext number
-#define D 200
-uint8_t plaintext[16][D];
+uint8_t plaintext[D][OCTET];
+uint8_t intermediate[D];
+uint8_t keyArray[OCTET];
 
 //S-box lookup table
 uint8_t s[256] =
@@ -178,13 +179,18 @@ void convertToIntArray(uint8_t* array, char* ct){
 
 void generatePlaintext(){
   srand(time(NULL));
-  for (int i = 0;i<D;i++){
+  for (int i = 1;i<D;i++){
     for (int j = 0; j < OCTET; j++) {
         plaintext[i][j] = (uint8_t) rand() % BYTE;
     }
   }
 }
-//mpz_t N, e, ...
+
+void convertToString(uint8_t array[OCTET]){
+  sprintf(&pt[0], "%32X", array);
+  printf("%s\n", pt);
+}
+
 void attack() {
   mpz_t m;      mpz_init(m);
   mpz_t c;      mpz_init(c);
@@ -200,29 +206,48 @@ void attack() {
   gmp_printf("i: %d Ciphertext: %ZX\n", interaction, c);
   gmp_printf("Length: %d\n",l);
 
-  //Traces
-  uint8_t t[256][l];
+  for (int i = 0;i<OCTET;i++) plaintext[0][i]=x[i];
 
+  //Traces
+  uint8_t t[D][l];
+  //Set first trace
+  for (int i = 0;i<l;i++)  t[0][i] = trace[i];
+
+  //Generate D number of plaintext
   generatePlaintext();
+
+  convertToString(plaintext[5]);
+  //Get trace for each plaintext
+  /*for (int i = 0;i<D;i++){
+    trace = interact(&l, c, plaintext[i]);
+    for (int j = 0;j<l;j++)  t[i][j] = trace[j];
+  }*/
+
   //For each key byte
   for (int i = 0;i<16;i++){
     //Guess the key value
     for (int ki = 0;ki<256;ki++){
-      int n = s[x[i]^ki];
+      intermediate[i] = s[plaintext[i]^ki];
     }
   }
 
 //  for (int i = 0;i<l;i++)printf("%d ", trace[i]);
   printf("\n");
-  trace = interact_R(&l, c, pt, keyText);
+  /*trace = interact_R(&l, c, pt, keyText);
   gmp_printf("Length: %d\n",l);
   gmp_printf("i: %d Ciphertext: %ZX\ni: %d Key: %ZX\n", interaction, c, interaction, key);
+*/
+//  for (int i = 0;i<l;i++)printf("%d ", trace[i]); printf("\n");
 
-//  for (int i = 0;i<l;i++)printf("%d ", trace[i]);
-  printf("\n");
+
   //END
-  //gmp_printf("Target Material : %ZX\n", dFinal);
-  //gmp_printf("Total Number of Interaction: %d\n", interaction);
+  printf("Target Material : ");
+  for (int i = 0;i<OCTET;i++){
+    if (keyArray[i]<OCTET) printf("0");
+    printf("%X", keyArray[i]);
+  }
+  printf("\n");
+  gmp_printf("Total Number of Interaction: %d\n", interaction);
   mpz_clear(m);
   mpz_clear(c);
   mpz_clear(key);
