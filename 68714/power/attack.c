@@ -139,7 +139,7 @@ void interact(int *l, mpz_t c, const uint8_t m[OCTET]){
 }
 
 //Interact with Replica
-uint8_t* interact_R( int* l, mpz_t c, const uint8_t* m, const char* k){
+void interact_R( int* l, mpz_t c, const uint8_t* m, const char* k){
   //Send m and k
   for (int i = 0;i<OCTET;i++)gmp_fprintf(R_in, "%X",m[i]); fflush(R_in);
   gmp_fprintf(R_in, "\n"); fflush(R_in);
@@ -147,12 +147,11 @@ uint8_t* interact_R( int* l, mpz_t c, const uint8_t* m, const char* k){
   gmp_fprintf(R_in, "%s\n", k); fflush(R_in);
   //Receive length and traces
   int length = find_length(R_out);
-  uint8_t* p = find_trace(R_out, length);
+  find_trace(R_out, length);
   *l = length;
   //Receive ciphertext
   if (gmp_fscanf(R_out, "%ZX", c) == 0) { abort(); }
   interaction++;
-  return p;
 }
 
 //Convert integer to octet string
@@ -207,8 +206,6 @@ void attack() {
   mpz_t m;      mpz_init(m);
   mpz_t c;      mpz_init(c);
   mpz_t key;      mpz_init(key);
-
-  static uint8_t* trace;
 
   int l;
   int i;
