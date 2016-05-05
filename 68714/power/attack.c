@@ -212,7 +212,6 @@ void attack() {
   static uint8_t* trace;
 
   int l;
-  printf("TEST\n");
   trace = interact(&l, c, pt);
   gmp_printf("i: %d Ciphertext: %ZX\n", interaction, c);
   gmp_printf("Length: %d\n",l);
