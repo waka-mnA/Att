@@ -96,10 +96,10 @@ int find_length(FILE* fp){
 void find_trace(FILE* fp, int length){
   //Allocate length size of array
   printf("TEST 1\n");
-  if (length!= traceLength){
+  if (length != traceLength){
+  printf("TEST 2 %d %d\n", length, traceLength);
     traceLength = length;
     traceTmp = malloc(length*sizeof(uint8_t));
-    printf("TEST 2\n");
     if (traceTmp==NULL) exit(0);
   }
   printf("TEST 3\n");
