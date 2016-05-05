@@ -8,7 +8,7 @@
 #define BYTE 256
 #define OCTET 16
 //Sample plaintext number
-#define D 200
+#define D 100
 
 pid_t pid        = 0;    // process ID (of either parent or child) from fork
 pid_t pid_R        = 0;    // process ID (of either parent or child) from fork
@@ -180,7 +180,7 @@ void convertToIntArray(uint8_t* array, char* ct){
 void generatePlaintext(){
   srand(time(NULL));
   for (int i = 1;i<D;i++){
-    for (int j = 0; j < OCTET; j++) {
+    for (int j = 0; j<OCTET; j++) {
         plaintext[i][j] = (uint8_t) rand() % BYTE;
     }
   }
