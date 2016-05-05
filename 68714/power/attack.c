@@ -8,7 +8,7 @@
 #define BYTE 256
 #define OCTET 16
 //Sample plaintext number
-#define D 100
+#define D 50
 
 pid_t pid        = 0;    // process ID (of either parent or child) from fork
 pid_t pid_R        = 0;    // process ID (of either parent or child) from fork
