@@ -297,7 +297,10 @@ void attack() {
   }
   printf("Calculating intermediates ENDS.\n");
 
-
+  traceA = malloc(sizeof(uint8_t)*l);
+  if (traceA == NULL) exit(0);
+  traceB = malloc(sizeof(uint8_t)*l);
+  if (traceB == NULL) exit(0);
   for (int ki = 0;ki<256;ki++){
     for (int i = 0;i<M_SIZE;i++){
       tracePartitionAvg(h[i][ki], t[i]);
