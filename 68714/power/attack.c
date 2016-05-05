@@ -247,8 +247,9 @@ int compareDifference(){
     dif[i] = traceA[i] - traceB[i];
     if (dif[i]>max) max = dif[i];
     if (dif[i]<min) min = dif[i];
+    printf("%d ", dif[i] );
   }
-  printf("%d\n", max-min);
+  printf("%d\n", max-min, );
   if (max -min > 100) return max-min;
   return 0;
 }
@@ -329,6 +330,7 @@ void attack() {
 
     int keyRight = compareDifference();
     if (keyRight > max) {
+
       keyArray[0] = (uint8_t)ki;
       max = keyRight;
     }
