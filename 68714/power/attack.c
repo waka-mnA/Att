@@ -231,6 +231,8 @@ void attack() {
     interact(&l, c, plaintext[i]);
     for (int j = 0;j<l;j++)  t[i][j] = traceTmp[j];
   }
+
+  printf("Trace generated\n");
   //For each key byte
   for (int i = 0;i<D;i++){
     //Guess the key value
