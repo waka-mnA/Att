@@ -235,7 +235,7 @@ void attack() {
   printf("Trace generated\n");
 
   //For each key byte
-  for (int i = 0;i<D;i++){
+  for (i = 0;i<D;i++){
     //Guess the key value
     for (uint8_t ki = 0;ki<256;ki++){
       intermediate[i][ki] = s[plaintext[0][i]^ki];
@@ -245,7 +245,7 @@ void attack() {
 
   //END
   printf("Target Material : ");
-  for (int i = 0;i<OCTET;i++){
+  for (i = 0;i<OCTET;i++){
     if (keyArray[i]<OCTET) printf("0");
     printf("%X", keyArray[i]);
   }
