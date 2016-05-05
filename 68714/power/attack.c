@@ -88,7 +88,7 @@ int find_length(FILE* fp){
 //Interact with given target and get traces
 uint8_t* find_trace(FILE* fp, int length){
   //Allocate length size of array
-  static uint8_t* p = malloc(length*sizeof(uint8_t));
+  uint8_t* p = malloc(length*sizeof(uint8_t));
   if (p==NULL) exit(0);
 
   char a=fgetc(fp);
@@ -114,7 +114,7 @@ uint8_t* interact(int *l, mpz_t c, const char* m){
   gmp_fprintf(target_in, "%s\n",m); fflush(target_in);
   //Receive length and traces
   int length = find_length(target_out);
-  static uint8_t* p = find_trace(target_out, length);
+  uint8_t* p = find_trace(target_out, length);
   *l = length;
   //Receive c
   if (gmp_fscanf(target_out, "%ZX", c) == 0) { abort(); }
