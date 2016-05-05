@@ -176,7 +176,7 @@ void attack() {
   mpz_t c;      mpz_init(c);
   mpz_t key;      mpz_init(key);
 
-  uint8_t x[16]={0}
+  uint8_t x[16]={0};
   convertToIntArray(x, pt);
   //For each key byte
   for (int i = 0;i<16;i++){
