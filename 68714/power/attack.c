@@ -222,10 +222,12 @@ void attack() {
   generatePlaintext();
 
   printf("Plaintext generated\n");
-  //convertToString(plaintext[5]);
+
   //Get trace for each plaintext
   for (int i = 0;i<D;i++){
     trace = interact(&l, c, plaintext[i]);
+    for (int k = 0;k<16;k++) printf("%X", plaintext[i][k]);
+    printf("\n");
     for (int j = 0;j<l;j++)  t[i][j] = trace[j];
   }
 
