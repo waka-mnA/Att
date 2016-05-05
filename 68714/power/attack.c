@@ -26,7 +26,7 @@ int interaction= 0;
 /*char* pt  = "3243F6A8885A308D313198A2E0370734";
 char* pt2 = "00112233445566778899AABBCCDDEEFF";
 char* keyText ="7D8240FDE97950E05DEF3566616DDEED";*/
-uint8_t* pt =
+uint8_t pt[OCTET] =
 { 0x32, 0x43, 0xF6, 0xA8,
   0x88, 0x5A, 0x30, 0x8D,
   0x31, 0x31, 0x98, 0xA2,
@@ -212,6 +212,7 @@ void attack() {
   static uint8_t* trace;
 
   int l;
+  printf("TEST\n");
   trace = interact(&l, c, pt);
   gmp_printf("i: %d Ciphertext: %ZX\n", interaction, c);
   gmp_printf("Length: %d\n",l);
