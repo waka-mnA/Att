@@ -239,7 +239,7 @@ void tracePartition(uint8_t hypo, int i){
 
 
 //Compare difference between two trace subsets average
-//Return 1 if correlated, 0 if not
+//Return the difference if correlated, 0 if not
 int compareDifference(){
   int dif[traceLength];
   int max = 0, min= INT_MAX;
@@ -249,7 +249,7 @@ int compareDifference(){
     if (dif[i]<min) min = dif[i];
   }
   printf("%d\n", max-min);
-  if (max -min > 100) return 1;
+  if (max -min > 100) return max-min;
   return 0;
 }
 
@@ -302,6 +302,7 @@ void attack() {
   B_ID = malloc(sizeof(int)*l);
   if (traceB == NULL) exit(0);
 
+  int max = 0;
   for (int ki = 0;ki<256;ki++){
     for (int i = 0;i<M_SIZE;i++){
       tracePartition(h[i][ki], i);
@@ -327,7 +328,10 @@ void attack() {
     }
 
     int keyRight = compareDifference();
-    if (keyRight == 1) keyArray[0] = (uint8_t)ki;
+    if (keyRight > max) {
+      keyArray[0] = (uint8_t)ki;
+      max = keyRight;
+    }
   }
   //END
   printf("Target Material : ");
