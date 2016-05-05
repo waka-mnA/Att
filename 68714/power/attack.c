@@ -187,7 +187,7 @@ void generatePlaintext(){
 }
 
 void convertToString(uint8_t array[OCTET]){
-  sprintf(&pt[0], "%32X", array);
+  sprintf(&pt[0], "%X", (unsigned int)array);
   printf("%s\n", pt);
 }
 
