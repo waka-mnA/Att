@@ -219,9 +219,9 @@ void attack() {
   //Generate D number of plaintext
   generatePlaintext();
   printf("Plaintexts generated\n");
+    trace = interact(&l, c, pt);
 
   printf("Plaintexts generated 2\n");
-    trace = interact(&l, c, pt);
     printf("%d\n", l);
   //Get trace for each plaintext
   for (i = 1; i < D ;i++){
