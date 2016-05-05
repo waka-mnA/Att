@@ -234,14 +234,14 @@ void attack() {
   printf("Trace generated\n");
 
   //For each key byte
-  for (int t = 0;t < D; t++){
+  for (int i = 0;i < D; i++){
     //Guess the key value
+    printf("%d start\n", i);
     for (uint8_t ki = 0;ki<256;ki++){
-    printf("%d start\n", t);
-      intermediate[t][ki] = s[plaintext[0][t]^ki];
+      intermediate[i][ki] = s[plaintext[0][i]^ki];
       printf("%d done\n", ki);
     }
-    printf("%d done\n", t);
+    printf("%d done\n", i);
   }
 
   //END
