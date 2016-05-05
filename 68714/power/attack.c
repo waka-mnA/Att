@@ -23,14 +23,14 @@ FILE* R_in  = NULL; // buffered attack R output stream
 
 int interaction= 0;
 
-/*char* pt  = "3243F6A8885A308D313198A2E0370734";
+char* pt  = "3243F6A8885A308D313198A2E0370734";
 char* pt2 = "00112233445566778899AABBCCDDEEFF";
-char* keyText ="7D8240FDE97950E05DEF3566616DDEED";*/
-uint8_t pt[OCTET] =
+char* keyText ="7D8240FDE97950E05DEF3566616DDEED";
+/*uint8_t pt[OCTET] =
 { 0x32, 0x43, 0xF6, 0xA8,
   0x88, 0x5A, 0x30, 0x8D,
   0x31, 0x31, 0x98, 0xA2,
-  0xE0, 0x37, 0x07, 0x34 };
+  0xE0, 0x37, 0x07, 0x34 };*/
 
 uint8_t plaintext[D][OCTET];
 uint8_t intermediate[D];
@@ -207,12 +207,12 @@ void attack() {
   mpz_t key;      mpz_init(key);
 
   uint8_t x[16]={0};
-  //convertToIntArray(x, pt);
+  convertToIntArray(x, pt);
 
   static uint8_t* trace;
 
   int l;
-  trace = interact(&l, c, pt);
+  trace = interact(&l, c, x);
   gmp_printf("i: %d Ciphertext: %ZX\n", interaction, c);
   gmp_printf("Length: %d\n",l);
 
