@@ -254,8 +254,9 @@ int compareDifference(){
   }
   printf("%d\n", max-min);
   if (max -min > 100) return 1;
-  return 0
+  return 0;
 }
+
 void attack() {
   mpz_t m;      mpz_init(m);
   mpz_t c;      mpz_init(c);
