@@ -28,7 +28,7 @@ char* keyText ="7D8240FDE97950E05DEF3566616DDEED";
 
 //Sample plaintext number
 int D = 200;
-uint8_t X[16][D];
+uint8_t plaintext[16][D];
 
 //S-box lookup table
 uint8_t s[256] =
@@ -180,8 +180,8 @@ void generatePlaintext(){
   for (int i = 0;i<D;i++){
     srand(time(NULL));
     for (int j = 0; j < OCTET; j++) {
-        X[i][j] = rand() % BYTE;
-        printf("%d\n", X[i][j]);
+        plaintext[i][j] = rand() % BYTE;
+        printf("%d\n", plaintext[i][j]);
     }
   }
 }
