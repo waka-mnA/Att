@@ -224,10 +224,10 @@ void attack() {
   }*/
 
   //For each key byte
-  for (int i = 0;i<16;i++){
+  for (int i = 0;i<D;i++){
     //Guess the key value
     for (uint8_t ki = 0;ki<256;ki++){
-      intermediate[i] = s[plaintext[i]^ki];
+      intermediate[i] = s[plaintext[0][i]^ki];
     }
   }
 
