@@ -35,6 +35,7 @@ uint8_t pt[OCTET] =
 uint8_t plaintext[D][OCTET];
 uint8_t intermediate[D];
 uint8_t keyArray[OCTET];
+uint8_t* traceTmp;
 
 //S-box lookup table
 uint8_t s[256] =
@@ -94,8 +95,8 @@ int find_length(FILE* fp){
 //Interact with given target and get traces
 uint8_t* find_trace(FILE* fp, int length){
   //Allocate length size of array
-  uint8_t* p = malloc(length*sizeof(uint8_t));
-  if (p==NULL) exit(0);
+  traceTmp = malloc(length*sizeof(uint8_t));
+  if (traceTmp==NULL) exit(0);
 
   char a=fgetc(fp);
   int index=0;
@@ -103,7 +104,7 @@ uint8_t* find_trace(FILE* fp, int length){
   //Until the end of line
   while(a!='\n'){
     if(a==','){
-      p[index]=tmp;
+      traceTmp[index]=tmp;
       index++;
       tmp=0;
     }
@@ -117,28 +118,22 @@ uint8_t* find_trace(FILE* fp, int length){
 //Return int array that contains power consumption trace
 uint8_t* interact(int *l, mpz_t c, const uint8_t m[OCTET]){
   //Send m
-  printf("TEST 1\n");
   for (int i = 0;i<OCTET;i++)
   {
     gmp_fprintf(target_in, "%X", m[i]); fflush(target_in);
   }
-  printf("TEST 2\n");
   gmp_fprintf(target_in, "\n"); fflush(target_in);
-
-  printf("TEST 3\n");
   //Receive length and traces
   int length = find_length(target_out);
   printf("TEST 4\n");
-  uint8_t* p = find_trace(target_out, length);
+  traceTmp = find_trace(target_out, length);
 
   printf("TEST 5\n");
   *l = length;
   //Receive c
   if (gmp_fscanf(target_out, "%ZX", c) == 0) { abort(); }
-
-  printf("TEST 6\n");
   interaction++;
-  return p;
+  return traceTmp;
 }
 
 //Interact with Replica
