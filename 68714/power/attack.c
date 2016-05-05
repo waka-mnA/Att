@@ -182,7 +182,7 @@ void generatePlaintext(){
   for (int i = 1;i < D;i++){
     for (int j = 0; j < OCTET; j++) {
         int test  = (uint8_t) rand() % BYTE;
-        printf("%d\n", test);
+        printf("%d %d %d\n", test, i, j);
         plaintext[i][j]=test;
     }
   }
