@@ -187,7 +187,7 @@ void generatePlaintext(){
 }
 
 void convertToString(uint8_t array[OCTET]){
-  sprintf(&pt[0], "%X", (unsigned int)array);
+  sprintf(&pt[0], "%X", array);
   printf("%s\n", pt);
 }
 
@@ -226,7 +226,7 @@ void attack() {
   //For each key byte
   for (int i = 0;i<16;i++){
     //Guess the key value
-    for (int ki = 0;ki<256;ki++){
+    for (uint8_t ki = 0;ki<256;ki++){
       intermediate[i] = s[plaintext[i]^ki];
     }
   }
