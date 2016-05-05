@@ -45,7 +45,6 @@ uint8_t plaintext[M_SIZE][OCTET];   //The set of plaintext
 uint8_t intermediate[M_SIZE][BYTE]; //The set of intermediate value
 uint8_t h[M_SIZE][BYTE];            //The set of hyothetical power value
 uint8_t keyArray[OCTET]={0};        //The key detected
-uint8_t** t;
 uint8_t* traceA;
 uint8_t* traceB;
 int* A_ID;
@@ -238,24 +237,7 @@ void tracePartition(uint8_t hypo, int i){
   }
 }
 
-void subsetAvg(){
-  for (int i = 0;i<traceLength;i++){
-    double sumA = 0;
-    double sumB = 0;
-    for(int j = 0;j<M_SIZE;j++){
-      if (A_ID[i]==-1) break;
-      sumA+= t[j][A_ID[i]];
-    }
-    for(int j = 0;j<M_SIZE;j++){
-      if (B_ID[i]==-1) break;
-      sumB+= t[j][B_ID[i]];
-    }
-    sumA = sumA/A_NUM;
-    traceA[i] = (int)sumA;
-    sumB = sumB/B_NUM;
-    traceB[i] = (int)sumB;
-  }
-}
+
 //Compare difference between two trace subsets average
 //Return 1 if correlated, 0 if not
 int compareDifference(){
@@ -284,12 +266,7 @@ void attack() {
   for (int i = 0;i<OCTET;i++) plaintext[0][i]= pt[i];
 
   //Traces
-  t = malloc(sizeof(uint8_t)*M_SIZE);
-  if (t){
-    for (int i = 0;i<M_SIZE;i++){
-      t[i] = malloc(sizeof*t[i]*l);
-    }
-  }
+  uint8_t t[M_SIZE][l];
   //Set first trace
   for (int i = 0;i<l;i++)  t[0][i] = traceTmp[i];
 
@@ -332,7 +309,22 @@ void attack() {
     A_ID[A_NUM]= -1;
     B_ID[B_NUM]= -1;
 
-    subsetAvg();
+    for (int i = 0;i<l;i++){
+      double sumA = 0;
+      double sumB = 0;
+      for(int j = 0;j<M_SIZE;j++){
+        if (A_ID[i]==-1) break;
+        sumA+= t[j][A_ID[i]];
+      }
+      for(int j = 0;j<M_SIZE;j++){
+        if (B_ID[i]==-1) break;
+        sumB+= t[j][B_ID[i]];
+      }
+      sumA = sumA/A_NUM;
+      traceA[i] = (int)sumA;
+      sumB = sumB/B_NUM;
+      traceB[i] = (int)sumB;
+    }
 
     int keyRight = compareDifference();
     if (keyRight == 1) keyArray[0] = (uint8_t)ki;
