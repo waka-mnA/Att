@@ -86,11 +86,11 @@ int find_length(FILE* fp){
   //Read letters until it meets first comma
   char a=fgetc(fp);
   while(a!=','){
-    /*if (a =='\n')
+    if (a =='\n')
     {
       a=fgetc(fp);
       continue;
-    }*/
+    }
     length = length * 10 + (a-'0');
     a=fgetc(fp);
   }
@@ -118,7 +118,6 @@ void find_trace(FILE* fp, int length){
     else tmp = tmp*10+(a -'0');
     a=fgetc(fp);
   }
-  //return traceTmp;
 }
 
 //Interact with D
@@ -129,7 +128,7 @@ void interact(int *l, mpz_t c, const uint8_t m[OCTET]){
   {
     gmp_fprintf(target_in, "%X", m[i]); fflush(target_in);
   }
-  //gmp_fprintf(target_in, "\n"); fflush(target_in);
+  gmp_fprintf(target_in, "\n"); fflush(target_in);
   //Receive length and traces
   int length = find_length(target_out);
   find_trace(target_out, length);
@@ -226,19 +225,12 @@ void attack() {
   //Generate D number of plaintext
   generatePlaintext();
   printf("Plaintexts generated\n");
-    interact(&l, c, pt);
 
-  printf("Plaintexts generated 2\n");
-    printf("%d\n", l);
   //Get trace for each plaintext
   for (i = 1; i < D ;i++){
     interact(&l, c, plaintext[i]);
-    for (int k = 0;k<16;k++) printf("%X", plaintext[i][k]);
-    printf("\n");
     for (int j = 0;j<l;j++)  t[i][j] = traceTmp[j];
   }
-
-  printf("Plaintexts generated 3\n");
   //For each key byte
   for (int i = 0;i<D;i++){
     //Guess the key value
