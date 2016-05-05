@@ -10,11 +10,6 @@
 //Sample plaintext number
 #define M_SIZE 200
 
-
-
-/*------------------------------------------
-  GLOBAL VARIABLES FOR INTERACTION
---------------------------------------------*/
 pid_t pid        = 0;    // process ID (of either parent or child) from fork
 pid_t pid_R        = 0;    // process ID (of either parent or child) from fork
 int   target_raw[ 2 ];   // unbuffered communication: attacker -> attack target
@@ -28,10 +23,6 @@ FILE* R_in  = NULL; // buffered attack R output stream
 
 int interaction= 0;
 
-
-/*------------------------------------------
-  GLOBAL VARIABLES FOR STORING DATA
---------------------------------------------*/
 //char* pt  = "3243F6A8885A308D313198A2E0370734";
 //char* pt2 = "00112233445566778899AABBCCDDEEFF";
 //char* keyText ="7D8240FDE97950E05DEF3566616DDEED";
@@ -41,18 +32,12 @@ uint8_t pt[OCTET] =
   0x31, 0x31, 0x98, 0xA2,
   0xE0, 0x37, 0x07, 0x34 };
 
-uint8_t plaintext[M_SIZE][OCTET];   //The set of plaintext
-uint8_t intermediate[M_SIZE][BYTE]; //The set of intermediate value
-uint8_t h[M_SIZE][BYTE];            //The set of hyothetical power value
-uint8_t keyArray[OCTET]={0};        //The key detected
-
-uint8_t* traceA;
-uint8_t* traceB;
-int A_NUM = 0;
-int B_NUM = 0;
+uint8_t plaintext[M_SIZE][OCTET];
+uint8_t intermediate[M_SIZE][BYTE];
+uint8_t h[M_SIZE][BYTE];
+uint8_t keyArray[OCTET]={0};
 uint8_t* traceTmp;
 int traceLength=0;
-
 //S-box lookup table
 uint8_t s[256] =
  {
@@ -157,14 +142,12 @@ void interact(int *l, mpz_t c, const uint8_t m[OCTET]){
 }
 
 //Interact with Replica
-void interact_R( int* l, mpz_t c, const uint8_t* m, const uint8_t* k){
+void interact_R( int* l, mpz_t c, const uint8_t* m, const char* k){
   //Send m and k
   for (int i = 0;i<OCTET;i++)gmp_fprintf(R_in, "%X",m[i]); fflush(R_in);
   gmp_fprintf(R_in, "\n"); fflush(R_in);
 
-  for (int i = 0;i<OCTET;i++)gmp_fprintf(R_in, "%X",k[i]); fflush(R_in);
-  gmp_fprintf(R_in, "\n"); fflush(R_in);
-
+  gmp_fprintf(R_in, "%s\n", k); fflush(R_in);
   //Receive length and traces
   int length = find_length(R_out);
   find_trace(R_out, length);
@@ -220,42 +203,8 @@ void generatePlaintext(){
         plaintext[i][j] = (uint8_t) rand() % BYTE;
     }
   }
-  printf("Plaintexts Generation ENDS.\n");
 }
 
-void tracePartitionAvg(uint8_t hypo, uint8_t* trace){
-  if (hypo == 1){
-    int tA;
-    for (int i = 0;i<traceLength;i++){
-      tA = traceA[i]*A_NUM;
-      traceA[i] = (tA + trace[i])/A_NUM;
-    }
-    A_NUM++;
-  }
-  else if (hypo == 0){
-    int tB;
-    for (int i = 0;i<traceLength;i++){
-      tB = traceB[i]*B_NUM;
-      traceB[i] = (tB + trace[i])/B_NUM;
-    }
-    B_NUM++;
-  }
-}
-
-//Compare difference between two trace subsets average
-//Return 1 if correlated, 0 if not
-int compareDifference(){
-  uint8_t dif[traceLength];
-  int max = 0, min= INT_MAX;
-  for (int i = 0;i<traceLength;i++){
-    dif[i] = traceA[i] - traceB[i];
-    if (dif[i]>max) max = dif[i];
-    if (dif[i]<min) min = dif[i];
-  }
-  printf("%d\n", max-min);
-  if (max -min > 100) return 1;
-  return 0
-}
 void attack() {
   mpz_t m;      mpz_init(m);
   mpz_t c;      mpz_init(c);
@@ -275,13 +224,16 @@ void attack() {
 
   //Generate M_SIZE number of plaintext
   generatePlaintext();
+  printf("Plaintexts Generation ENDS.\n");
 
-  //Get trace for each plaintext
+
   printf("Traces Generation STARTS...\n");
+  //Get trace for each plaintext
   for (int i = 1; i < M_SIZE;i++){
     interact(&l, c, plaintext[i]);
     for (int j = 0;j<l;j++)  t[i][j] = traceTmp[j];
   }
+
   printf("Traces Generation ENDS.\n");
 
   //Calculate intermediate value and hyothetical power value
@@ -294,13 +246,8 @@ void attack() {
     }
   }
 
-  for (int ki = 0;ki<256;ki++){
-    for (int i = 0;i<M_SIZE;i++){
-      tracePartitionAvg(h[i][ki], t[i]);
-    }
-    int keyRight = compareDifference();
-    if (keyRight == 1) keyArray[0] = ki;
-  }
+
+
   //END
   printf("Target Material : ");
   for (int i = 0;i<OCTET;i++){
