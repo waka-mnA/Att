@@ -188,7 +188,7 @@ void attack() {
 
   uint8_t* trace;
   int l;
-  trace = interact(&l, c, pt);
+  trace = interact(&l, c, pt2);
   gmp_printf("i: %d Ciphertext: %ZX\n", interaction, c);
   gmp_printf("Length: %d\n",l);
 //  for (int i = 0;i<l;i++)printf("%d ", trace[i]);
