@@ -183,22 +183,21 @@ void attack() {
     //Guess the key value
     for (int ki = 0;ki<256;ki++){
       int n = s[x[i]^ki];
-
     }
   }
-
 
   uint8_t* trace;
   int l;
   trace = interact(&l, c, pt);
   gmp_printf("i: %d Ciphertext: %ZX\n", interaction, c);
-  for (int i = 0;i<l;i++)printf("%d ", trace[i]);
+  gmp_printf("Length: %d\n",l);
+//  for (int i = 0;i<l;i++)printf("%d ", trace[i]);
   printf("\n");
   trace = interact_R(&l, c, pt, keyText);
   gmp_printf("Length: %d\n",l);
   gmp_printf("i: %d Ciphertext: %ZX\ni: %d Key: %ZX\n", interaction, c, interaction, key);
 
-  for (int i = 0;i<l;i++)printf("%d ", trace[i]);
+//  for (int i = 0;i<l;i++)printf("%d ", trace[i]);
   printf("\n");
   //END
   //gmp_printf("Target Material : %ZX\n", dFinal);
