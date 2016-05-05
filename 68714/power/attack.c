@@ -201,9 +201,6 @@ void attack() {
   mpz_t c;      mpz_init(c);
   mpz_t key;      mpz_init(key);
 
-  //uint8_t x[16]={0};
-  //convertToIntArray(x, pt);
-
   static uint8_t* trace;
 
   int l;
@@ -220,17 +217,18 @@ void attack() {
 
   //Generate D number of plaintext
   generatePlaintext();
+  printf("Plaintexts generated\n");
 
-  printf("Plaintext generated\n");
-
+  printf("Plaintexts generated 2\n");
   //Get trace for each plaintext
-  for (int i = 0;i<D;i++){
+  for (int i = 0; i < D ;i++){
     trace = interact(&l, c, plaintext[i]);
     for (int k = 0;k<16;k++) printf("%X", plaintext[i][k]);
     printf("\n");
     for (int j = 0;j<l;j++)  t[i][j] = trace[j];
   }
 
+  printf("Plaintexts generated 3\n");
   //For each key byte
   for (int i = 0;i<D;i++){
     //Guess the key value
