@@ -86,28 +86,25 @@ int find_length(FILE* fp){
   //Read letters until it meets first comma
   char a=fgetc(fp);
   while(a!=','){
-    if (a =='\n') {
+    /*if (a =='\n')
+    {
       a=fgetc(fp);
-      continue;}
+      continue;
+    }*/
     length = length * 10 + (a-'0');
-    printf("TEST 2 %d %c\n", length, a);
     a=fgetc(fp);
   }
-  printf("TEST 2 %d\n", length);
   return length;
 }
 
 //Interact with given target and get traces
 void find_trace(FILE* fp, int length){
   //Allocate length size of array
-  printf("TEST 1\n");
   if (length != traceLength){
-  printf("TEST 2 %d %d\n", length, traceLength);
     traceLength = length;
     traceTmp = malloc(length*sizeof(uint8_t));
     if (traceTmp==NULL) exit(0);
   }
-  printf("TEST 3\n");
   char a=fgetc(fp);
   int index=0;
   uint8_t tmp = 0;
@@ -132,13 +129,11 @@ void interact(int *l, mpz_t c, const uint8_t m[OCTET]){
   {
     gmp_fprintf(target_in, "%X", m[i]); fflush(target_in);
   }
-  gmp_fprintf(target_in, "\n"); fflush(target_in);
+  //gmp_fprintf(target_in, "\n"); fflush(target_in);
   //Receive length and traces
   int length = find_length(target_out);
-  printf("TEST 4\n");
   find_trace(target_out, length);
 
-  printf("TEST 5\n");
   *l = length;
   //Receive c
   if (gmp_fscanf(target_out, "%ZX", c) == 0) { abort(); }
