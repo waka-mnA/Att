@@ -237,8 +237,8 @@ void attack() {
   for (int i = 0;i < D; i++){
     //Guess the key value
     printf("%d start\n", i);
-    for (uint8_t ki = 0;ki<256;ki++){
-      intermediate[i][ki] = s[plaintext[0][i]^ki];
+    for (int ki = 0;ki<256;ki++){
+      intermediate[i][ki] = s[plaintext[0][i]^(uint8_t)ki];
       printf("%d done\n", ki);
     }
     printf("%d done\n", i);
