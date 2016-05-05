@@ -23,9 +23,14 @@ FILE* R_in  = NULL; // buffered attack R output stream
 
 int interaction= 0;
 
-char* pt  = "3243F6A8885A308D313198A2E0370734";
-char* pt2 = "00112233445566778899AABBCCDDEEFF";
-char* keyText ="7D8240FDE97950E05DEF3566616DDEED";
+//char* pt  = "3243F6A8885A308D313198A2E0370734";
+//char* pt2 = "00112233445566778899AABBCCDDEEFF";
+//char* keyText ="7D8240FDE97950E05DEF3566616DDEED";
+uint8_t* pt =
+{ 0x32, 0x43, 0xF6, 0xA8,
+  0x88, 0x5A, 0x30, 0x8D,
+  0x31, 0x31, 0x98, 0xA2,
+  0xE0, 0x37, 0x07, 0x34 }
 
 uint8_t plaintext[D][OCTET];
 uint8_t intermediate[D];
@@ -110,9 +115,11 @@ uint8_t* find_trace(FILE* fp, int length){
 
 //Interact with D
 //Return int array that contains power consumption trace
-uint8_t* interact(int *l, mpz_t c, const char* m){
+uint8_t* interact(int *l, mpz_t c, const uint8_t* m){
   //Send m
-  gmp_fprintf(target_in, "%s\n",m); fflush(target_in);
+  for (int i = 0;i<OCTET;i++)gmp_fprintf(target_in, "%X",m[i]); fflush(target_in);
+  gmp_fprintf(target_in, "\n"); fflush(target_in);
+
   //Receive length and traces
   int length = find_length(target_out);
   uint8_t* p = find_trace(target_out, length);
@@ -124,9 +131,11 @@ uint8_t* interact(int *l, mpz_t c, const char* m){
 }
 
 //Interact with Replica
-uint8_t* interact_R( int* l, mpz_t c, const char* m, const char* k){
+uint8_t* interact_R( int* l, mpz_t c, const uint8_t* m, const char* k){
   //Send m and k
-  gmp_fprintf(R_in, "%s\n", m); fflush(R_in);
+  for (int i = 0;i<OCTET;i++)gmp_fprintf(R_in, "%X",m[i]); fflush(R_in);
+  gmp_fprintf(R_in, "\n"); fflush(R_in);
+
   gmp_fprintf(R_in, "%s\n", k); fflush(R_in);
   //Receive length and traces
   int length = find_length(R_out);
@@ -202,7 +211,7 @@ void attack() {
   static uint8_t* trace;
 
   int l;
-  trace = interact(&l, c, pt2);
+  trace = interact(&l, c, pt);
   gmp_printf("i: %d Ciphertext: %ZX\n", interaction, c);
   gmp_printf("Length: %d\n",l);
 
@@ -217,12 +226,12 @@ void attack() {
   generatePlaintext();
 
   printf("Plaintext generated\n");
-  convertToString(plaintext[5]);
+  //convertToString(plaintext[5]);
   //Get trace for each plaintext
-  /*for (int i = 0;i<D;i++){
+  for (int i = 0;i<D;i++){
     trace = interact(&l, c, plaintext[i]);
     for (int j = 0;j<l;j++)  t[i][j] = trace[j];
-  }*/
+  }
 
   //For each key byte
   for (int i = 0;i<D;i++){
@@ -233,7 +242,7 @@ void attack() {
   }
 
 //  for (int i = 0;i<l;i++)printf("%d ", trace[i]);
-  printf("\n");
+//  printf("\n");
   /*trace = interact_R(&l, c, pt, keyText);
   gmp_printf("Length: %d\n",l);
   gmp_printf("i: %d Ciphertext: %ZX\ni: %d Key: %ZX\n", interaction, c, interaction, key);
