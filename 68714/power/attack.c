@@ -26,10 +26,10 @@ char* pt  = "3243F6A8885A308D313198A2E0370734";
 char* pt2 = "00112233445566778899AABBCCDDEEFF";
 char* keyText ="7D8240FDE97950E05DEF3566616DDEED";
 
-uint8_t X[16][D];
-
 //Sample plaintext number
 int D = 200;
+uint8_t X[16][D];
+
 //S-box lookup table
 uint8_t s[256] =
  {
