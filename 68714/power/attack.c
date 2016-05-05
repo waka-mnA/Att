@@ -210,24 +210,23 @@ void attack() {
   mpz_t key;      mpz_init(key);
 
   int l;
-  int i;
   interact(&l, c, pt);
   gmp_printf("i: %d Ciphertext: %ZX\n", interaction, c);
   gmp_printf("Length: %d\n",l);
 
-  for (i = 0;i<OCTET;i++) plaintext[0][i]= pt[i];
+  for (int i = 0;i<OCTET;i++) plaintext[0][i]= pt[i];
 
   //Traces
   uint8_t t[D][l];
   //Set first trace
-  for (i = 0;i<l;i++)  t[0][i] = traceTmp[i];
+  for (int i = 0;i<l;i++)  t[0][i] = traceTmp[i];
 
   //Generate D number of plaintext
   generatePlaintext();
   printf("Plaintexts generated\n");
 
   //Get trace for each plaintext
-  for (i = 1; i < D ;i++){
+  for (int i = 1; i < D ;i++){
     interact(&l, c, plaintext[i]);
     for (int j = 0;j<l;j++)  t[i][j] = traceTmp[j];
   }
@@ -235,7 +234,7 @@ void attack() {
   printf("Trace generated\n");
 
   //For each key byte
-  for (i = 0;i<D;i++){
+  for (int i = 0;i < D; i++){
     //Guess the key value
     for (uint8_t ki = 0;ki<256;ki++){
     printf("%d start\n", i);
@@ -247,7 +246,7 @@ void attack() {
 
   //END
   printf("Target Material : ");
-  for (i = 0;i<OCTET;i++){
+  for (int i = 0;i<OCTET;i++){
     if (keyArray[i]<OCTET) printf("0");
     printf("%X", keyArray[i]);
   }
