@@ -221,7 +221,7 @@ void attack() {
   printf("Plaintexts generated\n");
 
   printf("Plaintexts generated 2\n");
-    trace = interact(&l, c, plaintext[1]);
+    trace = interact(&l, c, pt);
     printf("%d\n", l);
   //Get trace for each plaintext
   for (i = 1; i < D ;i++){
