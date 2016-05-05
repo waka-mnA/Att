@@ -294,6 +294,8 @@ void attack() {
       h[i][ki] = intermediate[i][ki] & 1;
     }
   }
+  printf("Calculating intermediates ENDS.\n");
+
 
   for (int ki = 0;ki<256;ki++){
     for (int i = 0;i<M_SIZE;i++){
