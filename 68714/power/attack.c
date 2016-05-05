@@ -86,6 +86,7 @@ int find_length(FILE* fp){
   //Read letters until it meets first comma
   char a=fgetc(fp);
   while(a!=','){
+    if (a=='\n') continue;
     length = length * 10 + (a-'0');
     printf("TEST 2 %d %c\n", length, a);
     a=fgetc(fp);
