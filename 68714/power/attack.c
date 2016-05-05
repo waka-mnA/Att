@@ -225,6 +225,7 @@ void generatePlaintext(){
 
 void tracePartitionAvg(uint8_t hypo, uint8_t* trace){
   if (hypo == 1){
+    printf("%d\n", hypo);
     int tA;
     for (int i = 0;i<traceLength;i++){
       tA = traceA[i]*A_NUM;
@@ -302,7 +303,7 @@ void attack() {
       tracePartitionAvg(h[i][ki], t[i]);
     }
     int keyRight = compareDifference();
-    if (keyRight == 1) keyArray[0] = ki;
+    if (keyRight == 1) keyArray[0] = (uint8_t)ki;
   }
   //END
   printf("Target Material : ");
