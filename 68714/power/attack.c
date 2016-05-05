@@ -241,7 +241,7 @@ void tracePartition(uint8_t hypo, int i){
 //Compare difference between two trace subsets average
 //Return 1 if correlated, 0 if not
 int compareDifference(){
-  uint8_t dif[traceLength];
+  int dif[traceLength];
   int max = 0, min= INT_MAX;
   for (int i = 0;i<traceLength;i++){
     dif[i] = traceA[i] - traceB[i];
