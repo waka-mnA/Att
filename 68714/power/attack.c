@@ -32,7 +32,7 @@ uint8_t* pt =
   0x31, 0x31, 0x98, 0xA2,
   0xE0, 0x37, 0x07, 0x34 }
 
-uint8_t plaintext[D][OCTET];
+uint8_t plaintext[200][16];
 uint8_t intermediate[D];
 uint8_t keyArray[OCTET];
 
