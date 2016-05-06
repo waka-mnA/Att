@@ -282,6 +282,8 @@ void attack() {
           sumD_B +=   (1-h[i][ki])*t[i][j];
           D_NUM_B +=  1-h[i][ki];
         }
+
+        printf("%d\n", h[0][ki]);
         traceDif[j] = sumD_A/(float)D_NUM_A - sumD_B/(float)D_NUM_B;
         squaredSum += (traceDif[j]*traceDif[j]);
         //if (traceDif[j]>max) max = traceDif[j];
