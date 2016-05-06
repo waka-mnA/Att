@@ -218,7 +218,7 @@ void generatePlaintext(){
         plaintext[i][j] = (uint8_t) rand() % BYTE;
     }
   }
-  printf("Plaintexts Generation ENDS.\n");
+  printf("%d sets of plaintext generated.", M_SIZE);
 }
 
 
@@ -248,12 +248,12 @@ void attack() {
   generatePlaintext();
 
   //Get trace for each plaintext
-  printf("Traces Generation STARTS...\n");
+  printf("Traces Generation starts...\n");
   for (int i = 1; i < M_SIZE;i++){
     interact(&l, c, plaintext[i]);
     for (int j = 0;j<l;j++)  t[i][j] = traceTmp[j];
   }
-  printf("Traces Generation ENDS.\n");
+  printf("%d sets of traces generated.", M_SIZE);
 
   double s_HT;
   double s_H, s_T;
@@ -280,11 +280,12 @@ void attack() {
     for (int ki = 0;ki<BYTE;ki++){
       p_avg = 0;
       p_num =0;
+      max_correlation = 0;
       for (int j = 0;j<l;j++){
         //Calculate Correlation coefficient
         s_HT = 0;
         s_H=0; s_T = 0;
-        s_sq_X=0;s_sq_T=0;
+        s_sq_X=0; s_sq_T=0;
         for (int i = 0;i<M_SIZE;i++){
           s_H   += (double)h[i][ki];
           s_T   += (double)t[i][j];
