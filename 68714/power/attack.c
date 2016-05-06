@@ -272,7 +272,7 @@ void attack() {
       }
     }
 
-    double max_correlation = 0;
+    double max_correlation = FLT_MAX;
     double max = 0;
     double min = FLT_MAX;
     double p_avg = 0;
@@ -305,11 +305,12 @@ void attack() {
       for (int j = 0;j<l;j++){
         if (R[j]<0) continue;
         dif =R[j]-p_avg;
+        printf("%f\n", dif);
         if (dif > 8){
           spike_num++;
         }
       }
-      if ((spike_num<max_correlation) || (max_correlation==0)){
+      if ((spike_num<max_correlation)){
       //if (max-p_avg > max_correlation){
         keyArray[b]= (uint8_t)ki;
         //max_correlation = max-p_avg;
@@ -321,9 +322,9 @@ void attack() {
 
   interact(&l, c, pt);
 
-  gmp_printf("%ZX\n", c);
+  gmp_printf("From D: %ZX\n", c);
   interact_R(&l, c_R, pt, keyArray);
-  gmp_printf("%ZX\n", c_R);
+  gmp_printf("From R: %ZX\n", c_R);
   //END
   printf("Target Material : ");
   for (int i = 0;i<OCTET;i++){
