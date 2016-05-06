@@ -270,7 +270,7 @@ void attack() {
 
     float max_correlation = 0;
     for (int ki = 0;ki<BYTE;ki++){
-      double squaredSum = 0;
+      double squaredSum = 0, R;
       for (int j = 0;j<l;j++){
         //Calculate Mean
         double sum_H=0, sum_T = 0;
@@ -291,7 +291,7 @@ void attack() {
         double s_T = sqrt(sum_T/(double)(M_SIZE-1));
 
         //Calculate Correlation coefficient
-        double R =0;
+        R =0;
         for (int i = 0;i<M_SIZE;i++){
           R+= ((h[i][ki] - mean_H)/s_H)*((t[i][j] - mean_T)/s_T);
         }
