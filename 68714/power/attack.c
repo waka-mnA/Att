@@ -252,7 +252,7 @@ void attack() {
     interact(&l, c, plaintext[i]);
     for (int j = 0;j<l;j++)  t[i][j] = traceTmp[j];
   }
-  printf("%d sets of traces generated.", M_SIZE);
+  printf("%d sets of traces generated.\n", M_SIZE);
 
   double s_HT;
   double s_H, s_T;
@@ -279,7 +279,6 @@ void attack() {
     for (int ki = 0;ki<BYTE;ki++){
       p_avg = 0;
       p_num =0;
-      max_correlation = FLT_MAX;
       for (int j = 0;j<l;j++){
         //Calculate Correlation coefficient
         s_HT = 0;
