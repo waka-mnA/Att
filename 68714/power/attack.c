@@ -276,7 +276,7 @@ void attack() {
         double sum_H=0, sum_T = 0;
         for (int i = 0;i<M_SIZE;i++){
           sum_H += h[i][ki];
-          sum_T += t[i][j]
+          sum_T += t[i][j];
         }
         double mean_H = sum_H/(double)M_SIZE;
         double mean_T = sum_T/(double)M_SIZE;
