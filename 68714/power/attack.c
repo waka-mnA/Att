@@ -306,7 +306,7 @@ void attack() {
         if (R[j]<0) continue;
         dif =R[j]-p_avg;
         printf("%f\n", dif);
-        if (dif > 8){
+        if (dif > 10){
           spike_num++;
         }
       }
@@ -316,7 +316,7 @@ void attack() {
       //if (max-p_avg > max_correlation){
         keyArray[b]= (uint8_t)ki;
         //max_correlation = max-p_avg;
-        max_correlation = spike_num;
+        max_correlation = (double)spike_num;
       }
     }
   }
