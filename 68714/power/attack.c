@@ -48,8 +48,6 @@ uint8_t h[M_SIZE][BYTE];            //The set of hyothetical power value
 uint8_t keyArray[OCTET]={0};        //The key detected
 float* traceDif;
 
-
-double sumA=0, sumB=0;
 uint8_t* traceTmp;
 int traceLength=0;
 
@@ -256,9 +254,9 @@ void attack() {
   }
   printf("Traces Generation ENDS.\n");
 
-  double sum_HT;
-  double sum_H, sum_T;
-  double sum_sq_X, sum_sq_T;
+  double s_HT;
+  double s_H, s_T;
+  double s_sq_X, s_sq_T;
   double R;
   //For each byte in plaintext
   for (int b = 0;b<OCTET;b++){
@@ -279,18 +277,19 @@ void attack() {
       for (int j = 0;j<l;j++){
         //Calculate Correlation coefficient
 
-        sum_HT = 0;
-        sum_H=0; sum_T = 0;
-        sum_sq_X=0;sum_sq_T=0;
+        s_HT = 0;
+        s_H=0; s_T = 0;
+        s_sq_X=0;s_sq_T=0;
         for (int i = 0;i<M_SIZE;i++){
-          sum_H += (double)h[i][ki];
-          sum_T += (double)t[i][j];
-          sum_HT += (double)(h[i][ki]* t[i][j]);
-          sum_sq_X+= (double) (h[i][ki]* h[i][ki]);
-          sum_sq_T+= (double)(t[i][j]* t[i][j]);
+          s_H += (double)h[i][ki];
+          s_T += (double)t[i][j];
+          s_HT += (double)(h[i][ki]* t[i][j]);
+          s_sq_X+= (double) (h[i][ki]* h[i][ki]);
+          s_sq_T+= (double)(t[i][j]* t[i][j]);
         }
-        R = (M_SIZE * sum_HT - sum_H*sum_T)/(sqrt((M_SIZE*sum_sq_X - sum_H*sum_H)*(M_SIZE*sum_sq_T - sum_T*sum_T)));
+        R = (M_SIZE*s_HT - s_H*s_T)/(sqrt((M_SIZE*s_sq_X - s_H*s_H)*(M_SIZE*s_sq_T - s_T*s_T)));
         max += R*R;
+        printf("%f\n", R);
       }
       if (max > max_correlation){
         keyArray[b]= (uint8_t)ki;
