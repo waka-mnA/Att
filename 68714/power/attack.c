@@ -218,14 +218,13 @@ void generatePlaintext(){
         plaintext[i][j] = (uint8_t) rand() % BYTE;
     }
   }
-  printf("%d sets of plaintext generated.", M_SIZE);
+  printf("%d sets of plaintext generated.\n", M_SIZE);
 }
 
 
-
 void attack() {
-  mpz_t c;      mpz_init(c);
-  mpz_t c_R;      mpz_init(c_R);
+  mpz_t c;    mpz_init(c);
+  mpz_t c_R;  mpz_init(c_R);
 
   int l;
   interact(&l, c, pt);
@@ -248,7 +247,7 @@ void attack() {
   generatePlaintext();
 
   //Get trace for each plaintext
-  printf("Traces Generation starts...\n");
+  printf("Trace Generation starts...\n");
   for (int i = 1; i < M_SIZE;i++){
     interact(&l, c, plaintext[i]);
     for (int j = 0;j<l;j++)  t[i][j] = traceTmp[j];
@@ -312,7 +311,8 @@ void attack() {
           spike_num++;
         }
       }
-      if ((spike_num<max_correlation)){
+      printf("%d\n", spike_num);
+      if ((spike_num < max_correlation)){
         keyArray[b]= (uint8_t)ki;
         max_correlation = (double)spike_num;
       }
@@ -322,9 +322,9 @@ void attack() {
 
   interact(&l, c, pt);
 
-  gmp_printf("From D: %ZX\n", c);
+  gmp_printf("i: %d From D: %ZX\n",interaction,  c);
   interact_R(&l, c_R, pt, keyArray);
-  gmp_printf("From R: %ZX\n", c_R);
+  gmp_printf("i: %d From R: %ZX\n", interaction, c_R);
   //END
   printf("Target Material : ");
   for (int i = 0;i<OCTET;i++){
