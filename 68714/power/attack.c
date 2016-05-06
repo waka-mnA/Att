@@ -290,11 +290,11 @@ void attack() {
         for (int i = 0;i<M_SIZE;i++){
           sum_H +=abs((double)h[i][ki] - mean_H);
           sum_T +=abs((double)t[i][j] - mean_T);
+                  printf("%f %f\n", sum_H, (double)h[i][ki] - mean_H);
         }
         double s_H = sqrt(sum_H/(double)(M_SIZE-1));
         double s_T = sqrt(sum_T/(double)(M_SIZE-1));
 
-        printf("%f %f\n", sum_H, s_H);
         //Calculate Correlation coefficient
         R =0;
         for (int i = 0;i<M_SIZE;i++){
