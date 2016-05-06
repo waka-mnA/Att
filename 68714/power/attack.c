@@ -267,7 +267,7 @@ void attack() {
       //Guess the key value
       for (int ki = 0;ki < BYTE; ki++){
         intermediate[i][ki] = s[plaintext[i][b]^(uint8_t)ki];
-        h[i][ki] = intermediate[i][ki] & 1;
+        h[i][ki] = (intermediate[i][ki]>>1) & 1;
       }
     }
 
@@ -277,7 +277,6 @@ void attack() {
     for (int ki = 0;ki<BYTE;ki++){
       for (int j = 0;j<l;j++){
         //Calculate Correlation coefficient
-
         s_HT = 0;
         s_H=0; s_T = 0;
         s_sq_X=0;s_sq_T=0;
@@ -294,12 +293,10 @@ void attack() {
         if (R<min) min = R;
 
       }
-      printf("%f %f\n", max, min);
       if (max-min > max_correlation){
         keyArray[b]= (uint8_t)ki;
         max_correlation = max-min;
       }
-
     }
   }
   //Check the found key is correct or not by using Replica
