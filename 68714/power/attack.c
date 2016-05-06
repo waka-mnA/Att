@@ -256,9 +256,9 @@ void attack() {
   }
   printf("Traces Generation ENDS.\n");
 
-  double mean_H, mean_T;
+  double sum_HT;
   double sum_H, sum_T;
-  double s_H, s_T;
+  double sum_sq_X, sum_sq_T;
   double R;
   //For each byte in plaintext
   for (int b = 0;b<OCTET;b++){
@@ -277,31 +277,19 @@ void attack() {
     float max = 0, min = FLT_MAX;
     for (int ki = 0;ki<BYTE;ki++){
       for (int j = 0;j<l;j++){
-        //Calculate Mean
+        //Calculate Correlation coefficient
+
+        sum_HT = 0;
         sum_H=0; sum_T = 0;
+        sum_sq_X=0;sum_sq_T=0;
         for (int i = 0;i<M_SIZE;i++){
           sum_H += h[i][ki];
           sum_T += t[i][j];
+          sum_HT += h[i][ki]* t[i][j];
+          sum_sq_X+=  h[i][ki]* h[i][ki];
+          sum_sq_T+=  t[i][j]* t[i][j];
         }
-        mean_H = sum_H/(double)M_SIZE;
-        mean_T = sum_T/(double)M_SIZE;
-        //Calculate Sample Standard Deviation
-        sum_H=0; sum_T=0;
-        for (int i = 0;i<M_SIZE;i++){
-          double tmp = (double)h[i][ki] - mean_H;
-          sum_H +=tmp*tmp;
-          tmp = (double)t[i][j] - mean_T;
-          sum_T +=tmp*tmp;
-        }
-        s_H = sqrt(sum_H/(double)(M_SIZE-1));
-        s_T = sqrt(sum_T/(double)(M_SIZE-1));
-
-        //Calculate Correlation coefficient
-        R =0;
-        for (int i = 0;i<M_SIZE;i++){
-          R =R + ((h[i][ki] - mean_H)/s_H)*((t[i][j] - mean_T)/s_T);
-        }
-        R = R/(M_SIZE - 1);
+        R = (M_SIZE * sum_HT - sum_H*sum_T)/(sqrt((M_SIZE*sum_sq_X - sum_H*sum_H)*(M_SIZE*sum_sq_T - sum_T*sum_T)));
         max += R*R;
       }
       if (max > max_correlation){
