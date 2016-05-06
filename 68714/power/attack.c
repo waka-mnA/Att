@@ -256,7 +256,7 @@ void attack() {
   }
   printf("Traces Generation ENDS.\n");
 
-  double mean_H, mean_H;
+  double mean_H, mean_T;
   double sum_H, sum_T;
   double s_H, s_T;
   double R;
