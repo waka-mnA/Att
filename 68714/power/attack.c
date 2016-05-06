@@ -295,7 +295,6 @@ void attack() {
         squaredSum += R[j]*R[j];
       }
 
-      printf("Squared sum of R: %f Key guess: %d\n", squaredSum, ki);
       if ((squaredSum > max_correlation)){
         keyArray[b]= (uint8_t)ki;
         max_correlation = squaredSum;
