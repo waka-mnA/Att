@@ -290,12 +290,12 @@ void attack() {
         //Correlation coefficient with magnification
         double denom = (sqrt((M_SIZE*s_sq_H - s_H*s_H)*(M_SIZE*s_sq_T - s_T*s_T)));
         if (denom == 0) R[j] = 0;
-        else R[j] = (M_SIZE*s_HT - s_H*s_T)/denom;
+        else R[j] = 20*(M_SIZE*s_HT - s_H*s_T)/denom;
 
-        squaredSum += R[j];
+        squaredSum += R[j]*R[j];
       }
 
-              printf("Squared sum of R: %f Key guess: %d\n", squaredSum, ki);
+      printf("Squared sum of R: %f Key guess: %d\n", squaredSum, ki);
       if ((squaredSum > max_correlation)){
         keyArray[b]= (uint8_t)ki;
         max_correlation = squaredSum;
