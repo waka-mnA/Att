@@ -219,10 +219,8 @@ void generatePlaintext(){
         plaintext[i][j] = (uint8_t) rand() % BYTE;
     }
   }
-  printf("Plaintexts Generation ENDS.\n");
+  printf("%d sets of plaintext generated.\n", M_SIZE);
 }
-
-
 
 void attack() {
   mpz_t c;      mpz_init(c);
@@ -237,70 +235,71 @@ void attack() {
 
   //Traces
   uint8_t t[M_SIZE][l];
-  //Set first trace
-  for (int i = 0;i<l;i++)  t[0][i] = traceTmp[i];
-
   //Difference Array resize
   traceDif = malloc(sizeof(float)*l);
   if (traceDif == NULL) exit(0);
+
+  //Set first trace
+  for (int i = 0;i<l;i++)  t[0][i] = traceTmp[i];
 
   //Generate M_SIZE number of plaintext
   generatePlaintext();
 
   //Get trace for each plaintext
-  printf("Traces Generation STARTS...\n");
+  printf("Traces Generation starts...\n");
   for (int i = 1; i < M_SIZE;i++){
     interact(&l, c, plaintext[i]);
     for (int j = 0;j<l;j++)  t[i][j] = traceTmp[j];
   }
-  printf("Traces Generation ENDS.\n");
+  printf("%d sets of traces generated .\n", M_SIZE);
 
   //For each byte in plaintext
   for (int b = 0;b<OCTET;b++){
-    printf("Key byte: %d\n", b);
+    printf("Target Key byte: %d\n", b);
     //Calculate intermediate value and hyothetical power value
     //For each plaintext
     for (int i = 0;i < M_SIZE; i++){
       //Guess the key value
       for (int ki = 0;ki < BYTE; ki++){
-        intermediate[i][ki] = s[plaintext[i][b]^(uint8_t)ki];
+        intermediate[i][ki] = s[ plaintext[i][b] ^ (uint8_t)ki ];
+        //Take LSB as power model
         h[i][ki] = intermediate[i][ki] & 1;
       }
     }
 
     float max_correlation = 0;
+    //For each guessed key byte
     for (int ki = 0;ki<BYTE;ki++){
-      //Clear Index array for subset
       double squaredSum = 0;
+      //For trace data point
       for (int j = 0;j<l;j++){
         float sumD_A=0;int D_NUM_A =0;
         float sumD_B=0;int D_NUM_B =0;
+        //Compute the sum to find the difference
         for (int i = 0;i<M_SIZE;i++){
           sumD_A +=   h[i][ki]*t[i][j];
           D_NUM_A +=  h[i][ki];
           sumD_B +=   (1-h[i][ki])*t[i][j];
           D_NUM_B +=  1-h[i][ki];
         }
+        //difference trace with magnification of 20
         traceDif[j] = (sumD_A/(float)D_NUM_A - sumD_B/(float)D_NUM_B)*20;
         squaredSum += (traceDif[j]*traceDif[j]);
       }
 
-      //if ((max-min)>max_correlation){
       if (squaredSum > max_correlation){
         keyArray[b]= (uint8_t)ki;
-        //max_correlation = max-min;
         max_correlation = squaredSum;
       }
     }
   }
   //Check the found key is correct or not by using Replica
-
   interact(&l, c, pt);
-
-  gmp_printf("%ZX\n", c);
+  gmp_printf("From D: %ZX\n", c);
   interact_R(&l, c_R, pt, keyArray);
-  gmp_printf("%ZX\n", c_R);
-  //END
+  gmp_printf("From R: %ZX\n", c_R);
+
+
   printf("Target Material : ");
   for (int i = 0;i<OCTET;i++){
     if (keyArray[i]<OCTET) printf("0");
