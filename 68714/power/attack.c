@@ -274,6 +274,10 @@ void attack() {
     double max_correlation = 0;
     double max = 0;
     double min = FLT_MAX;
+    double p_avg = 0;
+    double n_avg = 0;
+    double p_num = 0;
+    double n_num = 0;
     for (int ki = 0;ki<BYTE;ki++){
       for (int j = 0;j<l;j++){
         //Calculate Correlation coefficient
@@ -291,11 +295,21 @@ void attack() {
 
         if (R>max) max = R;
         if (R<min) min = R;
-
+        if (R>=0){
+          p_avg+= R
+          p_num++;
+        }
+        else{
+            n_avg+= R
+            n_num++;
+        }
       }
-      if (max-min > max_correlation){
+      p_avg = p_avg/p_num;
+      n_avg = n_avg/n_num;
+
+      if (abs(max-p_avg) > max_correlation){
         keyArray[b]= (uint8_t)ki;
-        max_correlation = max-min;
+        max_correlation = abs(max-p_avg);
       }
     }
   }
