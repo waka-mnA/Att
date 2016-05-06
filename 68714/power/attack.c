@@ -267,7 +267,7 @@ void attack() {
       //Guess the key value
       for (int ki = 0;ki < BYTE; ki++){
         intermediate[i][ki] = s[plaintext[i][b]^(uint8_t)ki];
-        h[i][ki] = (intermediate[i][ki]>>1) & 1;
+        h[i][ki] = (intermediate[i][ki]) & 1;
       }
     }
 
@@ -281,13 +281,13 @@ void attack() {
         s_H=0; s_T = 0;
         s_sq_X=0;s_sq_T=0;
         for (int i = 0;i<M_SIZE;i++){
-          s_H += (double)h[i][ki];
-          s_T += (double)t[i][j];
-          s_HT += (double)(h[i][ki]* t[i][j]);
+          s_H   += (double)h[i][ki];
+          s_T   += (double)t[i][j];
+          s_HT  += (double)(h[i][ki]* t[i][j]);
           s_sq_X+= (double) (h[i][ki]* h[i][ki]);
           s_sq_T+= (double)(t[i][j]* t[i][j]);
         }
-        R = 20*(M_SIZE*s_HT - s_H*s_T)/(sqrt((M_SIZE*s_sq_X - s_H*s_H)*(M_SIZE*s_sq_T - s_T*s_T)));
+        R = 100*(M_SIZE*s_HT - s_H*s_T)/(sqrt((M_SIZE*s_sq_X - s_H*s_H)*(M_SIZE*s_sq_T - s_T*s_T)));
 
         if (R>max) max = R;
         if (R<min) min = R;
