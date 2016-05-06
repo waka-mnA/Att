@@ -310,10 +310,11 @@ void attack() {
       //Clear Index array for subset
       //memset(A_ID, 0, M_SIZE);
       //memset(B_ID, 0, M_SIZE);
-      double sumD_A=0;int D_NUM_A =0;
-      double sumD_B=0;int D_NUM_B =0;
       int max=0, min = INT_MAX;
       for (int j = 0;j<l;j++){
+
+        double sumD_A=0;int D_NUM_A =0;
+        double sumD_B=0;int D_NUM_B =0;
         for (int i = 0;i<M_SIZE;i++){
           sumD_A +=   h[i][ki]*t[i][j];
           D_NUM_A +=  h[i][ki];
