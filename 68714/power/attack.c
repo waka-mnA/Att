@@ -3,6 +3,7 @@
 #include "time.h"
 #include "limits.h"
 #include "ctype.h"
+#include "float.h"
 
 #define BUFFER_SIZE ( 80 )
 #define BYTE 256
