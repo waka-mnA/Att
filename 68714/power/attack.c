@@ -274,7 +274,7 @@ void attack() {
     int max_correlation = 0;
     for (int ki = 0;ki<BYTE;ki++){
       //Clear Index array for subset
-      int max=0, min = INT_MAX;
+      float max=0, min = INT_MAX;
       for (int j = 0;j<l;j++){
         float sumD_A=0;int D_NUM_A =0;
         float sumD_B=0;int D_NUM_B =0;
