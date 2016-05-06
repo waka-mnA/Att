@@ -305,8 +305,11 @@ void attack() {
     printf("Calculating intermediates ENDS.\n");
 
 
-
-
+    //Clear Index array for subset
+    memset(A_ID, 0, M_SIZE);
+    memset(B_ID, 0, M_SIZE);
+    A_NUM= 0;
+    B_NUM=0;
     int max = 0;
     for (int ki = 0;ki<BYTE;ki++){
       for (int i = 0;i<M_SIZE;i++){
