@@ -359,9 +359,9 @@ void attack() {
   }
   printf("\n");
   gmp_printf("Total Number of Interaction: %d\n", interaction);
-  mpz_clear(m);
+  //mpz_clear(m);
   mpz_clear(c);
-  mpz_clear(key);
+  mpz_clear(c_R);
 
 }
 void cleanup( int s ){
