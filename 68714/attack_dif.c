@@ -3,7 +3,6 @@
 #include "time.h"
 #include "limits.h"
 #include "ctype.h"
-#include "float.h"
 
 #define BUFFER_SIZE ( 80 )
 #define BYTE 256
@@ -48,6 +47,8 @@ uint8_t h[M_SIZE][BYTE];            //The set of hyothetical power value
 uint8_t keyArray[OCTET]={0};        //The key detected
 float* traceDif;
 
+
+double sumA=0, sumB=0;
 uint8_t* traceTmp;
 int traceLength=0;
 
@@ -221,10 +222,9 @@ void generatePlaintext(){
   printf("%d sets of plaintext generated.\n", M_SIZE);
 }
 
-
 void attack() {
-  mpz_t c;    mpz_init(c);
-  mpz_t c_R;  mpz_init(c_R);
+  mpz_t c;      mpz_init(c);
+  mpz_t c_R;      mpz_init(c_R);
 
   int l;
   interact(&l, c, pt);
@@ -235,29 +235,24 @@ void attack() {
 
   //Traces
   uint8_t t[M_SIZE][l];
-  //Set first trace
-  for (int i = 0;i<l;i++)  t[0][i] = traceTmp[i];
-
   //Difference Array resize
   traceDif = malloc(sizeof(float)*l);
   if (traceDif == NULL) exit(0);
 
-  double R[l];
+  //Set first trace
+  for (int i = 0;i<l;i++)  t[0][i] = traceTmp[i];
+
   //Generate M_SIZE number of plaintext
   generatePlaintext();
 
   //Get trace for each plaintext
-  printf("Trace Generation starts...\n");
+  printf("Traces Generation starts...\n");
   for (int i = 1; i < M_SIZE;i++){
     interact(&l, c, plaintext[i]);
     for (int j = 0;j<l;j++)  t[i][j] = traceTmp[j];
   }
-  printf("%d sets of traces generated.\n", M_SIZE);
+  printf("%d sets of traces generated .\n", M_SIZE);
 
-  double s_HT;
-  double s_H, s_T;
-  double s_sq_X, s_sq_T;
-  //double R;
   //For each byte in plaintext
   for (int b = 0;b<OCTET;b++){
     printf("Target Key byte: %d\n", b);
@@ -266,34 +261,33 @@ void attack() {
     for (int i = 0;i < M_SIZE; i++){
       //Guess the key value
       for (int ki = 0;ki < BYTE; ki++){
-        intermediate[i][ki] = s[plaintext[i][b]^(uint8_t)ki];
-        h[i][ki] = (intermediate[i][ki]) & 1;
+        intermediate[i][ki] = s[ plaintext[i][b] ^ (uint8_t)ki ];
+        //Take LSB as power model
+        h[i][ki] = intermediate[i][ki] & 1;
       }
     }
 
-    double max_correlation = 0;
-    double squaredSum;
+    float max_correlation = 0;
+    //For each guessed key byte
     for (int ki = 0;ki<BYTE;ki++){
-      squaredSum = 0;
+      double squaredSum = 0;
+      //For trace data point
       for (int j = 0;j<l;j++){
-        //Calculate Correlation coefficient
-        s_HT = 0;
-        s_H=0; s_T = 0;
-        s_sq_X=0; s_sq_T=0;
+        float sumD_A=0;int D_NUM_A =0;
+        float sumD_B=0;int D_NUM_B =0;
+        //Compute the sum to find the difference
         for (int i = 0;i<M_SIZE;i++){
-          s_H   += (double)h[i][ki];
-          s_T   += (double)t[i][j];
-          s_HT  += (double)(h[i][ki]* t[i][j]);
-          s_sq_X+= (double) (h[i][ki]* h[i][ki]);
-          s_sq_T+= (double)(t[i][j]* t[i][j]);
+          sumD_A +=   h[i][ki]*t[i][j];
+          D_NUM_A +=  h[i][ki];
+          sumD_B +=   (1-h[i][ki])*t[i][j];
+          D_NUM_B +=  1-h[i][ki];
         }
-        //Correlation coefficient with magnification of 100
-        R[j] = 100*(M_SIZE*s_HT - s_H*s_T)/(sqrt((M_SIZE*s_sq_X - s_H*s_H)*(M_SIZE*s_sq_T - s_T*s_T)));
-
-        squaredSum += R[j]*R[j];
+        //difference trace with magnification of 20
+        traceDif[j] = (sumD_A/(float)D_NUM_A - sumD_B/(float)D_NUM_B)*20;
+        squaredSum += (traceDif[j]*traceDif[j]);
       }
 
-      if ((squaredSum > max_correlation)){
+      if (squaredSum > max_correlation){
         keyArray[b]= (uint8_t)ki;
         max_correlation = squaredSum;
       }
@@ -301,11 +295,11 @@ void attack() {
   }
   //Check the found key is correct or not by using Replica
   interact(&l, c, pt);
-
-  gmp_printf("i: %d From D: %ZX\n",interaction,  c);
+  gmp_printf("From D: %ZX\n", c);
   interact_R(&l, c_R, pt, keyArray);
-  gmp_printf("i: %d From R: %ZX\n", interaction, c_R);
-  //END
+  gmp_printf("From R: %ZX\n", c_R);
+
+
   printf("Target Material : ");
   for (int i = 0;i<OCTET;i++){
     if (keyArray[i]<OCTET) printf("0");
