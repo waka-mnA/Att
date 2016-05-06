@@ -243,6 +243,7 @@ void attack() {
   traceDif = malloc(sizeof(float)*l);
   if (traceDif == NULL) exit(0);
 
+  double R[l];
   //Generate M_SIZE number of plaintext
   generatePlaintext();
 
@@ -289,20 +290,29 @@ void attack() {
           s_sq_X+= (double) (h[i][ki]* h[i][ki]);
           s_sq_T+= (double)(t[i][j]* t[i][j]);
         }
-        R = 100*(M_SIZE*s_HT - s_H*s_T)/(sqrt((M_SIZE*s_sq_X - s_H*s_H)*(M_SIZE*s_sq_T - s_T*s_T)));
+        R[j] = 100*(M_SIZE*s_HT - s_H*s_T)/(sqrt((M_SIZE*s_sq_X - s_H*s_H)*(M_SIZE*s_sq_T - s_T*s_T)));
 
-        if (R>max) max = R;
-        if (R<min) min = R;
-        if (R>=0){
-          p_avg+= R;
+        if (R[j]>max) max = R[k];
+        if (R[j]<min) min = R[j];
+        if (R[j]>=0){
+          p_avg+= R[j];
           p_num++;
         }
       }
       p_avg = p_avg/p_num;
-
-      if (abs(max-p_avg) > max_correlation){
+      double dif=0;
+      int spike_num=0;
+      for (int j = 0;j<l;j++){
+        dif =abs( p_avg - R[j]);
+        if (dif > 7){
+          spike_num++;
+        }
+      }
+      if ((spike_num<max_correlation) || (max_correlation==0)){
+      //if (max-p_avg > max_correlation){
         keyArray[b]= (uint8_t)ki;
-        max_correlation = abs(max-p_avg);
+        //max_correlation = max-p_avg;
+        max_correlation = spike_num;
       }
     }
   }
