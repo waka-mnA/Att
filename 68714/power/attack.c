@@ -258,7 +258,7 @@ void attack() {
   double s_HT;
   double s_H, s_T;
   double s_sq_X, s_sq_T;
-  double R;
+  //double R;
   //For each byte in plaintext
   for (int b = 0;b<OCTET;b++){
     printf("Target Key byte: %d\n", b);
