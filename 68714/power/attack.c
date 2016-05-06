@@ -317,8 +317,8 @@ void attack() {
         for (int i = 0;i<M_SIZE;i++){
           sumD_A +=   h[i][ki]*t[i][j];
           D_NUM_A +=  h[i][ki];
-          sumD_B +=   h[i][ki]*t[i][j];
-          D_NUM_B +=  h[i][ki];
+          sumD_B +=   (1-h[i][ki])*t[i][j];
+          D_NUM_B +=  1-h[i][ki];
         }
         traceA[j] = sumD_A/(double)D_NUM_A - sumD_B/(double)D_NUM_B;
 
