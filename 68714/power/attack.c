@@ -343,7 +343,7 @@ void attack() {
         max = keyRight;
       }
 
-      printf("\n", max-min);
+      printf("\n");
     }
 
   }
