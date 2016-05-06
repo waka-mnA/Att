@@ -248,7 +248,7 @@ int compareDifference(){
     if (dif[i]>max) max = dif[i];
     if (dif[i]<min) min = dif[i];
   }
-  printf("%d\n", max-min);
+  printf("\n%d\n", max-min);
   return max-min;
 }
 
@@ -269,6 +269,16 @@ void attack() {
   //Set first trace
   for (int i = 0;i<l;i++)  t[0][i] = traceTmp[i];
 
+  //Subset Arrays resize
+  traceA = malloc(sizeof(float)*l);
+  if (traceA == NULL) exit(0);
+  traceB = malloc(sizeof(float)*l);
+  if (traceB == NULL) exit(0);
+  A_ID = malloc(sizeof(int)*M_SIZE);
+  if (traceA == NULL) exit(0);
+  B_ID = malloc(sizeof(int)*M_SIZE);
+  if (traceB == NULL) exit(0);
+
   //Generate M_SIZE number of plaintext
   generatePlaintext();
 
@@ -280,15 +290,14 @@ void attack() {
   }
   printf("Traces Generation ENDS.\n");
 
-
-
   //For each byte in plaintext
   for (int b = 0;b<OCTET;b++){
+
     //Calculate intermediate value and hyothetical power value
     //For each plaintext
     for (int i = 0;i < M_SIZE; i++){
       //Guess the key value
-      for (int ki = 0;ki<256;ki++){
+      for (int ki = 0;ki<BYTE;ki++){
         intermediate[i][ki] = s[plaintext[b][i]^(uint8_t)ki];
         h[i][ki] = intermediate[i][ki] & 1;
       }
@@ -296,18 +305,10 @@ void attack() {
     printf("Calculating intermediates ENDS.\n");
 
 
-    //Subset Arrays resize
-    traceA = malloc(sizeof(float)*l);
-    if (traceA == NULL) exit(0);
-    traceB = malloc(sizeof(float)*l);
-    if (traceB == NULL) exit(0);
-    A_ID = malloc(sizeof(int)*M_SIZE);
-    if (traceA == NULL) exit(0);
-    B_ID = malloc(sizeof(int)*M_SIZE);
-    if (traceB == NULL) exit(0);
+
 
     int max = 0;
-    for (int ki = 0;ki<256;ki++){
+    for (int ki = 0;ki<BYTE;ki++){
       for (int i = 0;i<M_SIZE;i++){
         //devide traces by allocating index
         tracePartition(h[i][ki], i);
