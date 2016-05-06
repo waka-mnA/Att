@@ -287,10 +287,10 @@ void attack() {
           s_sq_X+= (double) (h[i][ki]* h[i][ki]);
           s_sq_T+= (double)(t[i][j]* t[i][j]);
         }
-        R = (M_SIZE*s_HT - s_H*s_T)/(sqrt((M_SIZE*s_sq_X - s_H*s_H)*(M_SIZE*s_sq_T - s_T*s_T)));
+        R = 20*(M_SIZE*s_HT - s_H*s_T)/(sqrt((M_SIZE*s_sq_X - s_H*s_H)*(M_SIZE*s_sq_T - s_T*s_T)));
         max += R*R;
-        printf("%f\n", R);
       }
+      printf("%f\n", max);
       if (max > max_correlation){
         keyArray[b]= (uint8_t)ki;
         max_correlation = max;
