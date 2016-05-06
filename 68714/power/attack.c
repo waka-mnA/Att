@@ -269,7 +269,7 @@ void attack() {
     }
 
     float max_correlation = 0;
-    float max = 0, min = FLOAT_MAX;
+    float max = 0, min = FLT_MAX;
     for (int ki = 0;ki<BYTE;ki++){
 
       for (int j = 0;j<l;j++){
