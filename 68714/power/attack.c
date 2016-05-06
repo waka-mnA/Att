@@ -294,7 +294,7 @@ void attack() {
         double s_H = sqrt(sum_H/(double)(M_SIZE-1));
         double s_T = sqrt(sum_T/(double)(M_SIZE-1));
 
-        printf("%f\n", s_H);
+        printf("%f %f\n", sum_H, s_H);
         //Calculate Correlation coefficient
         R =0;
         for (int i = 0;i<M_SIZE;i++){
