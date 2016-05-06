@@ -263,7 +263,7 @@ void attack() {
       //Guess the key value
       for (int ki = 0;ki < BYTE; ki++){
         intermediate[i][ki] = s[plaintext[i][b]^(uint8_t)ki];
-        h[i][ki] = intermediate[i][ki] & 1;
+        h[i][ki] = (intermediate[i][ki]>>15) & 1;
       }
     }
     printf("Calculating intermediates ENDS.\n");
@@ -289,7 +289,7 @@ void attack() {
         //if (traceDif[j]< min) min  =traceDif[j];
       }
 
-      printf("%f\n", squaredSum);
+      //printf("%f\n", squaredSum);
       //if ((max-min)>max_correlation){
       if (squaredSum > max_correlation){
         keyArray[b]= (uint8_t)ki;
