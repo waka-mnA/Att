@@ -280,7 +280,7 @@ void attack() {
     for (int ki = 0;ki<BYTE;ki++){
       p_avg = 0;
       p_num =0;
-      max_correlation = 0;
+      max_correlation = FLT_MAX;
       for (int j = 0;j<l;j++){
         //Calculate Correlation coefficient
         s_HT = 0;
@@ -313,9 +313,7 @@ void attack() {
         }
       }
       if ((spike_num<max_correlation)){
-      //if (max-p_avg > max_correlation){
         keyArray[b]= (uint8_t)ki;
-        //max_correlation = max-p_avg;
         max_correlation = (double)spike_num;
       }
     }
