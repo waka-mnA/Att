@@ -239,7 +239,7 @@ void tracePartition(uint8_t hypo, int i){
 
 
 //Compare difference between two trace subsets average
-//Return the difference if correlated, 0 if not
+//Return the difference
 int compareDifference(){
   int dif[traceLength];
   int max = 0, min= INT_MAX;
@@ -247,11 +247,9 @@ int compareDifference(){
     dif[i] = traceA[i] - traceB[i];
     if (dif[i]>max) max = dif[i];
     if (dif[i]<min) min = dif[i];
-    printf("%d ", dif[i] );
   }
   printf("%d\n", max-min);
-  if (max -min > 100) return max-min;
-  return 0;
+  return max-min;
 }
 
 void attack() {
