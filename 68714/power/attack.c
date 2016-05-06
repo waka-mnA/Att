@@ -305,7 +305,7 @@ void attack() {
       for (int j = 0;j<l;j++){
         if (R[j]<0) continue;
         dif =R[j]-p_avg;
-        if (dif > 10){
+        if (dif > 8){
           spike_num++;
         }
       }
