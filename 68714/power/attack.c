@@ -286,12 +286,12 @@ void attack() {
           D_NUM_B +=  1-h[i][ki];
         }
         traceDif[j] = sumD_A/(float)D_NUM_A - sumD_B/(float)D_NUM_B;
-        squaredSum += (traceDif[j]*traceDif[j])
+        squaredSum += (traceDif[j]*traceDif[j]);
         if (traceDif[j]>max) max = traceDif[j];
         if (traceDif[j]< min) min  =traceDif[j];
       }
 
-              printf("%f\n", squaredSum);
+      printf("%f\n", squaredSum);
       //if ((max-min)>max_correlation){
       if (squaredSum > max_correlation){
         keyArray[b]= (uint8_t)ki;
