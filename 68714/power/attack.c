@@ -261,7 +261,7 @@ void attack() {
     //For each plaintext
     for (int i = 0;i < M_SIZE; i++){
       //Guess the key value
-      for (int ki = 0;ki<BYTE;ki++){
+      for (int ki = 0;ki < BYTE; ki++){
         intermediate[i][ki] = s[plaintext[i][b]^(uint8_t)ki];
         h[i][ki] = intermediate[i][ki] & 1;
       }
@@ -283,8 +283,7 @@ void attack() {
           D_NUM_B +=  1-h[i][ki];
         }
 
-        printf("%d\n", h[0][ki]);
-        traceDif[j] = sumD_A/(float)D_NUM_A - sumD_B/(float)D_NUM_B;
+        traceDif[j] = (sumD_A/(float)D_NUM_A - sumD_B/(float)D_NUM_B)*20;
         squaredSum += (traceDif[j]*traceDif[j]);
         //if (traceDif[j]>max) max = traceDif[j];
         //if (traceDif[j]< min) min  =traceDif[j];
