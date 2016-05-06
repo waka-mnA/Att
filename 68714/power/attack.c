@@ -288,12 +288,11 @@ void attack() {
           s_sq_T+= (double)(t[i][j]* t[i][j]);
         }
         //Correlation coefficient with magnification
-        R[j] = (M_SIZE*s_HT - s_H*s_T)/(sqrt((M_SIZE*s_sq_H - s_H*s_H)*(M_SIZE*s_sq_T - s_T*s_T)));
+        double denom = (sqrt((M_SIZE*s_sq_H - s_H*s_H)*(M_SIZE*s_sq_T - s_T*s_T)));
+        if (denom == 0) R[j] = 0;
+        else R[j] = (M_SIZE*s_HT - s_H*s_T)/denom;
 
-        printf(" %f %f\n", s_sq_T, s_T);
-        printf(" %f %f\n", M_SIZE*s_HT - s_H*s_T, M_SIZE*s_sq_T - s_T*s_T);
         squaredSum += R[j];
-                      printf("Squared sum of R: %f \n", R[j]);
       }
 
               printf("Squared sum of R: %f Key guess: %d\n", squaredSum, ki);
