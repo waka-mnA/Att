@@ -248,7 +248,7 @@ int compareDifference(){
     if (dif[i]>max) max = dif[i];
     if (dif[i]<min) min = dif[i];
   }
-  printf("\n%d\n", max-min);
+  printf("%d ", max-min);
   return max-min;
 }
 
@@ -342,7 +342,10 @@ void attack() {
         keyArray[b] = (uint8_t)ki;
         max = keyRight;
       }
+
+      printf("\n", max-min);
     }
+
   }
   //Check the found key is correct or not by using Replica
 
