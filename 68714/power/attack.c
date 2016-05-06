@@ -272,7 +272,7 @@ void attack() {
     }
 
     double max_correlation = 0;
-    double squaredSum;
+    double squaredSum=0;
     for (int ki = 0;ki<BYTE;ki++){
       squaredSum = 0;
       for (int j = 0;j<l;j++){
