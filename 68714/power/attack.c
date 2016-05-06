@@ -302,7 +302,7 @@ void attack() {
           R =R + ((h[i][ki] - mean_H)/s_H)*((t[i][j] - mean_T)/s_T);
         }
         R = R/(M_SIZE - 1);
-        max+ = R*R;
+        max += R*R;
       }
       if (max > max_correlation){
         keyArray[b]= (uint8_t)ki;
