@@ -271,7 +271,7 @@ void attack() {
     printf("Calculating intermediates ENDS.\n");
 
 
-    int max_correlation = 0;
+    float max_correlation = 0;
     for (int ki = 0;ki<BYTE;ki++){
       //Clear Index array for subset
       float max=0, min = INT_MAX;
@@ -286,10 +286,11 @@ void attack() {
         }
         traceDif[j] = sumD_A/(float)D_NUM_A - sumD_B/(float)D_NUM_B;
 
-        printf("%f\n", traceDif[j]);
         if (traceDif[j]>max) max = traceDif[j];
         if (traceDif[j]< min) min  =traceDif[j];
       }
+
+              printf("%f %f %f\n", max, min, max-min);
       if ((max-min)>max_correlation){
         keyArray[b]= (uint8_t)ki;
         max_correlation = max-min;
