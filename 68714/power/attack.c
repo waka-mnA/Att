@@ -275,6 +275,7 @@ void attack() {
     for (int ki = 0;ki<BYTE;ki++){
       //Clear Index array for subset
       float max=0, min = INT_MAX;
+      double squaredSum = 0;
       for (int j = 0;j<l;j++){
         float sumD_A=0;int D_NUM_A =0;
         float sumD_B=0;int D_NUM_B =0;
@@ -285,15 +286,17 @@ void attack() {
           D_NUM_B +=  1-h[i][ki];
         }
         traceDif[j] = sumD_A/(float)D_NUM_A - sumD_B/(float)D_NUM_B;
-
+        squaredSum += (traceDif[j]*traceDif[j])
         if (traceDif[j]>max) max = traceDif[j];
         if (traceDif[j]< min) min  =traceDif[j];
       }
 
-              printf("%f %f %f\n", max, min, max-min);
-      if ((max-min)>max_correlation){
+              printf("%f\n", squaredSum);
+      //if ((max-min)>max_correlation){
+      if (squaredSum > max_correlation)
         keyArray[b]= (uint8_t)ki;
-        max_correlation = max-min;
+        //max_correlation = max-min;
+        max_correlation = squaredSum;
       }
       /*
       A_NUM= 0;
