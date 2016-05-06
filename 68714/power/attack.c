@@ -8,7 +8,7 @@
 #define BYTE 256
 #define OCTET 16
 //Sample plaintext number
-#define M_SIZE 300
+#define M_SIZE 200
 
 
 
@@ -263,7 +263,7 @@ void attack() {
       //Guess the key value
       for (int ki = 0;ki < BYTE; ki++){
         intermediate[i][ki] = s[plaintext[i][b]^(uint8_t)ki];
-        h[i][ki] = (intermediate[i][ki]>>15) & 1;
+        h[i][ki] = (intermediate[i][ki]>>7) & 1;
       }
     }
     printf("Calculating intermediates ENDS.\n");
