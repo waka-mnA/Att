@@ -281,7 +281,7 @@ void attack() {
           sumD_B +=   (1-h[i][ki])*t[i][j];
           D_NUM_B +=  1-h[i][ki];
         }
-        traceDif[j] = (sumD_A/(float)D_NUM_A) - sumD_B/(float)D_NUM_B)*20;
+        traceDif[j] = (sumD_A/(float)D_NUM_A - sumD_B/(float)D_NUM_B)*20;
         squaredSum += (traceDif[j]*traceDif[j]);
       }
 
