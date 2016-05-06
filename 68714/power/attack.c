@@ -8,7 +8,7 @@
 #define BYTE 256
 #define OCTET 16
 //Sample plaintext number
-#define M_SIZE 300
+#define M_SIZE 200
 
 
 
@@ -280,58 +280,69 @@ void attack() {
   }
   printf("Traces Generation ENDS.\n");
 
-  //Calculate intermediate value and hyothetical power value
-  //For each key byte
-  for (int i = 0;i < M_SIZE; i++){
-    //Guess the key value
+
+
+  //For each byte in plaintext
+  for (int b = 0;b<OCTET;b++){
+    //Calculate intermediate value and hyothetical power value
+    //For each plaintext
+    for (int i = 0;i < M_SIZE; i++){
+      //Guess the key value
+      for (int ki = 0;ki<256;ki++){
+        intermediate[i][ki] = s[plaintext[b][i]^(uint8_t)ki];
+        h[i][ki] = intermediate[i][ki] & 1;
+      }
+    }
+    printf("Calculating intermediates ENDS.\n");
+
+
+    //Subset Arrays resize
+    traceA = malloc(sizeof(float)*l);
+    if (traceA == NULL) exit(0);
+    traceB = malloc(sizeof(float)*l);
+    if (traceB == NULL) exit(0);
+    A_ID = malloc(sizeof(int)*M_SIZE);
+    if (traceA == NULL) exit(0);
+    B_ID = malloc(sizeof(int)*M_SIZE);
+    if (traceB == NULL) exit(0);
+
+    int max = 0;
     for (int ki = 0;ki<256;ki++){
-      intermediate[i][ki] = s[plaintext[0][i]^(uint8_t)ki];
-      h[i][ki] = intermediate[i][ki] & 1;
-    }
-  }
-  printf("Calculating intermediates ENDS.\n");
-
-  traceA = malloc(sizeof(float)*l);
-  if (traceA == NULL) exit(0);
-  traceB = malloc(sizeof(float)*l);
-  if (traceB == NULL) exit(0);
-
-  A_ID = malloc(sizeof(int)*M_SIZE);
-  if (traceA == NULL) exit(0);
-  B_ID = malloc(sizeof(int)*M_SIZE);
-  if (traceB == NULL) exit(0);
-
-  int max = 0;
-  for (int ki = 0;ki<256;ki++){
-    for (int i = 0;i<M_SIZE;i++){
-      tracePartition(h[i][ki], i);
-    }
-    A_ID[A_NUM]= -1;
-    B_ID[B_NUM]= -1;
-
-    for (int i = 0;i<l;i++){
-      double sumA = 0;
-      double sumB = 0;
-      for(int j = 0;j<M_SIZE;j++){
-
-        if (A_ID[j]==-1) break;
-        sumA+= t[A_ID[j]][i];
+      for (int i = 0;i<M_SIZE;i++){
+        //devide traces by allocating index
+        tracePartition(h[i][ki], i);
       }
-      for(int j = 0;j<M_SIZE;j++){
-        if (B_ID[j]==-1) break;
-        sumB+= t[B_ID[j]][i];
+      A_ID[A_NUM]= -1;
+      B_ID[B_NUM]= -1;
+      for (int i = 0;i<M_SIZE;i++){
+        if (A_ID[i]==-1) break;
+        printf("%d ", A_ID[i]);
       }
-      sumA = sumA/(double)A_NUM;
-      traceA[i] = (int)sumA;
-      sumB = sumB/(double)B_NUM;
-      traceB[i] = (int)sumB;
-    }
 
-    int keyRight = compareDifference();
-    if (keyRight > max) {
+      for (int i = 0;i<l;i++){
+        double sumA = 0;
+        double sumB = 0;
+        for(int j = 0;j<M_SIZE;j++){
 
-      keyArray[0] = (uint8_t)ki;
-      max = keyRight;
+          if (A_ID[j]==-1) break;
+          sumA+= t[A_ID[j]][i];
+        }
+        for(int j = 0;j<M_SIZE;j++){
+          if (B_ID[j]==-1) break;
+          sumB+= t[B_ID[j]][i];
+        }
+        sumA = sumA/(double)A_NUM;
+        traceA[i] = (int)sumA;
+        sumB = sumB/(double)B_NUM;
+        traceB[i] = (int)sumB;
+      }
+
+      int keyRight = compareDifference();
+      if (keyRight > max) {
+
+        keyArray[0] = (uint8_t)ki;
+        max = keyRight;
+      }
     }
   }
   //END
