@@ -279,7 +279,7 @@ void attack() {
         //Calculate Correlation coefficient
         s_HT = 0;
         s_H=0; s_T = 0;
-        s_sq_X=0; s_sq_T=0;
+        s_sq_H=0; s_sq_T=0;
         for (int i = 0;i<M_SIZE;i++){
           s_H   += (double)h[i][ki];
           s_T   += (double)t[i][j];
