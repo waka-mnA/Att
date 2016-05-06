@@ -3,7 +3,6 @@
 #include "time.h"
 #include "limits.h"
 #include "ctype.h"
-#include "float.h"
 
 #define BUFFER_SIZE ( 80 )
 #define BYTE 256
@@ -48,6 +47,8 @@ uint8_t h[M_SIZE][BYTE];            //The set of hyothetical power value
 uint8_t keyArray[OCTET]={0};        //The key detected
 float* traceDif;
 
+
+double sumA=0, sumB=0;
 uint8_t* traceTmp;
 int traceLength=0;
 
@@ -218,13 +219,14 @@ void generatePlaintext(){
         plaintext[i][j] = (uint8_t) rand() % BYTE;
     }
   }
-  printf("%d sets of plaintext generated.\n", M_SIZE);
+  printf("Plaintexts Generation ENDS.\n");
 }
 
 
+
 void attack() {
-  mpz_t c;    mpz_init(c);
-  mpz_t c_R;  mpz_init(c_R);
+  mpz_t c;      mpz_init(c);
+  mpz_t c_R;      mpz_init(c_R);
 
   int l;
   interact(&l, c, pt);
@@ -242,77 +244,56 @@ void attack() {
   traceDif = malloc(sizeof(float)*l);
   if (traceDif == NULL) exit(0);
 
-  double R[l];
   //Generate M_SIZE number of plaintext
   generatePlaintext();
 
   //Get trace for each plaintext
-  printf("Trace Generation starts...\n");
+  printf("Traces Generation STARTS...\n");
   for (int i = 1; i < M_SIZE;i++){
     interact(&l, c, plaintext[i]);
     for (int j = 0;j<l;j++)  t[i][j] = traceTmp[j];
   }
-  printf("%d sets of traces generated.\n", M_SIZE);
+  printf("Traces Generation ENDS.\n");
 
-  double s_HT;
-  double s_H, s_T;
-  double s_sq_X, s_sq_T;
-  //double R;
   //For each byte in plaintext
   for (int b = 0;b<OCTET;b++){
-    printf("Target Key byte: %d\n", b);
+    printf("Key byte: %d\n", b);
     //Calculate intermediate value and hyothetical power value
     //For each plaintext
     for (int i = 0;i < M_SIZE; i++){
       //Guess the key value
       for (int ki = 0;ki < BYTE; ki++){
         intermediate[i][ki] = s[plaintext[i][b]^(uint8_t)ki];
-        h[i][ki] = (intermediate[i][ki]) & 1;
+        h[i][ki] = intermediate[i][ki] & 1;
       }
     }
 
-    double max_correlation = FLT_MAX;
-    double max = 0;
-    double min = FLT_MAX;
-    double p_avg;
-    double p_num;
+    float max_correlation = 0;
     for (int ki = 0;ki<BYTE;ki++){
-      p_avg = 0;
-      p_num =0;
+      //Clear Index array for subset
+      float max=0, min = INT_MAX;
+      double squaredSum = 0;
       for (int j = 0;j<l;j++){
-        //Calculate Correlation coefficient
-        s_HT = 0;
-        s_H=0; s_T = 0;
-        s_sq_X=0; s_sq_T=0;
+        float sumD_A=0;int D_NUM_A =0;
+        float sumD_B=0;int D_NUM_B =0;
         for (int i = 0;i<M_SIZE;i++){
-          s_H   += (double)h[i][ki];
-          s_T   += (double)t[i][j];
-          s_HT  += (double)(h[i][ki]* t[i][j]);
-          s_sq_X+= (double) (h[i][ki]* h[i][ki]);
-          s_sq_T+= (double)(t[i][j]* t[i][j]);
+          sumD_A +=   h[i][ki]*t[i][j];
+          D_NUM_A +=  h[i][ki];
+          sumD_B +=   (1-h[i][ki])*t[i][j];
+          D_NUM_B +=  1-h[i][ki];
         }
-        R[j] = 100*(M_SIZE*s_HT - s_H*s_T)/(sqrt((M_SIZE*s_sq_X - s_H*s_H)*(M_SIZE*s_sq_T - s_T*s_T)));
+        traceDif[j] = (sumD_A/(float)D_NUM_A) - sumD_B/(float)D_NUM_B)*20;
+        squaredSum += (traceDif[j]*traceDif[j]);
+        //if (traceDif[j]>max) max = traceDif[j];
+        //if (traceDif[j]< min) min  =traceDif[j];
+      }
 
-        if (R[j]>max) max = R[j];
-        if (R[j]<min) min = R[j];
-        if (R[j]>=0){
-          p_avg+= R[j];
-          p_num++;
-        }
-      }
-      p_avg = p_avg/p_num;
-      double dif=0;
-      int spike_num=0;
-      for (int j = 0;j<l;j++){
-        if (R[j]<0) continue;
-        dif =R[j]-p_avg;
-        if (dif > 15){
-          spike_num++;
-        }
-      }
-      if ((spike_num < max_correlation)){
+      //printf("%f\n", squaredSum);
+      //if ((max-min)>max_correlation){
+      if (squaredSum > max_correlation){
         keyArray[b]= (uint8_t)ki;
-        max_correlation = (double)spike_num;
+        //max_correlation = max-min;
+        max_correlation = squaredSum;
       }
     }
   }
@@ -320,9 +301,9 @@ void attack() {
 
   interact(&l, c, pt);
 
-  gmp_printf("i: %d From D: %ZX\n",interaction,  c);
+  gmp_printf("%ZX\n", c);
   interact_R(&l, c_R, pt, keyArray);
-  gmp_printf("i: %d From R: %ZX\n", interaction, c_R);
+  gmp_printf("%ZX\n", c_R);
   //END
   printf("Target Material : ");
   for (int i = 0;i<OCTET;i++){
