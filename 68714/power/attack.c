@@ -292,7 +292,7 @@ void attack() {
         }
         R[j] = 100*(M_SIZE*s_HT - s_H*s_T)/(sqrt((M_SIZE*s_sq_X - s_H*s_H)*(M_SIZE*s_sq_T - s_T*s_T)));
 
-        if (R[j]>max) max = R[k];
+        if (R[j]>max) max = R[j];
         if (R[j]<min) min = R[j];
         if (R[j]>=0){
           p_avg+= R[j];
