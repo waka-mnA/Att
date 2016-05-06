@@ -303,6 +303,7 @@ void attack() {
       double dif=0;
       int spike_num=0;
       for (int j = 0;j<l;j++){
+        if (R[j]<0) continue;
         dif =abs( p_avg - R[j]);
         printf("%f\n", p_avg - R[j]);
         if (dif > 4){
