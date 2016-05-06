@@ -293,7 +293,7 @@ void attack() {
 
               printf("%f\n", squaredSum);
       //if ((max-min)>max_correlation){
-      if (squaredSum > max_correlation)
+      if (squaredSum > max_correlation){
         keyArray[b]= (uint8_t)ki;
         //max_correlation = max-min;
         max_correlation = squaredSum;
