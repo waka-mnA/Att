@@ -225,7 +225,6 @@ void generatePlaintext(){
 
 
 void attack() {
-  //mpz_t m;      mpz_init(m);
   mpz_t c;      mpz_init(c);
   mpz_t c_R;      mpz_init(c_R);
 
@@ -233,7 +232,7 @@ void attack() {
   interact(&l, c, pt);
   gmp_printf("i: %d Ciphertext: %ZX\n", interaction, c);
   gmp_printf("Length: %d\n",l);
-
+  //Set first plaintext
   for (int i = 0;i<OCTET;i++) plaintext[0][i]= pt[i];
 
   //Traces
@@ -241,7 +240,7 @@ void attack() {
   //Set first trace
   for (int i = 0;i<l;i++)  t[0][i] = traceTmp[i];
 
-  //Subset Arrays resize
+  //Difference Array resize
   traceDif = malloc(sizeof(float)*l);
   if (traceDif == NULL) exit(0);
 
@@ -258,18 +257,16 @@ void attack() {
 
   //For each byte in plaintext
   for (int b = 0;b<OCTET;b++){
-
     //Calculate intermediate value and hyothetical power value
     //For each plaintext
     for (int i = 0;i < M_SIZE; i++){
       //Guess the key value
       for (int ki = 0;ki<BYTE;ki++){
-        intermediate[i][ki] = s[plaintext[b][i]^(uint8_t)ki];
+        intermediate[i][ki] = s[plaintext[i][b]^(uint8_t)ki];
         h[i][ki] = intermediate[i][ki] & 1;
       }
     }
     printf("Calculating intermediates ENDS.\n");
-
 
     float max_correlation = 0;
     for (int ki = 0;ki<BYTE;ki++){
@@ -287,8 +284,8 @@ void attack() {
         }
         traceDif[j] = sumD_A/(float)D_NUM_A - sumD_B/(float)D_NUM_B;
         squaredSum += (traceDif[j]*traceDif[j]);
-        if (traceDif[j]>max) max = traceDif[j];
-        if (traceDif[j]< min) min  =traceDif[j];
+        //if (traceDif[j]>max) max = traceDif[j];
+        //if (traceDif[j]< min) min  =traceDif[j];
       }
 
       printf("%f\n", squaredSum);
@@ -298,40 +295,6 @@ void attack() {
         //max_correlation = max-min;
         max_correlation = squaredSum;
       }
-      /*
-      A_NUM= 0;
-      B_NUM=0;
-      for (int i = 0;i<M_SIZE;i++){
-        //devide traces by allocating index
-        tracePartition(h[i][ki], i);
-      }
-      A_ID[A_NUM]= -1;
-      B_ID[B_NUM]= -1;
-
-      for (int i = 0;i<l;i++){
-        double sumA = 0;
-        double sumB = 0;
-        for(int j = 0;j<M_SIZE;j++){
-
-          if (A_ID[j]==-1) break;
-          sumA+= t[A_ID[j]][i];
-        }
-        for(int j = 0;j<M_SIZE;j++){
-          if (B_ID[j]==-1) break;
-          sumB+= t[B_ID[j]][i];
-        }
-        sumA = sumA/(double)A_NUM;
-        traceA[i] = (int)sumA;
-        sumB = sumB/(double)B_NUM;
-        traceB[i] = (int)sumB;
-      }
-
-      int keyRight = compareDifference();
-      if (keyRight > max) {
-        keyArray[b] = (uint8_t)ki;
-        max = keyRight;
-      }
-      */
     }
           printf("\n");
   }
