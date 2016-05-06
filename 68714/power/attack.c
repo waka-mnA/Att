@@ -275,9 +275,7 @@ void attack() {
     double max = 0;
     double min = FLT_MAX;
     double p_avg = 0;
-    double n_avg = 0;
     double p_num = 0;
-    double n_num = 0;
     for (int ki = 0;ki<BYTE;ki++){
       for (int j = 0;j<l;j++){
         //Calculate Correlation coefficient
@@ -296,12 +294,8 @@ void attack() {
         if (R>max) max = R;
         if (R<min) min = R;
         if (R>=0){
-          p_avg+= R
+          p_avg+= R;
           p_num++;
-        }
-        else{
-            n_avg+= R
-            n_num++;
         }
       }
       p_avg = p_avg/p_num;
