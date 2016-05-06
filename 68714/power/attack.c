@@ -272,13 +272,13 @@ void attack() {
   //Subset Arrays resize
   traceA = malloc(sizeof(float)*l);
   if (traceA == NULL) exit(0);
-  traceB = malloc(sizeof(float)*l);
+  /*traceB = malloc(sizeof(float)*l);
   if (traceB == NULL) exit(0);
   A_ID = malloc(sizeof(int)*M_SIZE);
   if (traceA == NULL) exit(0);
   B_ID = malloc(sizeof(int)*M_SIZE);
   if (traceB == NULL) exit(0);
-
+*/
   //Generate M_SIZE number of plaintext
   generatePlaintext();
 
@@ -309,8 +309,8 @@ void attack() {
     for (int ki = 0;ki<BYTE;ki++){
 
       //Clear Index array for subset
-      memset(A_ID, 0, M_SIZE);
-      memset(B_ID, 0, M_SIZE);
+      //memset(A_ID, 0, M_SIZE);
+      //memset(B_ID, 0, M_SIZE);
       double sumD_A=0;int D_NUM_A =0;
       double sumD_B=0;int D_NUM_B =0;
       int max=0, min = INT_MAX;
@@ -322,9 +322,11 @@ void attack() {
           D_NUM_B += h[ki][i];
         }
         traceA[j] = sumD_A/(double)D_NUM_A - sumD_B/(double)D_NUM_B;
+
         if (traceA[j]>max) max = traceA[j];
         if (traceA[j]< min) min  =traceA[j];
       }
+      printf("%d ", max-min);
       if ((max-min)>max_correlation){
         keyArray[b]= (uint8_t)ki;
         max_correlation = max-min;
@@ -364,7 +366,7 @@ void attack() {
       }
       */
     }
-  //        printf("\n");
+          printf("\n");
   }
   //Check the found key is correct or not by using Replica
 
