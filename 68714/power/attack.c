@@ -310,6 +310,8 @@ void attack() {
           spike_num++;
         }
       }
+
+      printf("%d\n", spike_num);
       if ((spike_num<max_correlation)){
       //if (max-p_avg > max_correlation){
         keyArray[b]= (uint8_t)ki;
