@@ -264,9 +264,7 @@ void attack() {
       for (int ki = 0;ki < BYTE; ki++){
         intermediate[i][ki] = s[plaintext[i][b]^(uint8_t)ki];
         h[i][ki] = intermediate[i][ki] & 1;
-        printf("%d ", h[i][ki]);
       }
-      printf("\n");
     }
     printf("Calculating intermediates ENDS.\n");
 
@@ -284,7 +282,7 @@ void attack() {
           sumD_B +=   (1-h[i][ki])*t[i][j];
           D_NUM_B +=  1-h[i][ki];
         }
-
+        printf("%d %d\n", D_NUM_A, D_NUM_B);
         traceDif[j] = (sumD_A/(float)D_NUM_A - sumD_B/(float)D_NUM_B)*20;
         squaredSum += (traceDif[j]*traceDif[j]);
         //if (traceDif[j]>max) max = traceDif[j];
