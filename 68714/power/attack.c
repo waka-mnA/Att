@@ -327,7 +327,7 @@ void attack() {
       }
       if ((max-min)>max_correlation){
         keyArray[b]= (uint8_t)ki;
-        max_corelation = max-min;
+        max_correlation = max-min;
       }
       /*
       A_NUM= 0;
