@@ -45,12 +45,8 @@ uint8_t plaintext[M_SIZE][OCTET];   //The set of plaintext
 uint8_t intermediate[M_SIZE][BYTE]; //The set of intermediate value
 uint8_t h[M_SIZE][BYTE];            //The set of hyothetical power value
 uint8_t keyArray[OCTET]={0};        //The key detected
-float* traceA;
-float* traceB;
-int* A_ID;
-int* B_ID;
-int A_NUM;
-int B_NUM;
+float* traceDif;
+
 
 double sumA=0, sumB=0;
 uint8_t* traceTmp;
@@ -270,15 +266,9 @@ void attack() {
   for (int i = 0;i<l;i++)  t[0][i] = traceTmp[i];
 
   //Subset Arrays resize
-  traceA = malloc(sizeof(float)*l);
-  if (traceA == NULL) exit(0);
-  /*traceB = malloc(sizeof(float)*l);
-  if (traceB == NULL) exit(0);
-  A_ID = malloc(sizeof(int)*M_SIZE);
-  if (traceA == NULL) exit(0);
-  B_ID = malloc(sizeof(int)*M_SIZE);
-  if (traceB == NULL) exit(0);
-*/
+  traceDif = malloc(sizeof(float)*l);
+  if (traceDif == NULL) exit(0);
+
   //Generate M_SIZE number of plaintext
   generatePlaintext();
 
@@ -308,25 +298,22 @@ void attack() {
     int max_correlation = 0;
     for (int ki = 0;ki<BYTE;ki++){
       //Clear Index array for subset
-      //memset(A_ID, 0, M_SIZE);
-      //memset(B_ID, 0, M_SIZE);
       int max=0, min = INT_MAX;
       for (int j = 0;j<l;j++){
-
-        double sumD_A=0;int D_NUM_A =0;
-        double sumD_B=0;int D_NUM_B =0;
+        float sumD_A=0;int D_NUM_A =0;
+        float sumD_B=0;int D_NUM_B =0;
         for (int i = 0;i<M_SIZE;i++){
           sumD_A +=   h[i][ki]*t[i][j];
           D_NUM_A +=  h[i][ki];
           sumD_B +=   (1-h[i][ki])*t[i][j];
           D_NUM_B +=  1-h[i][ki];
         }
-        traceA[j] = sumD_A/(double)D_NUM_A - sumD_B/(double)D_NUM_B;
+        traceDif[j] = sumD_A/(float)D_NUM_A - sumD_B/(float)D_NUM_B;
 
-        if (traceA[j]>max) max = traceA[j];
-        if (traceA[j]< min) min  =traceA[j];
+        printf("%d ", traceDif[j]);
+        if (traceDif[j]>max) max = traceDif[j];
+        if (traceDif[j]< min) min  =traceDif[j];
       }
-      printf("%d ", max-min);
       if ((max-min)>max_correlation){
         keyArray[b]= (uint8_t)ki;
         max_correlation = max-min;
