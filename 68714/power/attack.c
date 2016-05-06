@@ -305,11 +305,31 @@ void attack() {
     printf("Calculating intermediates ENDS.\n");
 
 
-    int max = 0;
+    int max_correlation = 0;
     for (int ki = 0;ki<BYTE;ki++){
+
       //Clear Index array for subset
       memset(A_ID, 0, M_SIZE);
       memset(B_ID, 0, M_SIZE);
+      double sumD_A=0;int D_NUM_A =0;
+      double sumD_B=0;int D_NUM_B =0;
+      int max=0, min = INT_MAX;
+      for (int j = 0;j<l;j++){
+        for (int i = 0;i<M_SIZE;i++){
+          sumD_A += h[ki][i]*t[i][j];
+          D_NUM_A += h[ki][i];
+          sumD_B += h[ki][i]*t[i][j];
+          D_NUM_B += h[ki][i];
+        }
+        traceA[j] = sumD_A/(double)D_NUM_A - sumD_B/(double)D_NUM_B;
+        if (traceA[j]>max) max = traceA[j];
+        if (traceA[j]< min) min  =traceA[j];
+      }
+      if ((max-min)>max_correlation){
+        keyArray[b]= (uint8_t)ki;
+        max_corelation = max-min;
+      }
+      /*
       A_NUM= 0;
       B_NUM=0;
       for (int i = 0;i<M_SIZE;i++){
@@ -342,8 +362,9 @@ void attack() {
         keyArray[b] = (uint8_t)ki;
         max = keyRight;
       }
+      */
     }
-          printf("\n");
+  //        printf("\n");
   }
   //Check the found key is correct or not by using Replica
 
