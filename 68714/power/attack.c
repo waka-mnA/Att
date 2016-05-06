@@ -288,12 +288,14 @@ void attack() {
         //Calculate Sample Standard Deviation
         sum_H=0; sum_T=0;
         for (int i = 0;i<M_SIZE;i++){
-          sum_H +=((double)h[i][ki] - mean_H)*((double)h[i][ki] - mean_H);
-          sum_T +=((double)t[i][j] - mean_T)*((double)t[i][j] - mean_T);
+          double tmp = (double)h[i][ki] - mean_H;
+          sum_H +=tmp*tmp;
+          tmp = (double)t[i][j] - mean_T;
+          sum_T +=tmp*tmp;
         }
         double s_H = sqrt(sum_H/(double)(M_SIZE-1));
         double s_T = sqrt(sum_T/(double)(M_SIZE-1));
-        printf("%f %f\n", sum_H, s_h);
+        printf("%f %f\n", sum_H, s_H);
 
         //Calculate Correlation coefficient
         R =0;
