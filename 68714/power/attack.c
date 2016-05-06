@@ -269,10 +269,12 @@ void attack() {
     }
 
     float max_correlation = 0;
+    float max = 0, min = FLOAT_MAX;
     for (int ki = 0;ki<BYTE;ki++){
-      double R=0;
+
       for (int j = 0;j<l;j++){
         //Calculate Mean
+        double R=0;
         double sum_H=0, sum_T = 0;
         for (int i = 0;i<M_SIZE;i++){
           sum_H += h[i][ki];
@@ -293,16 +295,18 @@ void attack() {
         //Calculate Correlation coefficient
         R =0;
         for (int i = 0;i<M_SIZE;i++){
-          R+= ((h[i][ki] - mean_H)/s_H)*((t[i][j] - mean_T)/s_T);
+          R += ((h[i][ki] - mean_H)/s_H)*((t[i][j] - mean_T)/s_T);
         }
+        printf("%f\n", R);
         R = R/(M_SIZE - 1);
+        if (R> max) max = R;
+        if (R < min) min = R;
+      }
+      if (max-min > max_correlation){
+        keyArray[b]= (uint8_t)ki;
+        max_correlation = max-min;
       }
 
-      printf("%f\n", R);
-      if (R > max_correlation){
-        keyArray[b]= (uint8_t)ki;
-        max_correlation = R;
-      }
     }
   }
   //Check the found key is correct or not by using Replica
