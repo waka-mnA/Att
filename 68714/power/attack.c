@@ -253,9 +253,9 @@ int compareDifference(){
 }
 
 void attack() {
-  mpz_t m;      mpz_init(m);
+  //mpz_t m;      mpz_init(m);
   mpz_t c;      mpz_init(c);
-  mpz_t key;      mpz_init(key);
+  mpz_t c_R;      mpz_init(c_R);
 
   int l;
   interact(&l, c, pt);
@@ -305,8 +305,6 @@ void attack() {
     printf("Calculating intermediates ENDS.\n");
 
 
-
-
     int max = 0;
     for (int ki = 0;ki<BYTE;ki++){
       //Clear Index array for subset
@@ -320,10 +318,6 @@ void attack() {
       }
       A_ID[A_NUM]= -1;
       B_ID[B_NUM]= -1;
-      for (int i = 0;i<M_SIZE;i++){
-        if (A_ID[i]==-1) break;
-        printf("%d ", A_ID[i]);
-      }
 
       for (int i = 0;i<l;i++){
         double sumA = 0;
@@ -345,12 +339,18 @@ void attack() {
 
       int keyRight = compareDifference();
       if (keyRight > max) {
-
-        keyArray[0] = (uint8_t)ki;
+        keyArray[b] = (uint8_t)ki;
         max = keyRight;
       }
     }
   }
+  //Check the found key is correct or not by using Replica
+
+  interact(&l, c, pt);
+
+  gmp_printf("%ZX\n", c);
+  interact_R(&l, c_R, pt, keyArray);
+  gmp_printf("%ZX\n", c_R);
   //END
   printf("Target Material : ");
   for (int i = 0;i<OCTET;i++){
