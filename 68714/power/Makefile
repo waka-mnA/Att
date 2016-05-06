@@ -1,5 +1,5 @@
 attack : $(wildcard *.[ch])
-	@gcc -Wall -std=gnu99 -O3 -o ${@} $(filter %.c, ${^}) -lgmp
+	@gcc -Wall -std=gnu99 -O3 -o ${@} $(filter %.c, ${^}) -lm -lgmp
 
 .DEFAULT_GOAL = all
 

@@ -270,7 +270,7 @@ void attack() {
 
     float max_correlation = 0;
     for (int ki = 0;ki<BYTE;ki++){
-      double squaredSum = 0, R;
+      double R=0;
       for (int j = 0;j<l;j++){
         //Calculate Mean
         double sum_H=0, sum_T = 0;
