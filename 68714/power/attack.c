@@ -310,7 +310,7 @@ void attack() {
         }
         traceDif[j] = sumD_A/(float)D_NUM_A - sumD_B/(float)D_NUM_B;
 
-        printf("%d ", traceDif[j]);
+        printf("%f\n", traceDif[j]);
         if (traceDif[j]>max) max = traceDif[j];
         if (traceDif[j]< min) min  =traceDif[j];
       }
