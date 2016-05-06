@@ -222,31 +222,7 @@ void generatePlaintext(){
   printf("Plaintexts Generation ENDS.\n");
 }
 
-void tracePartition(uint8_t hypo, int i){
-  if (hypo == 1){
-    A_ID[A_NUM] = i;
-    A_NUM++;
-  }
-  else if (hypo == 0){
-    B_ID[B_NUM] = i;
-    B_NUM++;
-  }
-}
 
-
-//Compare difference between two trace subsets average
-//Return the difference
-int compareDifference(){
-  int dif[traceLength];
-  int max = 0, min= INT_MAX;
-  for (int i = 0;i<traceLength;i++){
-    dif[i] = traceA[i] - traceB[i];
-    if (dif[i]>max) max = dif[i];
-    if (dif[i]<min) min = dif[i];
-  }
-  printf("%d ", max-min);
-  return max-min;
-}
 
 void attack() {
   //mpz_t m;      mpz_init(m);
