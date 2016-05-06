@@ -271,8 +271,8 @@ void attack() {
       }
     }
 
-    float max_correlation = 0;
-    float max = 0, min = FLT_MAX;
+    double max_correlation = 0;
+    double max = 0;
     for (int ki = 0;ki<BYTE;ki++){
       for (int j = 0;j<l;j++){
         //Calculate Correlation coefficient
@@ -289,6 +289,7 @@ void attack() {
         }
         R = 20*(M_SIZE*s_HT - s_H*s_T)/(sqrt((M_SIZE*s_sq_X - s_H*s_H)*(M_SIZE*s_sq_T - s_T*s_T)));
         max += R*R;
+        printf("%f %f\n", max, R);
       }
       printf("%f\n", max);
       if (max > max_correlation){
