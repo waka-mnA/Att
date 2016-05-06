@@ -262,7 +262,7 @@ void attack() {
   double R;
   //For each byte in plaintext
   for (int b = 0;b<OCTET;b++){
-    printf("Key byte: %d\n", b);
+    printf("Target Key byte: %d\n", b);
     //Calculate intermediate value and hyothetical power value
     //For each plaintext
     for (int i = 0;i < M_SIZE; i++){
@@ -276,7 +276,6 @@ void attack() {
     float max_correlation = 0;
     float max = 0, min = FLT_MAX;
     for (int ki = 0;ki<BYTE;ki++){
-
       for (int j = 0;j<l;j++){
         //Calculate Mean
         sum_H=0; sum_T = 0;
@@ -303,12 +302,11 @@ void attack() {
           R =R + ((h[i][ki] - mean_H)/s_H)*((t[i][j] - mean_T)/s_T);
         }
         R = R/(M_SIZE - 1);
-        if (R> max) max = R;
-        if (R < min) min = R;
+        max+ = R*R;
       }
-      if (max-min > max_correlation){
+      if (max > max_correlation){
         keyArray[b]= (uint8_t)ki;
-        max_correlation = max-min;
+        max_correlation = max;
       }
 
     }
