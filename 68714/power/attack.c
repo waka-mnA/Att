@@ -263,8 +263,10 @@ void attack() {
       //Guess the key value
       for (int ki = 0;ki < BYTE; ki++){
         intermediate[i][ki] = s[plaintext[i][b]^(uint8_t)ki];
-        h[i][ki] = (intermediate[i][ki]>>7) & 1;
+        h[i][ki] = intermediate[i][ki] & 1;
+        printf("%d ", h[i][ki]);
       }
+      printf("\n");
     }
     printf("Calculating intermediates ENDS.\n");
 
