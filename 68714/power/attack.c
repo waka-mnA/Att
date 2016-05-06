@@ -8,7 +8,7 @@
 #define BYTE 256
 #define OCTET 16
 //Sample plaintext number
-#define M_SIZE 200
+#define M_SIZE 600
 
 
 
@@ -285,7 +285,7 @@ void attack() {
   for (int i = 0;i < M_SIZE; i++){
     //Guess the key value
     for (int ki = 0;ki<256;ki++){
-      intermediate[i][ki] = s[plaintext[2][i]^(uint8_t)ki];
+      intermediate[i][ki] = s[plaintext[0][i]^(uint8_t)ki];
       h[i][ki] = intermediate[i][ki] & 1;
     }
   }
@@ -321,9 +321,9 @@ void attack() {
         if (B_ID[j]==-1) break;
         sumB+= t[B_ID[j]][i];
       }
-      sumA = sumA/A_NUM;
+      sumA = sumA/(double)A_NUM;
       traceA[i] = (int)sumA;
-      sumB = sumB/B_NUM;
+      sumB = sumB/(double)B_NUM;
       traceB[i] = (int)sumB;
     }
 
