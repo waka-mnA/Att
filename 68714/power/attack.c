@@ -299,7 +299,6 @@ void attack() {
         }
       }
       p_avg = p_avg/p_num;
-      n_avg = n_avg/n_num;
 
       if (abs(max-p_avg) > max_correlation){
         keyArray[b]= (uint8_t)ki;
