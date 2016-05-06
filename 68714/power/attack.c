@@ -282,8 +282,7 @@ void attack() {
           sumD_B +=   (1-h[i][ki])*t[i][j];
           D_NUM_B +=  1-h[i][ki];
         }
-        printf("%d %d\n", D_NUM_A, D_NUM_B);
-        traceDif[j] = (sumD_A/(float)D_NUM_A - sumD_B/(float)D_NUM_B)*20;
+        traceDif[j] = (sumD_A/(float)(D_NUM_A-1) - sumD_B/(float)(D_NUM_B-1))*20;
         squaredSum += (traceDif[j]*traceDif[j]);
         //if (traceDif[j]>max) max = traceDif[j];
         //if (traceDif[j]< min) min  =traceDif[j];
