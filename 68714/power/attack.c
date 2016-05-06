@@ -275,9 +275,11 @@ void attack() {
     double max_correlation = FLT_MAX;
     double max = 0;
     double min = FLT_MAX;
-    double p_avg = 0;
-    double p_num = 0;
+    double p_avg;
+    double p_num;
     for (int ki = 0;ki<BYTE;ki++){
+      p_avg = 0;
+      p_num =0;
       for (int j = 0;j<l;j++){
         //Calculate Correlation coefficient
         s_HT = 0;
@@ -309,8 +311,6 @@ void attack() {
           spike_num++;
         }
       }
-
-      printf("Spike %d\n", spike_num);
       if ((spike_num<max_correlation)){
       //if (max-p_avg > max_correlation){
         keyArray[b]= (uint8_t)ki;
