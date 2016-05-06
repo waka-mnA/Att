@@ -8,7 +8,7 @@
 #define BYTE 256
 #define OCTET 16
 //Sample plaintext number
-#define M_SIZE 400
+#define M_SIZE 300
 
 
 
