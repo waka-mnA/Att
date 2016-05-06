@@ -274,38 +274,26 @@ void attack() {
       float max=0, min = INT_MAX;
       double squaredSum = 0;
       for (int j = 0;j<l;j++){
-        //Calculate Mean
-        double sum_H=0, sum_T = 0;
+        float sumD_A=0;int D_NUM_A =0;
+        float sumD_B=0;int D_NUM_B =0;
         for (int i = 0;i<M_SIZE;i++){
-          sum_H += h[i][ki];
-          sum_T += t[i][j]
+          sumD_A +=   h[i][ki]*t[i][j];
+          D_NUM_A +=  h[i][ki];
+          sumD_B +=   (1-h[i][ki])*t[i][j];
+          D_NUM_B +=  1-h[i][ki];
         }
-        double mean_H = sum_H/(double)M_SIZE;
-        double mean_T = sum_T/(double)M_SIZE;
-
-        //Calculate Sample Standard Deviation
-        sum_H=0; sum_T=0;
-        for (int i = 0;i<M_SIZE;i++){
-          sum_H +=(h[i][ki] - mean_H);
-          sum_T +=(t[i][j] - mean_T);
-        }
-        double s_H = sqrt(sum_H/(double)(M_SIZE-1));
-        double s_T = sqrt(sum_T/(double)(M_SIZE-1));
-
-        //Calculate Correlation coefficient
-        double R =0;
-        for (int i = 0;i<M_SIZE;i++){
-          R+= ((h[i][ki] - mean_H)/s_H)*((t[i][j] - mean_T)/s_T);
-        }
-        R = R/(M_SIZE - 1);
+        traceDif[j] = (sumD_A/(float)D_NUM_A) - sumD_B/(float)D_NUM_B)*20;
+        squaredSum += (traceDif[j]*traceDif[j]);
+        //if (traceDif[j]>max) max = traceDif[j];
+        //if (traceDif[j]< min) min  =traceDif[j];
       }
 
       //printf("%f\n", squaredSum);
       //if ((max-min)>max_correlation){
-      if (R > max_correlation){
+      if (squaredSum > max_correlation){
         keyArray[b]= (uint8_t)ki;
         //max_correlation = max-min;
-        max_correlation = R;
+        max_correlation = squaredSum;
       }
     }
   }
