@@ -256,7 +256,7 @@ void attack() {
 
   double s_HT;
   double s_H, s_T;
-  double s_sq_X, s_sq_T;
+  double s_sq_H, s_sq_T;
   //double R;
   //For each byte in plaintext
   for (int b = 0;b<OCTET;b++){
@@ -284,13 +284,14 @@ void attack() {
           s_H   += (double)h[i][ki];
           s_T   += (double)t[i][j];
           s_HT  += (double)(h[i][ki]* t[i][j]);
-          s_sq_X+= (double) (h[i][ki]* h[i][ki]);
+          s_sq_H+= (double) (h[i][ki]* h[i][ki]);
           s_sq_T+= (double)(t[i][j]* t[i][j]);
         }
         //Correlation coefficient with magnification
-        R[j] = (M_SIZE*s_HT - s_H*s_T)/(sqrt((M_SIZE*s_sq_X - s_H*s_H)*(M_SIZE*s_sq_T - s_T*s_T)));
+        R[j] = (M_SIZE*s_HT - s_H*s_T)/(sqrt((M_SIZE*s_sq_H - s_H*s_H)*(M_SIZE*s_sq_T - s_T*s_T)));
 
-        printf(" %f %f\n", s_sq_X, s_H);
+        printf(" %f %f\n", s_sq_T, s_T);
+        printf(" %f %f\n", M_SIZE*s_HT - s_H*s_T, M_SIZE*s_sq_T - s_T*s_T);
         squaredSum += R[j];
                       printf("Squared sum of R: %f \n", R[j]);
       }
