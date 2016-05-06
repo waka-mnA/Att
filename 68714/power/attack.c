@@ -307,7 +307,6 @@ void attack() {
 
     int max_correlation = 0;
     for (int ki = 0;ki<BYTE;ki++){
-
       //Clear Index array for subset
       //memset(A_ID, 0, M_SIZE);
       //memset(B_ID, 0, M_SIZE);
@@ -316,10 +315,10 @@ void attack() {
       int max=0, min = INT_MAX;
       for (int j = 0;j<l;j++){
         for (int i = 0;i<M_SIZE;i++){
-          sumD_A += h[ki][i]*t[i][j];
-          D_NUM_A += h[ki][i];
-          sumD_B += h[ki][i]*t[i][j];
-          D_NUM_B += h[ki][i];
+          sumD_A +=   h[i][ki]*t[i][j];
+          D_NUM_A +=  h[i][ki];
+          sumD_B +=   h[i][ki]*t[i][j];
+          D_NUM_B +=  h[i][ki];
         }
         traceA[j] = sumD_A/(double)D_NUM_A - sumD_B/(double)D_NUM_B;
 
