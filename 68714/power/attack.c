@@ -342,10 +342,8 @@ void attack() {
         keyArray[b] = (uint8_t)ki;
         max = keyRight;
       }
-
-      printf("\n");
     }
-
+          printf("\n");
   }
   //Check the found key is correct or not by using Replica
 
