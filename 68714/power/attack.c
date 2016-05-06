@@ -285,7 +285,7 @@ void attack() {
   for (int i = 0;i < M_SIZE; i++){
     //Guess the key value
     for (int ki = 0;ki<256;ki++){
-      intermediate[i][ki] = s[plaintext[0][i]^(uint8_t)ki];
+      intermediate[i][ki] = s[plaintext[1][i]^(uint8_t)ki];
       h[i][ki] = intermediate[i][ki] & 1;
     }
   }
