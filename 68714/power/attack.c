@@ -283,11 +283,11 @@ void attack() {
         sum_H=0; sum_T = 0;
         sum_sq_X=0;sum_sq_T=0;
         for (int i = 0;i<M_SIZE;i++){
-          sum_H += h[i][ki];
-          sum_T += t[i][j];
-          sum_HT += h[i][ki]* t[i][j];
-          sum_sq_X+=  h[i][ki]* h[i][ki];
-          sum_sq_T+=  t[i][j]* t[i][j];
+          sum_H += (double)h[i][ki];
+          sum_T += (double)t[i][j];
+          sum_HT += (double)(h[i][ki]* t[i][j]);
+          sum_sq_X+= (double) (h[i][ki]* h[i][ki]);
+          sum_sq_T+= (double)(t[i][j]* t[i][j]);
         }
         R = (M_SIZE * sum_HT - sum_H*sum_T)/(sqrt((M_SIZE*sum_sq_X - sum_H*sum_H)*(M_SIZE*sum_sq_T - sum_T*sum_T)));
         max += R*R;
