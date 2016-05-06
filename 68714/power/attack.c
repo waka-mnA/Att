@@ -270,8 +270,6 @@ void attack() {
 
     float max_correlation = 0;
     for (int ki = 0;ki<BYTE;ki++){
-      //Clear Index array for subset
-      float max=0, min = INT_MAX;
       double squaredSum = 0;
       for (int j = 0;j<l;j++){
         //Calculate Mean
@@ -300,11 +298,9 @@ void attack() {
         R = R/(M_SIZE - 1);
       }
 
-      //printf("%f\n", squaredSum);
-      //if ((max-min)>max_correlation){
+      printf("%f\n", R);
       if (R > max_correlation){
         keyArray[b]= (uint8_t)ki;
-        //max_correlation = max-min;
         max_correlation = R;
       }
     }
