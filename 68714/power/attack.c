@@ -290,7 +290,7 @@ void attack() {
         //Correlation coefficient with magnification
         R[j] = (M_SIZE*s_HT - s_H*s_T)/(sqrt((M_SIZE*s_sq_X - s_H*s_H)*(M_SIZE*s_sq_T - s_T*s_T)));
 
-        squaredSum += R[j]*R[j];
+        squaredSum =squaredSum + R[j]*R[j];
       }
 
               printf("Squared sum of R: %f Key guess: %d\n", squaredSum, ki);
